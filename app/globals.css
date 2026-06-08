@@ -1,26 +1,47 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+
+@theme {
+  /* ხე-სითბო*/
+  
+  /* 1. ბექგროუნდ  */
+  --color-wood-base: #1A0D02;
+  
+  /* 2. კონტაინერ/სექციებისთვის  */
+  --color-wood-surface: #422201;
+  --color-wood-surface-hover: #5A2F01; 
+  
+  /* 3. გამყოფები/ბორდერები  */
+  --color-wood-border: #6B3903;
+  --color-wood-border-focus: #8C4B04;
+  
+  /* 4. ტექსტებისთვის  */
+  --color-wood-text-primary: #FAF6F2;
+  --color-wood-text-secondary: #E3D5CA;
+  --color-wood-text-muted: #A38F81;
+
+  /* 5. განსაკუთრებულად გამოყოფილი ტექსტებისთვის/აქცენტებისთვის  */
+  --color-wood-accent: #F59E0B; 
+  --color-wood-accent-glow: rgba(245, 158, 11, 0.15);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* სინათლის თემა
+*/
+.light {
+  --color-wood-base: #FDFBF7;          
+  --color-wood-surface: #F4EAE1;      
+  --color-wood-surface-hover: #EADCC9;
+  --color-wood-border: #D2B48C;
+  --color-wood-border-focus: #A0522D;
+  --color-wood-text-primary: #1A0D02; 
+  --color-wood-text-secondary: #422201;
+  --color-wood-text-muted: #7A624E;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
+/* სექსი სხეულითვინ :D */
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-wood-base);
+  color: var(--color-wood-text-primary);
+  font-feature-settings: "lnum" 1; 
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
