@@ -7,6 +7,8 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   icon?: React.ReactNode;
+  title?: string;
+  onClick?: () => void;
 }
 
 export default function Button({
@@ -17,10 +19,12 @@ export default function Button({
   icon,
   className = "",
   disabled,
+  title,
+  onClick,
   ...props
 }: ButtonProps) {
   const baseStyles =
-    "inline-flex items-center justify-center font-semibold tracking-wide rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
+    "inline-flex cursor-pointer items-center justify-center font-semibold tracking-wide rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed disabled:active:scale-100";
 
   const variants = {
     primary:
@@ -41,9 +45,11 @@ export default function Button({
 
   return (
     <button
+      title={title}
       disabled={disabled || isLoading}
       className={`${baseStyles} ${variants[variant]} ${sizes[size]} ${className}`}
       {...props}
+      onClick={onClick}
     >
       {isLoading ? (
         <svg

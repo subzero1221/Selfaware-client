@@ -1,15 +1,31 @@
 "use client";
 import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
+import { CiLink } from "react-icons/ci";
+import { MdDelete } from "react-icons/md";
+import useQuizDelete from "@/hooks/Quizzes/useQuizDelete";
+import Button from "@/components/ui/Button";
+
+
 
 interface MyQuizzesRendererProps {
   quizzes: QuizDetailResponse[];
 }
 
 export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
+
+  const { mutate: deleteQuiz, isPending, error } = useQuizDelete();
+  
+  function handleDelete(quizId: string) {
+    if (isPending) return;
+    if (confirm("ნამდვილად გსურთ ტესტის წაშლა? ეს მოქმედება არ იქნება დაბრუნებადი.")) {
+      deleteQuiz(quizId);
+    }
+  }
+
+
   return (
     <div className="relative w-full flex flex-col h-full">
-
       <div className="border-b-2 border-wood-border-focus/40 pb-4 mb-6 relative flex justify-between items-end">
         <h3 className="font-serif text-xl md:text-2xl font-bold tracking-wide text-wood-text-primary drop-shadow-md flex items-center gap-3">
           <span className="text-2xl opacity-90 drop-shadow-lg">📚</span>
@@ -61,19 +77,27 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
 
                 <div className="flex gap-2">
                   <Link
-                    href={`/dashboard/quiz/${quiz.id}`}
+                    href={`/dashboard/edit/${quiz.id}`}
                     className="px-4 py-2 text-[10px] md:text-xs font-bold font-serif tracking-wider text-wood-text-primary uppercase bg-wood-base border-2 border-wood-border-focus rounded shadow-sm hover:bg-wood-surface-hover hover:border-wood-accent hover:text-wood-accent active:translate-y-px transition-all duration-200"
                     title="ტესტის დეტალური ნახვა"
                   >
                     ნახვა ↵
                   </Link>
 
-                  <button
-                    className="px-3 py-2 text-xs font-mono text-wood-text-muted bg-wood-base border-2 border-wood-border rounded shadow-sm hover:border-wood-border-focus hover:text-wood-text-primary hover:bg-wood-surface-hover transition-all active:translate-y-px"
-                    title="ბმულის კოპირება"
-                  >
-                    🔗
-                  </button>
+                  <Button
+                    icon={<MdDelete size={16} />}
+                    variant="danger"
+                    size="sm"
+                    title="ტესტის წაშლა"
+                    onClick={() => handleDelete(quiz.id)}
+                  />
+
+                  <Button
+                    icon={<CiLink size={16} />}
+                    variant="outline"
+                    size="sm"
+                    title="ლინკის დაკავშირება"
+                  />
                 </div>
               </div>
             </div>

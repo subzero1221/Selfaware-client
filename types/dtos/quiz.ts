@@ -52,3 +52,8 @@ export interface AiQuizResponse {
   quizId: string;
   questions: AiQuestion[];
 }
+
+export interface QuizUpdateFieldDto {
+  field: "title" | "description" | "timeInMinutes";
+  value: string | number;
+}

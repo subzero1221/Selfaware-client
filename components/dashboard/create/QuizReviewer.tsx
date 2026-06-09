@@ -5,6 +5,7 @@ import DraftQuizSettings from "./DraftQuizSettings";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
 import useQuizPut from "@/hooks/Quizzes/useQuizPut";
 
+
 export default function QuizReviewer({
   initialQuiz,
 }: {
@@ -24,7 +25,7 @@ export default function QuizReviewer({
 
   const [questions, setQuestions] = useState(initialQuiz.questions || []);
 
-  console.log("Initial quiz data:", initialQuiz.slug);  
+  console.log("Initial quiz data:", initialQuiz.slug);
   const handleFinalSave = async () => {
     try {
       const payload = {
@@ -44,6 +45,8 @@ export default function QuizReviewer({
       console.error("Save failed", updateError || error);
     }
   };
+
+  
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-8">

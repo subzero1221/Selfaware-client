@@ -1,10 +1,10 @@
 "use client";
 
 import { useQuiz } from "@/hooks/Quizzes/useQuiz";
-import QuizReviewer from "./QuizReviewer";
 import PageNotFound from "@/components/ui/PageNotFound";
+import QuizEditor from "./QuizEditor";
 
-export default function QuizReviewLoader({ quizId }: { quizId: string }) {
+export default function QuizEditLoader({ quizId }: { quizId: string }) {
 
   const {
     data: quiz,
@@ -29,9 +29,9 @@ export default function QuizReviewLoader({ quizId }: { quizId: string }) {
     );
   }
 
-  if (quiz.quizStatus === 1) {
+  if (quiz.quizStatus === 0) {
     return <PageNotFound />;
   }
 
-  return <QuizReviewer initialQuiz={quiz} />;
+  return <QuizEditor initialQuiz={quiz} />;
 }

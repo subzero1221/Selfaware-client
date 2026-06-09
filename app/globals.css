@@ -10,15 +10,24 @@
   /* 2. კონტაინერ/სექციებისთვის  */
   --color-wood-surface: #422201;
   --color-wood-surface-hover: #5A2F01; 
+
+  /* წაშლის ღილაკის ფერები*/
+  --color-delete-surface: #a83232;
+  --color-delete-hover: #ed0606;
+
   
   /* 3. გამყოფები/ბორდერები  */
   --color-wood-border: #6B3903;
   --color-wood-border-focus: #8C4B04;
+
+  --color-delete-border: #c24141;
+  --color-delete-border-focus: #c24141;
   
   /* 4. ტექსტებისთვის  */
   --color-wood-text-primary: #FAF6F2;
   --color-wood-text-secondary: #E3D5CA;
   --color-wood-text-muted: #A38F81;
+
 
   /* 5. განსაკუთრებულად გამოყოფილი ტექსტებისთვის/აქცენტებისთვის  */
   --color-wood-accent: #F59E0B; 
