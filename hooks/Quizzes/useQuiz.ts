@@ -13,7 +13,7 @@ export interface ApiResponse<T> {
 
 export function useQuiz(quizId?: string) {
   return useQuery<QuizDetailResponse>({
-    queryKey: ["quiz-createtion-draft", quizId],
+    queryKey: [`quiz-${quizId}`],
     queryFn: () =>
       apiClient<ApiResponse<QuizDetailResponse>>(`/quiz/${quizId}`).then(
         (res) => res.data,

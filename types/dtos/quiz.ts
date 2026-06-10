@@ -1,3 +1,5 @@
+import { SettingsField } from "../enums/quizEnums";
+
 export interface QuizUploadedResponse {
   id: string;
   title: string;
@@ -55,5 +57,12 @@ export interface AiQuizResponse {
 
 export interface QuizUpdateFieldDto {
   field: "title" | "description" | "timeInMinutes";
+  value: string | number;
+}
+
+////for quiz editing
+
+export interface QuizEditSettingsDto {
+  field: SettingsField;
   value: string | number;
 }
