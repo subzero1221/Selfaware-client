@@ -90,7 +90,7 @@ export default function QuizEditSettings({
             onClick={() =>
               editSettings({
                 field: SettingsField.TimeLimit,
-                value: timeInMinutes,
+                value: String(timeInMinutes),
               })
             }
           >

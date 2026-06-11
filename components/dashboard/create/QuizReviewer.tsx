@@ -3,8 +3,7 @@ import { useState } from "react";
 import DraftQuestions from "./DraftQuestions";
 import DraftQuizSettings from "./DraftQuizSettings";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
-import useQuizPut from "@/hooks/Quizzes/useQuizPut";
-
+import usePutQuiz from "@/hooks/Quizzes/usePutQuiz";
 
 export default function QuizReviewer({
   initialQuiz,
@@ -15,7 +14,7 @@ export default function QuizReviewer({
     mutate: updateQuiz,
     isPending: isUpdating,
     error: updateError,
-  } = useQuizPut(initialQuiz.id);
+  } = usePutQuiz(initialQuiz.id);
 
   const [title, setTitle] = useState(initialQuiz.title || "");
   const [description, setDescription] = useState(initialQuiz.description || "");
@@ -45,8 +44,6 @@ export default function QuizReviewer({
       console.error("Save failed", updateError || error);
     }
   };
-
-  
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-8">

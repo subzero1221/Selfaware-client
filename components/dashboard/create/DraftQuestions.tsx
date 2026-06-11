@@ -44,10 +44,7 @@ export default function DraftQuestions({ questions, setQuestions}: { questions: 
       (_: any, idx: number) => idx !== qIndex,
     );
     setQuestions(updatedQuestions);
-    localStorage.setItem(
-      "QuizDraft",
-      JSON.stringify({questions: updatedQuestions }),
-    );
+    
   };
 
   const startIndex = (page - 1) * pageSize;

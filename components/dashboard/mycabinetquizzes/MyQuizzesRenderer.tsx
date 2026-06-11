@@ -3,26 +3,26 @@ import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
 import { CiLink } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
-import useQuizDelete from "@/hooks/Quizzes/useQuizDelete";
+import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
 import Button from "@/components/ui/Button";
-
-
 
 interface MyQuizzesRendererProps {
   quizzes: QuizDetailResponse[];
 }
 
 export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
-
   const { mutate: deleteQuiz, isPending, error } = useQuizDelete();
-  
+
   function handleDelete(quizId: string) {
     if (isPending) return;
-    if (confirm("ნამდვილად გსურთ ტესტის წაშლა? ეს მოქმედება არ იქნება დაბრუნებადი.")) {
+    if (
+      confirm(
+        "ნამდვილად გსურთ ტესტის წაშლა? ეს მოქმედება არ იქნება დაბრუნებადი.",
+      )
+    ) {
       deleteQuiz(quizId);
     }
   }
-
 
   return (
     <div className="relative w-full flex flex-col h-full">

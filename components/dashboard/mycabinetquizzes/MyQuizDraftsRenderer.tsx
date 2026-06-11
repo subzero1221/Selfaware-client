@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
-import useQuizDelete from "@/hooks/Quizzes/useQuizDelete";
+import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
 
 interface MyQuizDraftsRendererProps {
   quizzes: QuizDetailResponse[];
@@ -10,9 +10,7 @@ interface MyQuizDraftsRendererProps {
 export default function MyQuizDraftsRenderer({
   quizzes,
 }: MyQuizDraftsRendererProps) {
-
   const { mutate: deleteQuiz, isPending, error } = useQuizDelete();
-
 
   return (
     <div className="relative w-full bg-wood-surface border-[4px] border-wood-border rounded shadow-[0_4px_12px_rgba(0,0,0,0.5)] overflow-hidden transition-colors duration-300 min-h-[500px] flex flex-col">
@@ -55,7 +53,6 @@ export default function MyQuizDraftsRenderer({
                   </div>
                 </div>
 
-              
                 <Link
                   href={`/dashboard/create/${quiz.id}`}
                   className="absolute inset-0 w-full h-full bg-wood-surface/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-all duration-300 rounded cursor-pointer flex items-center justify-end pr-4 text-wood-accent font-serif font-bold text-xs uppercase tracking-wider border border-wood-accent/50"
@@ -63,11 +60,10 @@ export default function MyQuizDraftsRenderer({
                   გახსნა ➔
                 </Link>
 
-             
                 <button
                   onClick={(e) => {
-                    e.preventDefault(); 
-                    e.stopPropagation(); 
+                    e.preventDefault();
+                    e.stopPropagation();
                     if (confirm("ნამდვილად გსურთ ამ ჩანახატის წაშლა?")) {
                       deleteQuiz(quiz.id);
                     }

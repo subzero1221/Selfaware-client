@@ -41,6 +41,7 @@ export interface CreateQuizDto {
 }
 
 export interface AiOption {
+  id: string;
   text: string;
   score: number;
 }
@@ -55,14 +56,14 @@ export interface AiQuizResponse {
   questions: AiQuestion[];
 }
 
-export interface QuizUpdateFieldDto {
-  field: "title" | "description" | "timeInMinutes";
-  value: string | number;
-}
-
 ////for quiz editing
 
 export interface QuizEditSettingsDto {
   field: SettingsField;
-  value: string | number;
+  value: string;
+}
+
+export interface QuestionEditDto {
+  text: string;
+  options: AiOption[];
 }

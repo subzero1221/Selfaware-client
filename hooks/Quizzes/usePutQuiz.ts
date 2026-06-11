@@ -1,22 +1,22 @@
 import { useMutation } from "@tanstack/react-query";
 import { apiClient } from "@/lib/apiClient";
-import { QuizUpdateFieldDto } from "@/types/dtos/quiz";
+import { QuizDetailResponse } from "@/types/dtos/quiz";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 
-export default function useQuizUpdate(quizId: string) {
+export default function usePutQuiz(quizId: string) {
   const queryClient = useQueryClient();
   const router = useRouter();
 
   return useMutation({
-    mutationFn: (quizData: QuizUpdateFieldDto) => {
+    mutationFn: (quizData: QuizDetailResponse) => {
       return apiClient(`/quiz/${quizId}`, {
-        method: "PATCH",
+        method: "PUT",
         body: JSON.stringify(quizData),
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`quiz-${quizId}`] });
+      queryClient.invalidateQueries({ queryKey: ["quiz-createtion-draft"] });
       router.push("/dashboard");
     },
     onError: (error) => {
