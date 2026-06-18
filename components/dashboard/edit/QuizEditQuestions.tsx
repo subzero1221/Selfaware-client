@@ -41,6 +41,8 @@ export default function QuizEditQuestions({
               question={q}
               globalIndex={globalIndex}
               quizId={quizId}
+              setQuestions={setQuestions}
+       
             />
           );
         })}

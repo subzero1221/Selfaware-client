@@ -3,26 +3,35 @@ import { QuestionDto } from "@/types/dtos/quiz";
 import { useState } from "react";
 import OptionEditor from "./OptionEditor";
 import useEditQuestion from "@/hooks/Quizzes/useEditQuestion";
+import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 
 interface QuestionEditorProps {
   question: QuestionDto;
   quizId: string;
-
   globalIndex: number;
+  setQuestions: React.Dispatch<React.SetStateAction<QuestionDto[]>>;
 }
 
 export default function QuestionEditor({
   question,
   quizId,
   globalIndex,
+  setQuestions,
 }: QuestionEditorProps) {
-  const {
-    mutate: editQuestion,
-    isPending: editingQuestion,
-    error,
-  } = useEditQuestion(quizId, question.id);
+  const { mutate: editQuestion, isPending: editingQuestion } = useEditQuestion(
+    quizId,
+    question.id,
+  );
+
+  const { mutate: deleteQuestion, isPending: deletingQuestion } = useQuizDelete(
+    quizId,
+    question.id,
+  );
+
   const [currentQuestion, setCurrentQuestion] = useState<QuestionDto>(question);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
   const toggleEditMode = () => {
     setEditingId((prev) => (prev == question.id ? null : question.id));
@@ -32,7 +41,7 @@ export default function QuestionEditor({
   const isEditing = editingId === question.id;
 
   const handleQuestionTextChange = (value: string) => {
-    setCurrentQuestion((question) => ({ ...question, text: value }));
+    setCurrentQuestion((prev) => ({ ...prev, text: value }));
   };
 
   const handleOptionTextChange = (oIndex: number, value: string) => {
@@ -56,12 +65,23 @@ export default function QuestionEditor({
   const handleQuestionSave = () => {
     editQuestion(currentQuestion);
     console.log("updating question:", currentQuestion);
-    setEditingId((prev) => (prev = null));
+
+    setQuestions((prev) =>
+      prev.map((q) => (q.id == currentQuestion.id ? currentQuestion : q)),
+    );
+    setEditingId(null);
+  };
+
+  const handleDelete = () => {
+    deleteQuestion(undefined, {
+      onSuccess: () => {
+        setDeleteModal(false); 
+      },
+    });
   };
 
   return (
     <div
-      key={question.id}
       className={`relative bg-wood-surface border-[6px] rounded-sm shadow-[0_3px_6px_rgba(0,0,0,0.8)] p-6 md:p-8 overflow-hidden transition-all duration-300 space-y-6 ${
         isEditing
           ? "border-wood-accent/70 shadow-[0_0_15px_rgba(214,142,57,0.2)]"
@@ -75,7 +95,7 @@ export default function QuestionEditor({
           variant={isEditing ? "secondary" : "primary"}
           type="button"
           size="sm"
-          onClick={() => toggleEditMode()}
+          onClick={toggleEditMode}
           className="font-mono text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-sm shadow-sm"
         >
           {isEditing ? "გაუქმება // Cancel" : "შეცვლა // Edit"}
@@ -85,7 +105,7 @@ export default function QuestionEditor({
           variant="danger"
           type="button"
           size="sm"
-          // onClick={() => onDeleteQuestion(q.id)}
+          onClick={() => setDeleteModal(true)} 
           className="font-mono text-xs font-bold uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-900/40 bg-red-950/20 px-2 py-1 rounded-sm shadow-sm"
         >
           წაშლა
@@ -113,20 +133,18 @@ export default function QuestionEditor({
           სავარაუდო პასუხები:
         </p>
 
-        {currentQuestion.options.map((opt, oIndex) => {
-          return (
-            <OptionEditor
-              key={opt.id}
-              handleOptionTextChange={handleOptionTextChange}
-              handleOptionRadioChange={handleOptionRadioChange}
-              globalIndex={globalIndex}
-              currentQuestionId={question.id}
-              oIndex={oIndex}
-              option={opt}
-              isEditing={isEditing}
-            />
-          );
-        })}
+        {currentQuestion.options.map((opt, oIndex) => (
+          <OptionEditor
+            key={opt.id}
+            handleOptionTextChange={handleOptionTextChange}
+            handleOptionRadioChange={handleOptionRadioChange}
+            globalIndex={globalIndex}
+            currentQuestionId={question.id}
+            oIndex={oIndex}
+            option={opt}
+            isEditing={isEditing}
+          />
+        ))}
       </div>
 
       {isEditing && (
@@ -134,13 +152,27 @@ export default function QuestionEditor({
           <Button
             type="button"
             size="md"
-            onClick={() => handleQuestionSave()}
+            onClick={handleQuestionSave} 
+            disabled={editingQuestion}
             className="font-serif text-sm px-6 py-2 shadow-md transition-transform active:scale-95 border-2 border-wood-accent text-wood-accent-text"
           >
-            ცვლილებების შენახვა // Save Changes
+            {editingQuestion
+              ? "ინახება... // Saving..."
+              : "ცვლილებების შენახვა // Save Changes"}
           </Button>
         </div>
       )}
+
+      <ConfirmModal
+        isOpen={deleteModal}
+        onClose={() => setDeleteModal(false)} 
+        isLoading={deletingQuestion}
+        onConfirm={handleDelete}
+        title="კითხვის წაშლა // Delete Question?"
+        description="დარწმუნებული ხართ რომ გსურთ ამ კითხვის სამუდამოდ წაშლა? // Are you sure you want to permanently delete this question?"
+        confirmText="წაშლა // Delete"
+        variant="danger"
+      />
     </div>
   );
 }
