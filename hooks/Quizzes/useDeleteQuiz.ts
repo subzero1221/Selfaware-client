@@ -14,7 +14,7 @@ export default function useQuizDelete(quizId: string, questionId: string) {
         },
       ),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [`quiz-${quizId}`] });
+      queryClient.invalidateQueries({ queryKey: [`quizzes`] });
     },
     onError: (error) => {
       console.error("Quiz deletion error:", error);

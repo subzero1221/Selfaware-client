@@ -17,10 +17,10 @@ export default function ConfirmModal({
   isOpen,
   onClose,
   onConfirm,
-  title = "დარწმუნებული ხართ? // Are you sure?",
-  description = "ამ მოქმედების გაუქმება შეუძლებელია. // This action cannot be undone.",
-  confirmText = "დასტური // Confirm",
-  cancelText = "გაუქმება // Cancel",
+  title = "დარწმუნებული ხართ?",
+  description = "ამ მოქმედების გაუქმება შეუძლებელია.",
+  confirmText = "დასტური",
+  cancelText = "გაუქმება",
   variant = "danger",
   isLoading = false,
 }: ConfirmationModalProps) {
@@ -91,7 +91,7 @@ export default function ConfirmModal({
             onClick={onConfirm}
             className={getConfirmButtonStyles()}
           >
-            {isLoading ? "მიმდინარეობს... // Processing..." : confirmText}
+            {isLoading ? "მიმდინარეობს..." : confirmText}
           </Button>
         </div>
       </div>

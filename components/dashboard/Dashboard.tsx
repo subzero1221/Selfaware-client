@@ -9,6 +9,7 @@ import { activeTab } from "@/types/dtos/dashboard";
 import Link from "next/link";
 import MyQuizzes from "./mycabinetquizzes/MyCabinetQuizzes";
 import AddQuiz from "./AddQuiz";
+import GameDashboard from "./game/GameDashboard";
 
 export default function DashboardWorkspace() {
   const { user, isUserLoading } = useAuth();
@@ -59,6 +60,7 @@ export default function DashboardWorkspace() {
         {activeTab === "myQuizzes" && <MyQuizzes />}
         {activeTab === "addQuiz" && <AddQuiz />}
         {activeTab === "settings" && <ProfileSettings user={user} />}
+        {activeTab == "game" && <GameDashboard />}
       </main>
     </div>
   );

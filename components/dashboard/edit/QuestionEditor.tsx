@@ -75,7 +75,8 @@ export default function QuestionEditor({
   const handleDelete = () => {
     deleteQuestion(undefined, {
       onSuccess: () => {
-        setDeleteModal(false); 
+        setDeleteModal(false);
+        setQuestions((prev) => prev.filter((q) => q.id != currentQuestion.id));
       },
     });
   };
@@ -105,7 +106,7 @@ export default function QuestionEditor({
           variant="danger"
           type="button"
           size="sm"
-          onClick={() => setDeleteModal(true)} 
+          onClick={() => setDeleteModal(true)}
           className="font-mono text-xs font-bold uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-900/40 bg-red-950/20 px-2 py-1 rounded-sm shadow-sm"
         >
           წაშლა
@@ -152,7 +153,7 @@ export default function QuestionEditor({
           <Button
             type="button"
             size="md"
-            onClick={handleQuestionSave} 
+            onClick={handleQuestionSave}
             disabled={editingQuestion}
             className="font-serif text-sm px-6 py-2 shadow-md transition-transform active:scale-95 border-2 border-wood-accent text-wood-accent-text"
           >
@@ -165,12 +166,12 @@ export default function QuestionEditor({
 
       <ConfirmModal
         isOpen={deleteModal}
-        onClose={() => setDeleteModal(false)} 
+        onClose={() => setDeleteModal(false)}
         isLoading={deletingQuestion}
         onConfirm={handleDelete}
-        title="კითხვის წაშლა // Delete Question?"
-        description="დარწმუნებული ხართ რომ გსურთ ამ კითხვის სამუდამოდ წაშლა? // Are you sure you want to permanently delete this question?"
-        confirmText="წაშლა // Delete"
+        title="წაშლა"
+        description="დარწმუნებული ხართ რომ გსურთ ამ კითხვის სამუდამოდ წაშლა?"
+        confirmText="წაშლა"
         variant="danger"
       />
     </div>

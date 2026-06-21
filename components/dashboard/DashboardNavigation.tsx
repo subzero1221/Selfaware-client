@@ -1,7 +1,7 @@
 import { UserProfile } from "@/types/dtos/auth";
 import { activeTab } from "@/types/dtos/dashboard";
 import { IoStatsChartSharp } from "react-icons/io5";
-import { MdAssignmentAdd } from "react-icons/md";
+import { MdAssignmentAdd, MdVideogameAsset } from "react-icons/md";
 import { RiUserSettingsFill } from "react-icons/ri";
 import { MdPsychologyAlt } from "react-icons/md";
 
@@ -40,11 +40,20 @@ export default function DashboardNavigation({
         <nav className="space-y-2 font-serif text-sm uppercase tracking-wider">
           {[
             { id: "overview", label: "სისტემა", icon: IoStatsChartSharp },
-            { id: "myQuizzes", label: "ჩემი კითხვარები", icon: MdPsychologyAlt },
+            {
+              id: "myQuizzes",
+              label: "ჩემი კითხვარები",
+              icon: MdPsychologyAlt,
+            },
             {
               id: "addQuiz",
               label: "კითხვარის დამატება",
               icon: MdAssignmentAdd,
+            },
+            {
+              id: "game",
+              label: "თამაში",
+              icon: MdVideogameAsset,
             },
             {
               id: "settings",
