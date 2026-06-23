@@ -11,7 +11,7 @@ export default function useKickLobbyPlayer() {
       return apiClient<ApiResponse<string>>(`/lobby/players`, {
         method: "DELETE",
         body: JSON.stringify({
-          playerId: data.id,
+          Id: data.id,
           joinCode: data.joinCode,
         }),
       });

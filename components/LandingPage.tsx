@@ -25,7 +25,7 @@ export default function LandingPage() {
         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-24">
           <Link
             href="/dashboard"
-            className="bg-white text-wood-text-primary px-8 py-3.5 rounded-xl font-semibold text-sm tracking-wide text-center hover:bg-gray-200 transition-all shadow-[0_4px_20px_rgba(255,255,255,0.05)] flex items-center justify-center h-[52px]"
+            className="bg-white text-wood-accent px-8 py-3.5 rounded-xl font-semibold text-sm tracking-wide text-center hover:bg-gray-200 transition-all shadow-[0_4px_20px_rgba(255,255,255,0.05)] flex items-center justify-center h-[52px]"
           >
             დაიწყე უფასოდ
           </Link>

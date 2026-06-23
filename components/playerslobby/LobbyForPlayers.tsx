@@ -1,5 +1,6 @@
 "use client";
 
+import NotFound from "@/app/not-found";
 import useLobbyForPlayers from "@/hooks/game/useLobbyForPlayers";
 
 
@@ -7,12 +8,18 @@ export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
   const currentPlayerId =
     typeof window !== "undefined" ? localStorage.getItem("playerToken") : null;
 
+  
+
   const { data: lobby, isLoading } = useLobbyForPlayers(
     joinCode,
     currentPlayerId as string,
   );
 
-  if (isLoading || !lobby) {
+  console.log(lobby)
+
+  
+
+  if (isLoading) {
     return (
       <div className="min-h-screen bg-wood-base flex items-center justify-center text-wood-text-muted font-sans">
         <div className="flex flex-col items-center gap-3">
@@ -23,6 +30,11 @@ export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
         </div>
       </div>
     );
+  }
+
+
+  if (!lobby) {
+    return <NotFound />;
   }
 
   return (
