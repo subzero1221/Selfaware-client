@@ -1,9 +1,25 @@
+import useStartGame from "@/hooks/game/socket/useStartGame";
 import useQuizzes from "@/hooks/Quizzes/useQuizzes";
 import { useState } from "react";
 
-export default function HostLobbyChooseQuiz({ playersLength }: { playersLength: number }) {
-  const [selectedQuizId, setSelectedQuizId] = useState<string>("");
+interface HostLobbyChooseQuiz {
+  playersLength: number;
+  hostId: string;
+  joinCode: string;
+}
+
+export default function HostLobbyChooseQuiz({
+  playersLength,
+  hostId,
+  joinCode,
+}: HostLobbyChooseQuiz) {
   const { data, isLoading, error } = useQuizzes();
+  const [selectedQuizId, setSelectedQuizId] = useState<string>("");
+  const { sendStartGameSignal, isStarting } = useStartGame(
+    joinCode,
+    hostId,
+    selectedQuizId,
+  );
 
   if (isLoading || !data) {
     return (
@@ -16,7 +32,7 @@ export default function HostLobbyChooseQuiz({ playersLength }: { playersLength: 
     );
   }
 
-  console.log(selectedQuizId)
+  console.log(selectedQuizId);
 
   return (
     <aside className="bg-wood-surface/80 backdrop-blur-sm border border-wood-border/60 rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between h-full min-h-[450px] shadow-lg">
@@ -70,7 +86,7 @@ export default function HostLobbyChooseQuiz({ playersLength }: { playersLength: 
 
       <div className="mt-8">
         <button
-          // onClick={() => startGameMutation.mutate()}
+          onClick={() => sendStartGameSignal()}
           disabled={!selectedQuizId || playersLength === 0}
           className={`relative w-full py-4 rounded-xl font-bold text-sm tracking-widest uppercase transition-all duration-300 overflow-hidden ${
             selectedQuizId && playersLength > 0
@@ -78,7 +94,7 @@ export default function HostLobbyChooseQuiz({ playersLength }: { playersLength: 
               : "bg-wood-base border border-wood-border/50 text-wood-text-muted/50 cursor-not-allowed"
           }`}
         >
-          თამაშის დაწყება
+          {isStarting ? "თამაში იწყება" : "თამაშის დაწყება"}
         </button>
 
         <div className="h-6 mt-3 flex items-center justify-center">

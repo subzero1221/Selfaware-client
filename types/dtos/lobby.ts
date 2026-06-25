@@ -12,6 +12,7 @@ interface LobbyPlayerDto {
   id: string;
   nickName: string;
   joinedAt: string;
+  isReady: boolean;
 }
 
 interface JoinLobbyDto {
@@ -19,9 +20,9 @@ interface JoinLobbyDto {
   joinCode: string;
 }
 
-interface KickLobbyPlayerDto{
-  id:string,
-  joinCode:string,
+interface KickLobbyPlayerDto {
+  id: string;
+  joinCode: string;
 }
 
 enum LobbyState {

@@ -30,7 +30,11 @@ export default function HostLobbyPage() {
       <main className="grid grid-cols-1 md:grid-cols-3 gap-8 items-start mb-8">
         <PlayerList players={lobby.players} joinCode={lobby.joinCode} />
 
-        <HostLobbyChooseQuiz playersLength={lobby.players.length} />
+        <HostLobbyChooseQuiz
+          hostId={lobby.hostId}
+          joinCode={lobby.joinCode}
+          playersLength={lobby.players.length}
+        />
       </main>
     </div>
   );

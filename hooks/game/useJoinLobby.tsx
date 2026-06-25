@@ -28,6 +28,7 @@ export default function useJoinLobby() {
     onSuccess: (response, variables) => {
       localStorage.setItem("playerToken", response.data.id);
       localStorage.setItem("playerName", response.data.nickName);
+      localStorage.setItem("lobby", variables.joinCode);
 
       router.push(`/lobby/${variables.joinCode}`);
 

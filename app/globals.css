@@ -1,56 +1,70 @@
 @import "tailwindcss";
 
-
 @theme {
   /* ხე-სითბო*/
-  
+
   /* 1. ბექგროუნდ  */
-  --color-wood-base: #1A0D02;
-  
+  --color-wood-base: #1a0d02;
+
   /* 2. კონტაინერ/სექციებისთვის  */
   --color-wood-surface: #422201;
-  --color-wood-surface-hover: #5A2F01; 
+  --color-wood-surface-hover: #5a2f01;
 
   /* წაშლის ღილაკის ფერები*/
   --color-delete-surface: #a83232;
   --color-delete-hover: #ed0606;
 
-  
   /* 3. გამყოფები/ბორდერები  */
-  --color-wood-border: #6B3903;
-  --color-wood-border-focus: #8C4B04;
+  --color-wood-border: #6b3903;
+  --color-wood-border-focus: #8c4b04;
 
   --color-delete-border: #c24141;
   --color-delete-border-focus: #c24141;
-  
-  /* 4. ტექსტებისთვის  */
-  --color-wood-text-primary: #FAF6F2;
-  --color-wood-text-secondary: #E3D5CA;
-  --color-wood-text-muted: #A38F81;
 
+  /* 4. ტექსტებისთვის  */
+  --color-wood-text-primary: #faf6f2;
+  --color-wood-text-secondary: #e3d5ca;
+  --color-wood-text-muted: #a38f81;
 
   /* 5. განსაკუთრებულად გამოყოფილი ტექსტებისთვის/აქცენტებისთვის  */
-  --color-wood-accent: #F59E0B; 
+  --color-wood-accent: #f59e0b;
   --color-wood-accent-glow: rgba(245, 158, 11, 0.15);
+
+  /* 6. tamashis ferebi*/
+
+  --color-opt-red: #a84343;
+  --color-opt-red-hover: #bf4d4d;
+
+  --color-opt-blue: #3a6b7b;
+  --color-opt-blue-hover: #457e91;
+
+  --color-opt-yellow: #d9822b;
+  --color-opt-yellow-hover: #ed9138;
+
+  --color-opt-green: #4d7c48;
+  --color-opt-green-hover: #5a9154;
 }
 
 /* სინათლის თემა
 */
 .light {
-  --color-wood-base: #FDFBF7;          
-  --color-wood-surface: #F4EAE1;      
-  --color-wood-surface-hover: #EADCC9;
-  --color-wood-border: #D2B48C;
-  --color-wood-border-focus: #A0522D;
-  --color-wood-text-primary: #1A0D02; 
+  --color-wood-base: #fdfbf7;
+  --color-wood-surface: #f4eae1;
+  --color-wood-surface-hover: #eadcc9;
+  --color-wood-border: #d2b48c;
+  --color-wood-border-focus: #a0522d;
+  --color-wood-text-primary: #1a0d02;
   --color-wood-text-secondary: #422201;
-  --color-wood-text-muted: #7A624E;
+  --color-wood-text-muted: #7a624e;
 }
 
 /* სექსი სხეულითვინ :D */
 body {
   background-color: var(--color-wood-base);
   color: var(--color-wood-text-primary);
-  font-feature-settings: "lnum" 1; 
-  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  font-feature-settings: "lnum" 1;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    border-color 0.2s ease;
 }

@@ -11,13 +11,16 @@ interface LobbyHeaderProps {
 
 export default function HostLobbyHeader({
   joinCode,
+
   playerCount,
 }: LobbyHeaderProps) {
   const [copied, setCopied] = useState(false);
 
   const copyPin = async () => {
     await navigator.clipboard.writeText(joinCode);
+
     setCopied(true);
+
     setTimeout(() => setCopied(false), 2000);
   };
 
@@ -29,16 +32,18 @@ export default function HostLobbyHeader({
         <p className="text-xs text-wood-text-muted uppercase tracking-[0.2em] font-semibold mb-2">
           შესასვლელი PIN კოდი
         </p>
+
         <div className="flex items-center gap-4 justify-center md:justify-start">
           <h1 className="text-6xl md:text-7xl font-mono font-extrabold text-wood-accent tracking-widest drop-shadow-sm">
             {joinCode}
           </h1>
+
           <button
             onClick={copyPin}
             className="p-2 mb-12 cursor-pointer text-2xl text-wood-text-muted hover:text-white transition-colors"
             title="PIN-ის კოპირება"
           >
-            {copied ? <IoMdDoneAll/> : <FaRegCopyright/>}
+            {copied ? <IoMdDoneAll /> : <FaRegCopyright />}
           </button>
         </div>
       </div>
@@ -47,10 +52,13 @@ export default function HostLobbyHeader({
         <div className="flex items-center gap-2 mb-1">
           <span className="relative flex h-3 w-3">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+
             <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
           </span>
+
           <p className="text-sm text-wood-text-muted">მოთამაშე</p>
         </div>
+
         <span className="text-wood-text-secondary font-bold text-4xl leading-none">
           {playerCount}
         </span>

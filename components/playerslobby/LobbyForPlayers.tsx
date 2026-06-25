@@ -3,18 +3,21 @@
 import NotFound from "@/app/not-found";
 import useLobbyForPlayers from "@/hooks/game/useLobbyForPlayers";
 
-import  LobbyHeader  from "./LobbyHeader";
-import  PlayerCard  from "./PlayerCard";
-import  ReadyButton  from "./ReadyButton";
+import LobbyHeader from "./LobbyHeader";
+import PlayerCard from "./PlayerCard";
+import ReadyButton from "./ReadyButton";
+import useStartGame from "@/hooks/game/socket/useStartGame";
 
 export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
   const currentPlayerId =
-    typeof window !== "undefined" ? localStorage.getItem("playerToken") : null;
+    typeof window !== "undefined" ? localStorage.getItem("playerToken") : "";
 
   const { data: lobby, isLoading } = useLobbyForPlayers(
     joinCode,
     currentPlayerId as string,
   );
+
+  useStartGame(joinCode, lobby?.hostId, lobby?.quizId);
 
   if (isLoading) {
     return (
@@ -33,15 +36,14 @@ export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
     return <NotFound />;
   }
 
- 
-  const me = lobby.players.find((p: any) => p.id === currentPlayerId);
+  const me = lobby.players.find(
+    (p: LobbyPlayerDto) => p.id === currentPlayerId,
+  );
 
   return (
     <div className="min-h-screen bg-wood-base text-wood-text-primary p-6 md:p-12 font-sans flex flex-col items-center max-w-5xl mx-auto w-full">
-      
       <LobbyHeader />
 
-   
       {me && (
         <ReadyButton
           joinCode={joinCode}
@@ -50,7 +52,6 @@ export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
         />
       )}
 
-  
       <section className="w-full bg-gradient-to-b from-wood-surface/90 to-wood-surface/40 backdrop-blur-sm border border-wood-border/60 rounded-[2rem] p-6 sm:p-8 flex flex-col shadow-lg min-h-[400px]">
         <div className="flex justify-between items-end border-b border-wood-border/40 pb-4 mb-6">
           <h2 className="text-lg font-semibold text-wood-accent tracking-wide">
@@ -62,9 +63,11 @@ export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
         </div>
 
         <div className="flex-1 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pr-2 content-start custom-scrollbar">
-          {lobby.players.map((player: any) => (
+          {lobby.players.map((player: LobbyPlayerDto) => (
             <PlayerCard
-              key={player.id}
+              key={currentPlayerId}
+              joinCode={joinCode}
+              playerId={currentPlayerId}
               player={player}
               isMe={player.id === currentPlayerId}
             />

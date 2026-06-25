@@ -1,6 +1,23 @@
-export default function PlayerCard({ player, isMe }: { player: any; isMe: boolean }) {
+import useLeaveLobby from "@/hooks/game/socket/useLeaveLobby";
+import { VscClose } from "react-icons/vsc";
+
+interface PlayerCardProps {
+  player: LobbyPlayerDto;
+  playerId: string;
+  isMe: boolean;
+  joinCode: string;
+}
+
+export default function PlayerCard({
+  player,
+  playerId,
+  isMe,
+  joinCode,
+}: PlayerCardProps) {
+  const { sendLeaveSignal } = useLeaveLobby(joinCode, playerId);
+
   const baseClasses =
-    "group relative flex flex-col items-center justify-center px-4 py-4 rounded-2xl transition-all duration-300 overflow-hidden border";
+    "group relative flex flex-col items-center justify-center px-4 py-5 rounded-2xl transition-all duration-300 overflow-hidden border";
 
   const stateClasses = player.isReady
     ? "bg-green-500/10 border-green-500/50 shadow-[0_0_15px_rgba(34,197,94,0.2)] scale-[1.02]"
@@ -10,8 +27,21 @@ export default function PlayerCard({ player, isMe }: { player: any; isMe: boolea
 
   return (
     <div className={`${baseClasses} ${stateClasses}`}>
+      {isMe && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            sendLeaveSignal();
+          }}
+          className="absolute top-0 right-4 p-1 rounded-xl text-wood-text-primary hover:text-red-500 hover:bg-red-500/10 cursor-pointer transition-colors"
+          title="ლობის დატოვება"
+        >
+          <VscClose className="text-xl" />
+        </button>
+      )}
+
       <span
-        className={`text-sm font-semibold tracking-wide truncate max-w-[90%] transition-colors mt-1 ${
+        className={`text-sm font-semibold tracking-wide truncate max-w-[85%] transition-colors mt-2 ${
           player.isReady
             ? "text-green-400"
             : isMe

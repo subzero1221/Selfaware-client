@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { getSignalRConnection } from "@/lib/signalr";
+import { ensureConnected, getSignalRConnection } from "@/lib/signalr";
 
 export default function useIsReady(joinCode: string, playerId: string) {
   const queryClient = useQueryClient();
@@ -16,9 +16,11 @@ export default function useIsReady(joinCode: string, playerId: string) {
     connection.on("PlayerIsReady", handleUpdate);
     connection.on("PlayerIsNotReady", handleUpdate);
 
-    if (connection.state === "Disconnected") {
-      connection.start().catch(console.error);
-    }
+    ensureConnected("http://localhost:5027/game")
+      .then((conn) => {
+        conn.invoke("JoinLobby", joinCode);
+      })
+      .catch(console.error);
 
     return () => {
       connection.off("PlayerIsReady", handleUpdate);
