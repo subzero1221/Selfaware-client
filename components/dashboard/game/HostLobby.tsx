@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import useLobby from "@/hooks/game/useLobby";
 import PlayerList from "./PlayerList";
 import HostLobbyHeader from "./HostLobbyHeader";

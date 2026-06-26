@@ -1,4 +1,5 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { ensureConnected, getSignalRConnection } from "@/lib/signalr";
 import { useRouter } from "next/navigation";
@@ -7,19 +8,29 @@ import { GameDto } from "@/types/dtos/game";
 
 export default function useStartGame(
   joinCode: string,
-  hostId: string,
-  quizId: string,
+  hostId?: string,
+  quizId?: string,
+  playerId?: string | null,
+  isHost: boolean = false,
 ) {
   const [isStarting, setIsStarting] = useState(false);
   const router = useRouter();
   const queryClient = useQueryClient();
+
   useEffect(() => {
+    if (!joinCode) return;
+
     const connection = getSignalRConnection("http://localhost:5027/game");
 
-    const handleGameStart = (game: GameDto, joinCode: string) => {
-      console.log(game);
+    const handleGameStart = (game: GameDto) => {
+      console.log("Game started packet received:", game);
       queryClient.setQueryData(["game", joinCode], game);
-      router.push(`/game/${joinCode}`);
+
+      if (isHost) {
+        router.push(`/game/${joinCode}/host`);
+      } else {
+        router.push(`/game/${joinCode}/player/${playerId}`);
+      }
     };
 
     const handleStartGameFail = (errorMessage: string) => {
@@ -40,7 +51,7 @@ export default function useStartGame(
       connection.off("StartGame", handleGameStart);
       connection.off("StartGameFail", handleStartGameFail);
     };
-  }, [joinCode, hostId, quizId, queryClient, router]);
+  }, [joinCode, hostId, quizId, playerId, isHost, queryClient, router]);
 
   return {
     isStarting,

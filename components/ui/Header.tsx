@@ -3,12 +3,17 @@ import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import { VscSignOut } from "react-icons/vsc";
-import { HiUserGroup } from "react-icons/hi2";
+import dynamic from "next/dynamic";
+
+const LobbyHeaderButton = dynamic(
+  () => import("../playerslobby/LobbyHeaderButton"),
+  {
+    ssr: false,
+  },
+);
 
 export default function Header() {
   const { user, leave, isLeaving, leaveError } = useAuth();
-  const lobbyCode =
-    typeof window !== "undefined" ? localStorage.getItem("lobby") : null;
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-wood-surface border-b-[6px] border-wood-border h-20 flex items-center justify-between px-6 lg:px-10 shadow-lg font-sans">
@@ -21,15 +26,7 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-4 sm:gap-6">
-        {lobbyCode && (
-          <Link
-            href={`/lobby/${lobbyCode}`}
-            className="flex items-center gap-2 px-4 py-2 bg-wood-base border-2 border-wood-accent text-wood-accent rounded-md hover:bg-wood-accent hover:text-wood-base font-bold text-sm uppercase tracking-wide transition-all shadow-[0_4px_0_var(--tw-shadow-color)] shadow-wood-border hover:translate-y-[2px] hover:shadow-[0_2px_0_var(--tw-shadow-color)]"
-          >
-            <HiUserGroup className="text-xl" />
-            <span>ლობი</span>
-          </Link>
-        )}
+        <LobbyHeaderButton />
 
         <ThemeToggle />
 

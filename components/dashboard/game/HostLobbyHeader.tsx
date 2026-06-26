@@ -11,7 +11,6 @@ interface LobbyHeaderProps {
 
 export default function HostLobbyHeader({
   joinCode,
-
   playerCount,
 }: LobbyHeaderProps) {
   const [copied, setCopied] = useState(false);

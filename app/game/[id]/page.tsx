@@ -1,6 +1,5 @@
-import ActiveGame from "@/components/playerslobby/ActiveGame";
+import NotFound from "@/app/not-found";
 
-
-export default async function GameSection() {
-  return <ActiveGame />;
+export default async function Page() {
+  return <NotFound />;
 }

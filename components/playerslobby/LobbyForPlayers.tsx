@@ -7,17 +7,18 @@ import LobbyHeader from "./LobbyHeader";
 import PlayerCard from "./PlayerCard";
 import ReadyButton from "./ReadyButton";
 import useStartGame from "@/hooks/game/socket/useStartGame";
+import { useState } from "react";
 
 export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
   const currentPlayerId =
-    typeof window !== "undefined" ? localStorage.getItem("playerToken") : "";
+    typeof window !== "undefined" ? localStorage.getItem("playerToken") : null;
 
   const { data: lobby, isLoading } = useLobbyForPlayers(
     joinCode,
-    currentPlayerId as string,
+    currentPlayerId,
   );
 
-  useStartGame(joinCode, lobby?.hostId, lobby?.quizId);
+  useStartGame(joinCode, lobby?.hostId, lobby?.quizId, currentPlayerId, false);
 
   if (isLoading) {
     return (
@@ -63,9 +64,9 @@ export default function PlayerLobbyPage({ joinCode }: { joinCode: string }) {
         </div>
 
         <div className="flex-1 overflow-y-auto grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 pr-2 content-start custom-scrollbar">
-          {lobby.players.map((player: LobbyPlayerDto) => (
+          {lobby.players.map((player: LobbyPlayerDto, index) => (
             <PlayerCard
-              key={currentPlayerId}
+              key={currentPlayerId + index}
               joinCode={joinCode}
               playerId={currentPlayerId}
               player={player}

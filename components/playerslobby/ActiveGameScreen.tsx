@@ -1,11 +1,11 @@
 "use client";
 
+import useGameTimer from "@/hooks/game/useGameTimer";
 import { GameDto } from "@/types/dtos/game";
-import { useState, useEffect } from "react";
 
 interface ActiveGameScreenProps {
   game: GameDto;
-  onSelectOption: (optionId: string) => void;
+  //onSelectOption: (optionId: string) => void;
 }
 
 const OPTION_STYLES = [
@@ -17,7 +17,7 @@ const OPTION_STYLES = [
 
 export default function ActiveGameScreen({
   game,
-  onSelectOption,
+  //onSelectOption,
 }: ActiveGameScreenProps) {
   const {
     currentQuestion,
@@ -25,23 +25,16 @@ export default function ActiveGameScreen({
     totalQuestions,
     timeLimitSeconds,
   } = game;
-  const [timeLeft, setTimeLeft] = useState(timeLimitSeconds || 30);
 
-  useEffect(() => {
-    setTimeLeft(timeLimitSeconds || 30);
+  console.log("GAME:", game);
 
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => {
-        if (prev <= 1) {
-          clearInterval(timer);
-          return 0;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-
-    return () => clearInterval(timer);
-  }, [currentQuestion.id, timeLimitSeconds]);
+  const timeLeft = useGameTimer({
+    timeLimitSeconds: timeLimitSeconds,
+    questionId: currentQuestion.id,
+    onTimeUp: () => {
+      console.log("Time is up! Lock the answer buttons.");
+    },
+  });
 
   const timePercentage = (timeLeft / (timeLimitSeconds || 30)) * 100;
 
@@ -90,7 +83,7 @@ export default function ActiveGameScreen({
           return (
             <button
               key={option.id}
-              onClick={() => onSelectOption(option.id)}
+              //onClick={() => onSelectOption(option.id)}
               disabled={timeLeft === 0}
               className={`group flex items-center gap-4 px-6 h-full rounded-2xl text-white font-bold text-lg md:text-xl text-left shadow-lg transition-all active:scale-[0.98] cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${style.bg}`}
             >

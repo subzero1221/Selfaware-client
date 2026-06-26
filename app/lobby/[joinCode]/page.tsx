@@ -3,9 +3,9 @@ import LobbyForPlayers from "@/components/playerslobby/LobbyForPlayers";
 export default async function LobbyPage({
   params,
 }: {
-  params: Promise<{ Id: string }>;
+  params: Promise<{ joinCode: string }>;
 }) {
-  const { Id } = await params;
+  const { joinCode } = await params;
 
-  return <LobbyForPlayers joinCode={Id} />;
+  return <LobbyForPlayers joinCode={joinCode} />;
 }

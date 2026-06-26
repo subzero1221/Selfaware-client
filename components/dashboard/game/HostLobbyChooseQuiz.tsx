@@ -15,11 +15,16 @@ export default function HostLobbyChooseQuiz({
 }: HostLobbyChooseQuiz) {
   const { data, isLoading, error } = useQuizzes();
   const [selectedQuizId, setSelectedQuizId] = useState<string>("");
+
   const { sendStartGameSignal, isStarting } = useStartGame(
     joinCode,
     hostId,
     selectedQuizId,
+    "",
+    true,
   );
+
+  console.log("JOIN CODEE:", joinCode);
 
   if (isLoading || !data) {
     return (
