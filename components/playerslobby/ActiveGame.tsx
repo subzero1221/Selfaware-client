@@ -1,16 +1,18 @@
 "use client";
-import { useParams, useRouter } from "next/navigation";
-import ActiveGameScreen from "./ActiveGameScreen";
 import useGame from "@/hooks/game/useGame";
+import { useRouter, useParams } from "next/navigation";
+import ActiveGameScreen from "./ActiveGameScreen";
+import GameLeaderboard from "./GameLeaderboard";
 
 export default function ActiveGame() {
   const router = useRouter();
   const params = useParams();
   const joinCode = params.id as string;
   const playerId = params.playerId as string;
-  console.log("Game:", joinCode, playerId);
 
   const { data: game, isLoading } = useGame(joinCode, playerId);
+
+  console.log("Game", game);
 
   if (isLoading) {
     return (
@@ -19,8 +21,6 @@ export default function ActiveGame() {
       </div>
     );
   }
-
-  
 
   if (!game) {
     return (
@@ -38,5 +38,13 @@ export default function ActiveGame() {
     );
   }
 
-  return <ActiveGameScreen game={game} />;
+  if (game.state === 1) {
+    return (
+      <GameLeaderboard game={game} joinCode={joinCode} playerId={playerId} />
+    );
+  }
+
+  return (
+    <ActiveGameScreen game={game} joinCode={joinCode} playerId={playerId} />
+  );
 }

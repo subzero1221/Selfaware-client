@@ -3,27 +3,23 @@
 import { useState, useEffect } from "react";
 
 interface UseGameTimerProps {
-  timeLimitSeconds: number;
-  questionId: string;
-  onTimeUp?: () => void;
+  initialTime: number;
+  onTimeUp: () => void;
 }
 
 export default function useGameTimer({
-  timeLimitSeconds,
-  questionId,
   onTimeUp,
+  initialTime,
 }: UseGameTimerProps) {
-  const [timeLeft, setTimeLeft] = useState(timeLimitSeconds || 30);
+  const [timeLeft, setTimeLeft] = useState(initialTime);
 
   useEffect(() => {
-    setTimeLeft(timeLimitSeconds || 30);
-
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           clearInterval(timer);
 
-          if (onTimeUp) onTimeUp();
+          onTimeUp();
 
           return 0;
         }
@@ -32,7 +28,7 @@ export default function useGameTimer({
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [questionId, timeLimitSeconds, onTimeUp]);
+  }, [onTimeUp]);
 
   return timeLeft;
 }

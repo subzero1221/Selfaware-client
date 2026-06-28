@@ -23,7 +23,6 @@ export default function useStartGame(
     const connection = getSignalRConnection("http://localhost:5027/game");
 
     const handleGameStart = (game: GameDto) => {
-      console.log("Game started packet received:", game);
       queryClient.setQueryData(["game", joinCode], game);
 
       if (isHost) {

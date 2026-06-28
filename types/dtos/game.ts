@@ -1,12 +1,12 @@
 export interface GameDto {
   id: string;
   quizId: string;
-  currentQuestion: ActiveQuestionDto;
   currentQuestionIndex: number;
   players: GamePlayerDto[];
   state: SessionState;
-  totalQuestions: number;
-  timeLimitSeconds: number;
+  currentQuestion?: ActiveQuestionDto | null;
+  totalQuestions?: number | null;
+  timeLimitSeconds?: number | null;
 }
 
 export interface ActiveQuestionDto {
@@ -21,14 +21,23 @@ export interface ActiveOptionDto {
 }
 
 export interface GamePlayerDto {
-  id: string;
+  playerId: string;
   nickName: string;
   joinedAt: string;
   isReady: boolean;
+  state: PlayerState;
+  score: number;
+  streak: number;
 }
 
 export enum SessionState {
   Answering = 0,
   ShowingLeaderBoard = 1,
   Finished = 2,
+}
+
+export enum PlayerState {
+  Answering = 0,
+  Answered = 1,
+  Disconnected = 2,
 }
