@@ -13,7 +13,7 @@ export const getSignalRConnection = (url: string) => {
   return connection;
 };
 
-export const ensureConnected = async (url: string) => {
+export const ensureConnected = async (url: string, joinCode?: string) => {
   const conn = getSignalRConnection(url);
 
   if (conn.state === signalR.HubConnectionState.Disconnected) {
@@ -23,6 +23,9 @@ export const ensureConnected = async (url: string) => {
   if (startPromise) {
     await startPromise;
   }
+if (joinCode && conn.state === signalR.HubConnectionState.Connected) {
+  await conn.invoke("JoinGameSession", joinCode);
+}
 
   return conn;
 };

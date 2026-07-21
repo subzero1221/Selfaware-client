@@ -27,7 +27,7 @@ export default function GameLeaderboard({
 
   const currentPlayerRank =
     sortedPlayers.findIndex((p) => p.playerId === playerId) + 1;
-  const currentPlayer = liveGame?.players.find((p) => p.playerId === playerId);
+  //const currentPlayer = liveGame?.players.find((p) => p.playerId === playerId);
 
   const getRankBadgeStyles = (index: number) => {
     switch (index) {
@@ -44,10 +44,10 @@ export default function GameLeaderboard({
 
   const handleTimeUp = useCallback(() => {
     sendNextQuestionSignal();
-  }, [joinCode, playerId]);
+  }, [sendNextQuestionSignal]);
 
   const timeLeft = useGameTimer({
-    initialTime: 10,
+    initialTime: liveGame.timeLeft,
     onTimeUp: handleTimeUp,
   });
 

@@ -45,20 +45,22 @@ export default function ActiveGameScreen({
     (player) => player.playerId == playerId,
   );
 
+  console.log("Timeleft", liveGame.timeLeft);
+
   const hasAnswered = Currentplayer?.state === 1;
   const { sendShowLeaderBoardSignal } = useShowLeaderBoard(joinCode, playerId);
 
   const handleTimeUp = useCallback(() => {
     sendShowLeaderBoardSignal();
-  }, [joinCode, playerId]);
+  }, [sendShowLeaderBoardSignal]);
 
   const timeLeft = useGameTimer({
-    initialTime: 30,
+    initialTime: liveGame.timeLeft,
     onTimeUp: handleTimeUp,
   });
 
   const handleSubmitAnswer = (id: string) => {
-    sendSubmitAnswerSignal(timeLeft, id);
+    sendSubmitAnswerSignal(id);
   };
 
   const timePercentage = (timeLeft / (timeLimitSeconds || 30)) * 100;

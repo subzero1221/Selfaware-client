@@ -21,13 +21,15 @@ export default function useNextQuestion(
     };
 
     const handleNextQuestionFail = (errorMessage: string) => {
-      alert(`Error during leaderboard: ${errorMessage}`);
+      alert(`Error during next question: ${errorMessage}`);
     };
 
     connection.on("NextQuestion", handleNextQuestion);
-    connection.on("NextQuestionFail", handleNextQuestion);
+    connection.on("NextQuestionFail", handleNextQuestionFail);
 
-    ensureConnected("http://localhost:5027/game").catch(console.error);
+    ensureConnected("http://localhost:5027/game", joinCode).catch(
+      console.error,
+    );
 
     return () => {
       connection.off("NextQuestion", handleNextQuestion);
@@ -41,7 +43,7 @@ export default function useNextQuestion(
         const conn = getSignalRConnection("http://localhost:5027/game");
         await conn.invoke("NextQuestion", joinCode, playerId);
       } catch (err) {
-        console.error("Failed to invoke StartGame", err);
+        console.error("Failed to invoke NextQuestion", err);
       }
     },
   };

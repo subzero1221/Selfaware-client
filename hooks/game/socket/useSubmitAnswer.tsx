@@ -54,14 +54,13 @@ export default function useSubmitAnswer(
   }, [joinCode, playerId, questionId, queryClient]);
 
   return {
-    sendSubmitAnswerSignal: async (onSecond: number, optionId: string) => {
+    sendSubmitAnswerSignal: async (optionId: string) => {
       try {
         const conn = getSignalRConnection("http://localhost:5027/game");
         await conn.invoke("SubmitAnswer", {
           joinCode: joinCode,
           playerId: playerId,
           questionId: questionId,
-          onSecond: Math.floor(onSecond),
           optionId: optionId,
         });
       } catch (err) {

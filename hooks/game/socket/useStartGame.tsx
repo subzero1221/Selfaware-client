@@ -26,7 +26,7 @@ export default function useStartGame(
       queryClient.setQueryData(["game", joinCode], game);
 
       if (isHost) {
-        router.push(`/game/${joinCode}/host`);
+        router.push(`/dashboard/game/${joinCode}/host`);
       } else {
         router.push(`/game/${joinCode}/player/${playerId}`);
       }

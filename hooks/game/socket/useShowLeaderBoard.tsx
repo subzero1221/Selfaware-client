@@ -27,7 +27,9 @@ export default function useShowLeaderBoard(
     connection.on("ShowLeaderBoard", handleShowLeaderBoard);
     connection.on("ShowLeaderBoardFail", handleShowLeaderBoardFail);
 
-    ensureConnected("http://localhost:5027/game").catch(console.error);
+    ensureConnected("http://localhost:5027/game", joinCode).catch(
+      console.error,
+    );
 
     return () => {
       connection.off("ShowLeaderBoard", handleShowLeaderBoard);
@@ -41,7 +43,7 @@ export default function useShowLeaderBoard(
         const conn = getSignalRConnection("http://localhost:5027/game");
         await conn.invoke("ShowLeaderBoard", joinCode, playerId);
       } catch (err) {
-        console.error("Failed to invoke StartGame", err);
+        console.error("Failed to invoke ShowLeaderBoard", err);
       }
     },
   };
