@@ -4,7 +4,7 @@ export interface GameDto {
   currentQuestionIndex: number;
   players: GamePlayerDto[];
   state: SessionState;
-  currentQuestion?: ActiveQuestionDto;
+  currentQuestion: ActiveQuestionDto;
   totalQuestions?: number | null;
   timeLimitSeconds?: number | null;
   timeLeft: number;

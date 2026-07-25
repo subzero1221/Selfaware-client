@@ -3,6 +3,7 @@ import useGame from "@/hooks/game/useGame";
 import { useRouter, useParams } from "next/navigation";
 import ActiveGameScreen from "./ActiveGameScreen";
 import GameLeaderboard from "./GameLeaderboard";
+import FinishedGame from "./FinishedGame";
 
 export default function ActiveGame() {
   const router = useRouter();
@@ -41,6 +42,12 @@ export default function ActiveGame() {
   if (game.state === 1) {
     return (
       <GameLeaderboard game={game} joinCode={joinCode} playerId={playerId} />
+    );
+  }
+
+  if (game.state === 2) {
+    return (
+    <FinishedGame game={game} joinCode={joinCode} playerId={playerId} />
     );
   }
 

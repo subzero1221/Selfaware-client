@@ -13,6 +13,7 @@ export default function useGameForHost(joinCode: string) {
         (res) => res.data,
       ),
     enabled: !!joinCode,
-    staleTime: Infinity,
+    refetchInterval: 2500,
+    staleTime: 10 * 1000,
   });
 }
