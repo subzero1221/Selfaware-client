@@ -10,68 +10,80 @@ interface MyQuizDraftsRendererProps {
 export default function MyQuizDraftsRenderer({
   quizzes,
 }: MyQuizDraftsRendererProps) {
-  const { mutate: deleteQuiz, isPending, error } = useQuizDelete();
+  const { mutate: deleteQuiz, isPending } = useQuizDelete();
 
   return (
-    <div className="relative w-full bg-wood-surface border-[4px] border-wood-border rounded shadow-[0_4px_12px_rgba(0,0,0,0.5)] overflow-hidden transition-colors duration-300 min-h-[500px] flex flex-col">
-      <div className="absolute inset-0 border border-wood-border-focus/30 shadow-[inset_0_0_8px_rgba(0,0,0,0.6)] pointer-events-none"></div>
+    <div className="relative w-full bg-wood-surface border-[3px] border-wood-border rounded-sm shadow-[0_12px_24px_rgba(0,0,0,0.6)] overflow-hidden transition-colors duration-300 min-h-[500px] flex flex-col">
+      <div className="absolute inset-0 border-[4px] border-wood-base/40 shadow-[inset_0_0_20px_rgba(0,0,0,0.8)] pointer-events-none z-20"></div>
 
-      <div className="relative p-6 flex flex-col h-full flex-grow">
-        <div className="border-b-2 border-wood-border-focus/40 pb-4 mb-5 relative">
-          <h3 className="font-serif text-lg font-bold tracking-wide text-wood-text-primary drop-shadow-md flex items-center gap-3">
-            <span className="text-xl opacity-80">🗄️</span>
-            ჩანახატები // Drafts
+      <div className="relative p-6 flex flex-col h-full flex-grow z-10">
+        <div className="border-b-2 border-wood-border-focus/40 pb-4 mb-5 relative flex items-center justify-between">
+          <h3 className="font-serif text-lg font-bold tracking-widest text-wood-text-primary drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] flex items-center gap-3">
+            <span className="text-xl opacity-90 drop-shadow-md">🗄️</span>
+            ჩანახატები
           </h3>
-          <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-wood-border-focus/60 via-wood-border-focus/20 to-transparent"></div>
+          <span className="font-mono text-[10px] text-wood-text-muted uppercase tracking-widest bg-wood-base px-2 py-1 rounded shadow-inner">
+            {quizzes.length} Drafts
+          </span>
+          <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-wood-accent/50 via-wood-border-focus/20 to-transparent"></div>
         </div>
 
-        <div className="flex-grow overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+        <div className="flex-grow overflow-y-auto space-y-4 pr-2 custom-scrollbar">
           {quizzes.length === 0 ? (
-            <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-wood-border/40 rounded bg-wood-base/30 shadow-[inset_0_2px_8px_rgba(0,0,0,0.2)]">
-              <span className="text-3xl opacity-30 mb-3 grayscale">📭</span>
-              <p className="font-serif text-sm font-semibold text-wood-text-muted">
+            <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 border-2 border-dashed border-wood-border/30 rounded bg-wood-base/20 shadow-[inset_0_4px_12px_rgba(0,0,0,0.3)]">
+              <span className="text-4xl opacity-20 mb-4 grayscale drop-shadow-md">
+                📭
+              </span>
+              <p className="font-serif text-sm font-bold text-wood-text-muted drop-shadow-sm">
                 ჩანახატები ცარიელია
               </p>
-              <p className="font-mono text-[10px] text-wood-text-muted/60 mt-1 uppercase tracking-widest">
-                No active drafts
+              <p className="font-mono text-[10px] text-wood-text-muted/50 mt-2 uppercase tracking-widest">
+                No active drafts found
               </p>
             </div>
           ) : (
             quizzes.map((quiz) => (
               <div
                 key={quiz.id}
-                className="group relative bg-wood-base border border-wood-border border-l-4 border-l-wood-accent/70 p-4 rounded shadow-[inset_0_1px_3px_rgba(0,0,0,0.3),0_2px_4px_rgba(0,0,0,0.2)] hover:border-wood-accent hover:border-l-wood-accent hover:-translate-y-0.5 transition-all duration-200"
+                className="group relative bg-wood-base/80 border-y border-r border-l-[6px] border-wood-border border-l-wood-accent/80 p-4 shadow-[inset_0_1px_4px_rgba(0,0,0,0.4),0_4px_6px_rgba(0,0,0,0.2)] hover:border-wood-accent hover:border-l-wood-accent hover:bg-wood-surface hover:-translate-y-0.5 transition-all duration-300"
               >
-                <div className="flex flex-col gap-2">
-                  <h4 className="font-serif text-sm font-bold text-wood-text-primary truncate">
+                <div className="absolute inset-1 border border-wood-border/20 pointer-events-none"></div>
+
+                <div className="relative z-10 flex flex-col gap-3">
+                  <h4 className="font-serif text-sm font-bold text-wood-text-primary truncate drop-shadow-sm">
                     {quiz.title || "უსათაურო ჩანახატი..."}
                   </h4>
-                  <div className="flex justify-between items-center pt-2 border-t border-wood-border/30">
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-wood-text-secondary bg-wood-surface px-2 py-0.5 rounded border border-wood-border/50">
-                      📋 {quiz.questionCount} კითხვა
+                  <div className="flex justify-between items-center pt-2 border-t border-wood-border/40">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-wood-text-secondary flex items-center gap-1">
+                      <span className="opacity-70">📋</span>{" "}
+                      {quiz.questionCount} კითხვა
                     </span>
                   </div>
                 </div>
 
-                <Link
-                  href={`/dashboard/create/${quiz.id}`}
-                  className="absolute inset-0 w-full h-full bg-wood-surface/40 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-all duration-300 rounded cursor-pointer flex items-center justify-end pr-4 text-wood-accent font-serif font-bold text-xs uppercase tracking-wider border border-wood-accent/50"
-                >
-                  გახსნა ➔
-                </Link>
+                <div className="absolute inset-0 w-full h-full bg-wood-base/90 backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-between px-3 z-20 border border-wood-accent/50 shadow-[inset_0_0_15px_rgba(0,0,0,0.6)]">
+                  <button
+                    disabled={isPending}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      if (confirm("ნამდვილად გსურთ ამ ჩანახატის წაშლა?")) {
+                        deleteQuiz(quiz.id);
+                      }
+                    }}
+                    className="flex items-center justify-center w-8 h-8 bg-red-950/60 hover:bg-red-900/80 text-red-400 hover:text-red-200 border border-red-900/50 hover:border-red-500/50 rounded shadow-md transition-all cursor-pointer"
+                    title="წაშლა"
+                  >
+                    🗑️
+                  </button>
 
-                <button
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (confirm("ნამდვილად გსურთ ამ ჩანახატის წაშლა?")) {
-                      deleteQuiz(quiz.id);
-                    }
-                  }}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center gap-1 px-2.5 py-1.5 bg-red-950/40 hover:bg-red-900/60 text-red-300 hover:text-red-100 border border-red-800/40 hover:border-red-700 rounded text-[11px] font-serif shadow-sm transition-colors cursor-pointer"
-                >
-                  🗑️ წაშლა
-                </button>
+                  <Link
+                    href={`/dashboard/create/${quiz.id}`}
+                    className="flex-grow flex items-center justify-end text-wood-accent hover:text-wood-text-primary font-serif font-bold text-[11px] uppercase tracking-widest transition-colors"
+                  >
+                    გახსნა <span className="ml-2 text-sm">➔</span>
+                  </Link>
+                </div>
               </div>
             ))
           )}

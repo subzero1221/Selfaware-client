@@ -1,7 +1,7 @@
 "use client";
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { apiClient, tryRefresh } from "@/lib/apiClient";
 import {
   SigninDto,
@@ -20,6 +20,7 @@ export interface ApiResponse<T> {
 
 export function useAuth() {
   const router = useRouter();
+  const pathname = usePathname();
   const queryClient = useQueryClient();
   const refreshFailed =
     typeof window !== "undefined" &&
@@ -37,9 +38,13 @@ export function useAuth() {
         return res.data;
       } catch {
         if (refreshFailed) return null;
+
         const refreshed = await tryRefresh();
+
         if (!refreshed) {
-          window.location.href = "/auth/signin";
+          if (pathname !== "/") {
+            window.location.href = "/auth/signin";
+          }
           return null;
         }
 

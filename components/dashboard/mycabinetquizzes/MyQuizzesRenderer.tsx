@@ -11,7 +11,7 @@ interface MyQuizzesRendererProps {
 }
 
 export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
-  const { mutate: deleteQuiz, isPending, error } = useQuizDelete();
+  const { mutate: deleteQuiz, isPending } = useQuizDelete();
 
   function handleDelete(quizId: string) {
     if (isPending) return;
@@ -26,22 +26,28 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
 
   return (
     <div className="relative w-full flex flex-col h-full">
-      <div className="border-b-2 border-wood-border-focus/40 pb-4 mb-6 relative flex justify-between items-end">
-        <h3 className="font-serif text-xl md:text-2xl font-bold tracking-wide text-wood-text-primary drop-shadow-md flex items-center gap-3">
-          <span className="text-2xl opacity-90 drop-shadow-lg">📚</span>
-          ჩემი ტესტები // My Quizzes
+      <div className="border-b-2 border-wood-border-focus/50 pb-5 mb-8 relative flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+        <h3 className="font-serif text-2xl md:text-3xl font-bold tracking-widest text-wood-text-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center gap-3">
+          <span className="text-3xl opacity-90 filter drop-shadow-lg">📚</span>
+          ჩემი ტესტები
         </h3>
-        <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-wood-border-focus/60 via-wood-border-focus/20 to-transparent"></div>
+        <span className="font-mono text-xs text-wood-text-secondary uppercase tracking-[0.2em] bg-wood-surface border border-wood-border px-3 py-1.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]">
+          Published // {quizzes?.length || 0}
+        </span>
+        <div className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-wood-accent/80 via-wood-border-focus/40 to-transparent"></div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5 xl:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:gap-8">
         {quizzes?.length === 0 ? (
-          <div className="col-span-full flex flex-col items-center justify-center min-h-[300px] border-2 border-dashed border-wood-border/40 rounded bg-wood-base/30 shadow-[inset_0_2px_8px_rgba(0,0,0,0.2)]">
-            <span className="text-4xl opacity-30 mb-4 grayscale">📦</span>
-            <p className="font-serif text-base font-semibold text-wood-text-muted">
+          <div className="col-span-full flex flex-col items-center justify-center min-h-[350px] border-2 border-dashed border-wood-border/40 bg-wood-base/40 shadow-[inset_0_4px_16px_rgba(0,0,0,0.3)] relative overflow-hidden">
+            <div className="absolute inset-2 border border-wood-border/20 pointer-events-none"></div>
+            <span className="text-5xl opacity-20 mb-5 grayscale drop-shadow-md">
+              📦
+            </span>
+            <p className="font-serif text-lg font-bold text-wood-text-muted drop-shadow-sm">
               ტესტები ჯერ არ გამოგიქვეყნებია
             </p>
-            <p className="font-mono text-xs text-wood-text-muted/60 mt-2 uppercase tracking-widest">
+            <p className="font-mono text-[11px] text-wood-text-muted/50 mt-2 uppercase tracking-[0.2em]">
               No published quizzes yet
             </p>
           </div>
@@ -49,55 +55,64 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
           quizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="group relative bg-wood-surface border-2 border-wood-border p-5 rounded shadow-[0_4px_8px_rgba(0,0,0,0.3),inset_0_1px_3px_rgba(255,255,255,0.05)] hover:border-wood-accent hover:shadow-[0_6px_12px_rgba(0,0,0,0.4)] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+              className="group relative bg-wood-surface border-[3px] border-wood-border p-1 shadow-[0_8px_16px_rgba(0,0,0,0.5),inset_0_1px_3px_rgba(255,255,255,0.05)] hover:border-wood-accent hover:shadow-[0_12px_24px_rgba(0,0,0,0.7)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col"
             >
-              <div className="mb-4">
-                <div className="flex justify-between items-start mb-3 gap-2">
-                  <h4 className="font-serif text-lg font-bold text-wood-text-primary group-hover:text-wood-accent transition-colors drop-shadow-sm line-clamp-2 leading-tight">
-                    {quiz.title || "უსათაურო ტესტი"}
-                  </h4>
-                  <span className="bg-wood-base px-2 py-1 rounded text-[10px] font-mono text-wood-text-secondary border border-wood-border shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] whitespace-nowrap uppercase tracking-wider">
-                    {quiz.quizType}
-                  </span>
-                </div>
-                <p className="text-xs font-mono text-wood-text-muted/80 line-clamp-2 leading-relaxed">
-                  {quiz.description || "აღწერა არ არის მითითებული..."}
-                </p>
-              </div>
+              <div className="relative border border-wood-border/40 p-5 flex flex-col flex-grow bg-wood-base/20">
+                <div className="mb-5 flex-grow">
+                  <div className="flex justify-between items-start mb-4 gap-3">
+                    <h4 className="font-serif text-lg md:text-xl font-bold text-wood-text-primary group-hover:text-wood-accent transition-colors drop-shadow-md line-clamp-2 leading-snug">
+                      {quiz.title || "უსათაურო ტესტი"}
+                    </h4>
 
-              <div className="mt-auto pt-4 border-t border-wood-border/40 flex items-center justify-between">
-                <div className="flex flex-col bg-wood-base/50 px-3 py-1.5 rounded border border-wood-border/30">
-                  <span className="text-[9px] font-serif uppercase tracking-widest text-wood-text-muted mb-0.5">
-                    კითხვები
-                  </span>
-                  <span className="font-mono text-sm text-wood-text-primary font-bold leading-none">
-                    {quiz.questionCount}
-                  </span>
+                    <span className="bg-wood-base px-2.5 py-1 text-[9px] font-mono font-bold text-wood-accent border border-wood-accent/30 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] whitespace-nowrap uppercase tracking-widest rounded-sm">
+                      {quiz.quizType}
+                    </span>
+                  </div>
+
+                  <div className="relative">
+                    <div className="absolute -left-2 top-0 bottom-0 w-[2px] bg-wood-border-focus/30"></div>
+                    <p className="text-[13px] font-serif text-wood-text-secondary/90 line-clamp-3 leading-relaxed pl-3 italic">
+                      {quiz.description || "აღწერა არ არის მითითებული..."}
+                    </p>
+                  </div>
                 </div>
 
-                <div className="flex gap-2">
-                  <Link
-                    href={`/dashboard/edit/${quiz.id}`}
-                    className="px-4 py-2 text-[10px] md:text-xs font-bold font-serif tracking-wider text-wood-text-primary uppercase bg-wood-base border-2 border-wood-border-focus rounded shadow-sm hover:bg-wood-surface-hover hover:border-wood-accent hover:text-wood-accent active:translate-y-px transition-all duration-200"
-                    title="ტესტის დეტალური ნახვა"
-                  >
-                    ნახვა ↵
-                  </Link>
+                <div className="mt-auto pt-4 border-t-2 border-wood-border/50 border-dashed flex items-end justify-between gap-2">
+                  <div className="flex flex-col bg-wood-base/80 px-3 py-2 rounded-sm border border-wood-border/50 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">
+                    <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-wood-text-muted mb-1">
+                      კითხვები
+                    </span>
+                    <span className="font-serif text-base text-wood-text-primary font-bold leading-none drop-shadow-sm">
+                      {quiz.questionCount}
+                    </span>
+                  </div>
 
-                  <Button
-                    icon={<MdDelete size={16} />}
-                    variant="danger"
-                    size="sm"
-                    title="ტესტის წაშლა"
-                    onClick={() => handleDelete(quiz.id)}
-                  />
+                  <div className="flex items-center gap-2">
+                    <Link
+                      href={`/dashboard/edit/${quiz.id}`}
+                      className="flex items-center justify-center px-4 py-2 h-[34px] text-[10px] md:text-[11px] font-bold font-serif tracking-widest text-wood-text-primary uppercase bg-wood-surface border border-wood-border-focus shadow-[0_2px_4px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:bg-wood-base hover:border-wood-accent hover:text-wood-accent active:translate-y-px transition-all duration-200"
+                      title="ტესტის დეტალური ნახვა"
+                    >
+                      ნახვა ↵
+                    </Link>
 
-                  <Button
-                    icon={<CiLink size={16} />}
-                    variant="outline"
-                    size="sm"
-                    title="ლინკის დაკავშირება"
-                  />
+                    <Button
+                      icon={<CiLink size={18} />}
+                      variant="outline"
+                      size="sm"
+                      title="ლინკის დაკავშირება"
+                      className="h-[34px] w-[34px] !p-0 flex items-center justify-center shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:border-wood-accent"
+                    />
+
+                    <Button
+                      icon={<MdDelete size={18} />}
+                      variant="danger"
+                      size="sm"
+                      title="ტესტის წაშლა"
+                      onClick={() => handleDelete(quiz.id)}
+                      className="h-[34px] w-[34px] !p-0 flex items-center justify-center shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
