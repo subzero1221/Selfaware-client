@@ -1,4 +1,3 @@
-import Button from "@/components/ui/Button";
 import { useEffect } from "react";
 
 interface ConfirmationModalProps {
@@ -25,74 +24,92 @@ export default function ConfirmModal({
   isLoading = false,
 }: ConfirmationModalProps) {
   useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
+    if (!isOpen) return;
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape" && !isLoading) onClose();
     };
-    if (isOpen) window.addEventListener("keydown", handleEscape);
-    return () => window.removeEventListener("keydown", handleEscape);
-  }, [isOpen, onClose]);
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, isLoading, onClose]);
 
   if (!isOpen) return null;
 
-  const getConfirmButtonStyles = () => {
-    if (variant === "danger") {
-      return "font-mono text-xs font-bold uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-900/40 bg-red-950/20 px-4 py-2 rounded-sm shadow-sm active:scale-95 transition-transform";
-    }
-    return "font-serif text-sm px-4 py-2 shadow-md border-2 border-wood-accent text-wood-accent-text active:scale-95 transition-transform";
+
+  const variantStyles = {
+    danger: "bg-[#EF476F] hover:bg-[#D93655]", 
+    warning: "bg-[#FFD166] hover:bg-[#E5BC5C]", 
+    primary: "bg-[#06D6A0] hover:bg-[#05C291]", 
   };
 
+  const currentVariantBg = variantStyles[variant] || variantStyles.danger;
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-200">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="confirm-modal-title"
+      aria-describedby="confirm-modal-description"
+      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-amber-950/60 backdrop-blur-sm animate-in fade-in duration-200"
+    >
+     
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 cursor-pointer"
         onClick={isLoading ? undefined : onClose}
       />
 
-      <div
-        className={`relative max-w-md w-full bg-wood-surface border-[6px] rounded-sm p-6 md:p-8 space-y-6 shadow-[0_10px_30px_rgba(0,0,0,0.9)] overflow-hidden animate-in zoom-in-95 duration-200 ${
-          variant === "danger" ? "border-red-900/50" : "border-wood-border"
-        }`}
-      >
-        <div className="absolute inset-0 border border-wood-border-focus/40 shadow-[inset_0_0_8px_rgba(0,0,0,0.6)] pointer-events-none"></div>
+  
+      <div className="relative w-full max-w-md bg-white border-4 border-amber-950 rounded-3xl p-6 md:p-8 flex flex-col shadow-[8px_8px_0_0_rgba(67,20,7,1)] overflow-hidden animate-in zoom-in-95 duration-200">
+      
+        <h2
+          id="confirm-modal-title"
+          className="text-xl font-black text-amber-950 mb-4 border-b-4 border-amber-950 pb-4 tracking-wide uppercase"
+        >
+          {title}
+        </h2>
 
-        <div className="flex flex-col gap-2 relative">
-          <h2 className="text-base md:text-lg font-serif font-bold text-wood-text-primary tracking-wide flex items-center gap-2">
-            <span
-              className={`w-2 h-2 rounded-full inline-block ${
-                variant === "danger"
-                  ? "bg-red-500 animate-pulse"
-                  : "bg-amber-500"
-              }`}
-            ></span>
-            {title}
-          </h2>
-          <p className="text-xs md:text-sm font-mono text-wood-text-secondary leading-relaxed bg-wood-base/40 p-3 rounded border border-wood-border/30 shadow-[inset_0_1px_4px_rgba(0,0,0,0.4)]">
-            {description}
-          </p>
-        </div>
+        <p
+          id="confirm-modal-description"
+          className="text-sm font-bold text-amber-950/80 mb-8 leading-relaxed"
+        >
+          {description}
+        </p>
 
-        <div className="flex items-center justify-end gap-3 pt-4 border-t border-wood-border-focus/20 relative">
-          <Button
-            variant="secondary"
+       
+        <div className="flex flex-col-reverse sm:flex-row items-center justify-end gap-4 mt-auto">
+    
+          <button
             type="button"
-            size="sm"
             disabled={isLoading}
             onClick={onClose}
-            className="font-mono text-xs font-bold uppercase tracking-wider px-4 py-2 rounded-sm shadow-sm border border-wood-border hover:bg-wood-base transition-colors"
+            className="w-full sm:w-auto py-3.5 px-6 rounded-2xl font-black text-sm tracking-widest uppercase transition-all flex items-center justify-center border-4 border-amber-950 shadow-[4px_6px_0_0_rgba(67,20,7,1)] bg-white hover:bg-gray-100 text-amber-950 border-b-[8px] active:border-b-4 active:translate-y-[4px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {cancelText}
-          </Button>
+          </button>
 
-          <Button
-            variant={variant === "danger" ? "danger" : "primary"}
+       
+          <button
             type="button"
-            size="sm"
             disabled={isLoading}
             onClick={onConfirm}
-            className={getConfirmButtonStyles()}
+            className={`w-full sm:w-auto py-3.5 px-6 rounded-2xl font-black text-sm tracking-widest uppercase transition-all flex items-center justify-center border-4 border-amber-950 shadow-[4px_6px_0_0_rgba(67,20,7,1)] text-amber-950 border-b-[8px] active:border-b-4 active:translate-y-[4px] cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${currentVariantBg}`}
           >
-            {isLoading ? "მიმდინარეობს..." : confirmText}
-          </Button>
+            {isLoading ? (
+              <div className="flex items-center gap-2">
+                <div className="w-4 h-4 border-2 border-amber-950 border-t-transparent rounded-full animate-spin" />
+                <span>მიმდინარეობს...</span>
+              </div>
+            ) : (
+              confirmText
+            )}
+          </button>
         </div>
       </div>
     </div>

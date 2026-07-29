@@ -1,11 +1,9 @@
 export default function LobbyHeader() {
   return (
-    <header className="relative w-full overflow-hidden flex flex-col items-center bg-wood-surface/80 backdrop-blur-md border border-wood-border/60 p-8 rounded-[2rem] mb-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)] text-center">
-      <div className="absolute top-0 right-1/4 w-64 h-64 bg-green-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div className="w-16 h-16 bg-green-500/20 border-2 border-green-400/50 rounded-full flex items-center justify-center mb-4 shadow-[0_0_15px_rgba(34,197,94,0.2)]">
+    <header className="relative w-full flex flex-col items-center bg-[#EF476F] border-4 border-amber-950 p-8 rounded-3xl mb-12 shadow-[4px_8px_0_0_rgba(67,20,7,1)] text-center -rotate-1 hover:rotate-0 transition-transform">
+      <div className="w-16 h-16 bg-white border-4 border-amber-950 rounded-2xl flex items-center justify-center mb-6 shadow-[0_4px_0_0_rgba(67,20,7,1)] -rotate-3 hover:scale-110 hover:rotate-12 transition-transform">
         <svg
-          className="w-8 h-8 text-green-400"
+          className="w-8 h-8 text-amber-950"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -13,22 +11,22 @@ export default function LobbyHeader() {
           <path
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth="3"
+            strokeWidth="4"
             d="M5 13l4 4L19 7"
           ></path>
         </svg>
       </div>
 
-      <h1 className="text-3xl md:text-4xl font-extrabold text-wood-text-secondary tracking-wide mb-2">
+      <h1 className="text-3xl md:text-5xl font-black text-white tracking-wide mb-4 drop-shadow-[0_4px_0_rgba(67,20,7,1)] uppercase">
         შენ თამაშში ხარ!
       </h1>
 
-      <div className="flex items-center gap-3 mt-2">
-        <span className="relative flex h-3 w-3">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-wood-accent opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-3 w-3 bg-wood-accent"></span>
+      <div className="flex items-center gap-3 mt-2 bg-white px-5 py-2.5 rounded-2xl border-4 border-amber-950 shadow-[4px_4px_0_0_rgba(67,20,7,1)] rotate-2">
+        <span className="relative flex h-4 w-4">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#06D6A0] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#06D6A0] border-2 border-amber-950"></span>
         </span>
-        <p className="text-sm font-semibold text-wood-text-secondary animate-pulse tracking-wide uppercase">
+        <p className="text-sm md:text-base font-black text-amber-950 tracking-wide uppercase">
           ველოდებით მოთამაშეებს...
         </p>
       </div>

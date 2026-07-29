@@ -1,37 +1,41 @@
 @import "tailwindcss";
 
 @theme {
-  /* ხე-სითბო*/
+  /* ხე-სითბო (DarkDefault)*/
 
-  /* 1. ბექგროუნდ  */
+  /* 1. ბექგროუნდი */
   --color-wood-base: #1a0d02;
 
-  /* 2. კონტაინერ/სექციებისთვის  */
+  /* 2. კონტეინერები/სექციები*/
   --color-wood-surface: #422201;
   --color-wood-surface-hover: #5a2f01;
+  --color-wood-background: #1a0d02;
 
-  /* წაშლის ღილაკის ფერები*/
+  /* წაშლის ღილაკის ფერები */
   --color-delete-surface: #a83232;
   --color-delete-hover: #ed0606;
 
-  /* 3. გამყოფები/ბორდერები  */
-  --color-wood-border: #6b3903;
+  /* 3. სექციებ/ბორდერები */
+  --color-wood-border: #874d0f;
   --color-wood-border-focus: #8c4b04;
 
   --color-delete-border: #c24141;
   --color-delete-border-focus: #c24141;
 
-  /* 4. ტექსტებისთვის  */
-  --color-wood-text-primary: #faf6f2;
-  --color-wood-text-secondary: #e3d5ca;
-  --color-wood-text-muted: #a38f81;
+  /* 4. ტექსტებითვინ */
+  --color-wood-text-primary: #fff9ed;
+  --color-wood-text-secondary: #d4b694;
+  --color-wood-text-muted: #9e8268;
 
-  /* 5. განსაკუთრებულად გამოყოფილი ტექსტებისთვის/აქცენტებისთვის  */
+  /* 5. აქცენტები */
   --color-wood-accent: #f59e0b;
   --color-wood-accent-glow: rgba(245, 158, 11, 0.15);
 
-  /* 6. tamashis ferebi*/
+  /* 5.2. შედოვები */
+  --color-wood-shadow: rgba(0, 0, 0, 0.75);
+  --color-wood-section-shadow: rgba(126, 59, 0, 0.7);
 
+  /* 6. თამაშის ფერები */
   --color-opt-red: #a84343;
   --color-opt-red-hover: #bf4d4d;
 
@@ -45,8 +49,8 @@
   --color-opt-green-hover: #5a9154;
 }
 
-/* სინათლის თემა
-*/
+/* სინათლის თემა (Light Mode)*/
+
 .light {
   --color-wood-base: #fdfbf7;
   --color-wood-surface: #f4eae1;
@@ -56,21 +60,27 @@
   --color-wood-text-primary: #1a0d02;
   --color-wood-text-secondary: #422201;
   --color-wood-text-muted: #7a624e;
+  --color-wood-shadow: rgba(138, 107, 61, 0.75);
+  --color-wood-section-shadow: rgba(67,20,7,1);
 }
 
-/* სექსი სხეულითვინ :D */
+/* გლობალ სტილები*/
+
+:root {
+  color-scheme: dark;
+}
+
+.light {
+  color-scheme: light;
+}
+
 html,
 body {
   background-color: var(--color-wood-base);
   color: var(--color-wood-text-primary);
   font-feature-settings: "lnum" 1;
   transition:
-    background-color 0.2s ease,
-    color 0.2s ease,
-    border-color 0.2s ease;
-}
-
-:root {
-  color-scheme: dark;
-  background-color: var(--color-wood-base);
+    background-color 0.3s ease,
+    color 0.3s ease,
+    border-color 0.3s ease;
 }

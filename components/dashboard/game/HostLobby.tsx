@@ -10,17 +10,19 @@ export default function HostLobbyPage() {
 
   if (isLoading || !lobby) {
     return (
-      <div className="min-h-screen bg-wood-base flex items-center justify-center text-wood-text-muted font-sans">
-        <div className="flex flex-col items-center gap-3">
-          <div className="w-8 h-8 border-4 border-wood-accent border-t-transparent rounded-full animate-spin"></div>
-          <p className="tracking-widest uppercase text-sm">იტვირთება ლობი...</p>
+      <div className="min-h-screen bg-wood-base flex items-center justify-center text-amber-950 font-sans selection:bg-[#FFD166] selection:text-amber-950">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 rounded-full border-4 border-amber-950 border-t-[#FFD166] animate-spin" />
+          <p className="tracking-widest uppercase font-black text-xl drop-shadow-[0_2px_0_rgba(67,20,7,1)] text-white">
+            იტვირთება ლობი...
+          </p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-wood-base text-wood-text-primary p-6 md:p-12 font-sans flex flex-col justify-between max-w-5xl mx-auto w-full selection:bg-violet-500/30 selection:text-white">
+    <div className="min-h-screen bg-wood-base text-amber-950 p-6 md:p-12 font-sans flex flex-col justify-between max-w-5xl mx-auto w-full selection:bg-[#FFD166] selection:text-amber-950">
       <HostLobbyHeader
         joinCode={lobby.joinCode}
         playerCount={lobby.players.length}

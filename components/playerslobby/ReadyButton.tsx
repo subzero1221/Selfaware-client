@@ -15,18 +15,18 @@ export default function ReadyButton({
   );
 
   return (
-    <div className="w-full flex justify-center mb-6">
+    <div className="w-full flex justify-center mb-10">
       {isCurrentlyReady ? (
         <button
           onClick={() => sendNotReadySignal()}
-          className="px-8 py-4 rounded-full cursor-pointer font-bold text-lg transition-all shadow-lg active:scale-95 bg-wood-border/50 text-wood-text-primary hover:bg-wood-border/70 border border-wood-border"
+          className="bg-[#EF476F] cursor-pointer hover:bg-[#D83A5D] text-white border-4 border-amber-950 border-b-[8px] active:border-b-4 active:translate-y-[4px] px-10 py-5 rounded-[32px] font-black text-xl tracking-wide text-center transition-all flex items-center justify-center gap-3 shrink-0 -rotate-1 hover:rotate-0 shadow-[4px_8px_0_0_rgba(67,20,7,1)] hover:shadow-[4px_6px_0_0_rgba(67,20,7,1)] uppercase"
         >
           მზადყოფნის გაუქმება
         </button>
       ) : (
         <button
           onClick={() => sendReadySignal()}
-          className="px-8 py-4 rounded-full cursor-pointer font-bold text-lg transition-all shadow-lg active:scale-95 bg-green-600 hover:bg-green-500 text-white shadow-[0_0_20px_rgba(22,163,74,0.4)]"
+          className="bg-[#06D6A0] cursor-pointer hover:bg-[#05C291] text-amber-950 border-4 border-amber-950 border-b-[8px] active:border-b-4 active:translate-y-[4px] px-10 py-5 rounded-[32px] font-black text-xl tracking-wide text-center transition-all flex items-center justify-center gap-3 shrink-0 rotate-1 hover:rotate-0 shadow-[4px_8px_0_0_rgba(67,20,7,1)] hover:shadow-[4px_6px_0_0_rgba(67,20,7,1)] uppercase"
         >
           მზად ვარ!
         </button>

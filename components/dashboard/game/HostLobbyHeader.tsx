@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { FaRegCopyright } from "react-icons/fa";
+import { FaRegCopy } from "react-icons/fa";
 import { IoMdDoneAll } from "react-icons/io";
 
 interface LobbyHeaderProps {
@@ -17,48 +17,43 @@ export default function HostLobbyHeader({
 
   const copyPin = async () => {
     await navigator.clipboard.writeText(joinCode);
-
     setCopied(true);
-
     setTimeout(() => setCopied(false), 2000);
   };
 
   return (
-    <header className="relative overflow-hidden flex flex-col md:flex-row justify-between items-center bg-wood-surface/80 backdrop-blur-md border border-wood-border/60 p-8 rounded-[2rem] mb-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)]">
-      <div className="absolute top-0 left-1/4 w-64 h-64 bg-violet-500/5 rounded-full blur-3xl pointer-events-none"></div>
-
-      <div className="relative mb-6 md:mb-0 text-center md:text-left z-10">
-        <p className="text-xs text-wood-text-muted uppercase tracking-[0.2em] font-semibold mb-2">
+    <header className="relative flex flex-col md:flex-row justify-between items-center bg-wood-surface border-4 border-wood-border p-6 sm:p-8 rounded-3xl mb-8 shadow-[8px_8px_0_0_var(--color-wood-section-shadow)] gap-6">
+      <div className="relative text-center md:text-left z-10">
+        <p className="text-xs font-black text-wood-text-secondary uppercase tracking-[0.2em] mb-1">
           შესასვლელი PIN კოდი
         </p>
 
         <div className="flex items-center gap-4 justify-center md:justify-start">
-          <h1 className="text-6xl md:text-7xl font-mono font-extrabold text-wood-accent tracking-widest drop-shadow-sm">
+          <h1 className="text-5xl md:text-7xl font-mono font-black text-wood-text-secondary tracking-widest drop-shadow-[0_4px_4px_0_0_var(--color-wood-shadow)]">
             {joinCode}
           </h1>
 
           <button
             onClick={copyPin}
-            className="p-2 mb-12 cursor-pointer text-2xl text-wood-text-muted hover:text-white transition-colors"
+            className="p-3 bg-[#FFD166] hover:bg-[#F2C249] border-3 border-wood-border rounded-2xl shadow-[0_4px_4px_0_0_var(--color-wood-section-shadow)] active:translate-y-[2px] active:shadow-none transition-all text-amber-950 text-xl font-bold cursor-pointer"
             title="PIN-ის კოპირება"
           >
-            {copied ? <IoMdDoneAll /> : <FaRegCopyright />}
+            {copied ? <IoMdDoneAll /> : <FaRegCopy />}
           </button>
         </div>
       </div>
 
-      <div className="relative flex flex-col items-center md:items-end z-10 bg-wood-base/50 py-4 px-6 rounded-2xl border border-wood-border/40">
+      <div className="relative flex flex-col items-center md:items-end bg-[#FFD166] py-3 px-6 rounded-2xl border-4 border-wood-border shadow-[4px_4px_0_0_var(--color-wood-section-shadow)]">
         <div className="flex items-center gap-2 mb-1">
           <span className="relative flex h-3 w-3">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-
-            <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#06D6A0] opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-[#06D6A0] border border-wood-border"></span>
           </span>
-
-          <p className="text-sm text-wood-text-muted">მოთამაშე</p>
+          <p className="text-xs font-black text-wood-text-primary uppercase tracking-wider">
+            მოთამაშე
+          </p>
         </div>
-
-        <span className="text-wood-text-secondary font-bold text-4xl leading-none">
+        <span className="text-wood-text-primary font-black text-4xl leading-none">
           {playerCount}
         </span>
       </div>
