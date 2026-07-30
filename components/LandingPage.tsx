@@ -18,7 +18,7 @@ const HeroCanvas = dynamic(() => import("@/components/canvas/HeroCanvas"), {
 export default function LandingPage() {
   return (
     <div className="dark select-none bg-wood-base relative min-h-screen w-full text-amber-950 flex flex-col font-sans selection:bg-[#FFD166] selection:text-amber-950 overflow-hidden">
-      <HeroCanvas />
+     <HeroCanvas />
 
       <main className="relative z-10 pointer-events-none flex-1 max-w-6xl w-full mx-auto px-6 flex flex-col justify-center py-16 md:py-28">
         <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#EF476F] border-4 border-amber-950 text-white text-sm md:text-base font-black shadow-[4px_4px_0_0_rgba(67,20,7,1)] mb-10 -rotate-2 hover:rotate-1 transition-transform origin-left w-fit">

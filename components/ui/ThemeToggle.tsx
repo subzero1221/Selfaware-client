@@ -1,11 +1,7 @@
 "use client";
 
 import { useTheme } from "@wrksz/themes/client";
-import {  MdNightlight } from "react-icons/md";
-import { CiLight } from "react-icons/ci";
-    
-
-
+import { Moon, Sun } from "lucide-react";
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme();
@@ -13,9 +9,28 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="px-3 py-1.5 border border-wood-border cursor-pointer rounded-lg font-mono text-lg text-wood-text-secondary hover:bg-wood-surface-hover transition-all"
+      aria-label="Toggle Theme"
+      className="
+        group flex items-center justify-center p-2.5 bg-[#FFD166] hover:bg-[#FFC436] 
+        text-amber-950 rounded-xl transition-all 
+        border-[3px] border-amber-950 border-b-[5px] active:border-b-[3px] active:translate-y-[2px]
+        shadow-[3px_4px_0_0_var(--color-wood-section-shadow)] hover:shadow-[2px_2px_0_0_var(--color-wood-section-shadow)]
+        rotate-2 hover:rotate-0 cursor-pointer
+      "
     >
-      {theme === "dark" ? <MdNightlight/> : <CiLight />}
+      {theme === "dark" ? (
+        <Moon
+          size={22}
+          strokeWidth={3}
+          className="group-hover:-rotate-12 transition-transform"
+        />
+      ) : (
+        <Sun
+          size={22}
+          strokeWidth={3}
+          className="group-hover:rotate-12 transition-transform"
+        />
+      )}
     </button>
   );
 }

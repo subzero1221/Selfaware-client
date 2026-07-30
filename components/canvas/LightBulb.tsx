@@ -1,15 +1,16 @@
 "use client";
-
 import { useGLTF, Resize } from "@react-three/drei";
+import { useMemo } from "react";
 import Throwable from "./Throwable";
 
 export default function LightBulb() {
   const { scene } = useGLTF("/models/lightbulb.glb");
+  const cloned = useMemo(() => scene.clone(), [scene]);
 
   return (
     <Throwable initialPosition={[-2, 1, 0]} padding={0.3}>
       <Resize scale={0.3}>
-        <primitive object={scene} />
+        <primitive object={cloned} />
       </Resize>
     </Throwable>
   );

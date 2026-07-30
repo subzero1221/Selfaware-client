@@ -4,7 +4,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { useAuth } from "@/hooks/useAuth";
 import { VscSignOut } from "react-icons/vsc";
 import dynamic from "next/dynamic";
-import Logo3D from "./Logo3D";
+import Logo from "./Logo";
 
 const LobbyHeaderButton = dynamic(
   () => import("../playerslobby/LobbyHeaderButton"),
@@ -13,17 +13,21 @@ const LobbyHeaderButton = dynamic(
   },
 );
 
+
+
 export default function Header() {
-  const { user, leave, isLeaving, leaveError } = useAuth();
+  const { user, leave, isLeaving } = useAuth();
 
   return (
     <nav className="sticky top-0 z-50 w-full bg-wood-surface border-b-[6px] border-wood-border h-24 flex items-center justify-between px-6 lg:px-10 shadow-[0_8px_0_0_var(--tw-shadow-color)] shadow-wood-border/10 font-sans transition-all">
       <div className="flex items-center gap-2">
         <Link href="/" className="group flex items-center">
           <span className="font-black text-3xl md:text-4xl tracking-tight uppercase text-wood-accent drop-shadow-sm group-hover:scale-105 group-hover:-rotate-2 transition-transform origin-left">
-            Selfaware
+            ჩაპა
           </span>
-          <Logo3D />
+          <span className="hidden md:inline-block  font-black text-lg md:text-xl tracking-tight uppercase text-wood-text-primary drop-shadow-sm group-hover:scale-105 group-hover:-rotate-2 transition-transform origin-left">
+            <Logo />
+          </span>
         </Link>
       </div>
 
@@ -35,10 +39,6 @@ export default function Header() {
         <div className="hidden sm:block w-1.5 h-10 bg-wood-border/30 rounded-full rotate-3"></div>
 
         <div className="hidden sm:flex items-center gap-5">
-          <span className="text-xs md:text-sm font-black text-wood-text-muted uppercase tracking-widest hidden lg:block">
-            ორგანიზატორი ხართ?
-          </span>
-
           {user ? (
             <div className="flex items-center gap-3">
               <Link
@@ -59,15 +59,21 @@ export default function Header() {
               </button>
             </div>
           ) : (
-            <Link
-              href="/auth/signin"
-              className="group flex items-center gap-2 px-8 py-3.5 bg-wood-text-primary hover:opacity-90 text-wood-primary border-4 border-wood-border border-b-[8px] active:border-b-4 active:translate-y-[4px] rounded-2xl font-black text-sm md:text-base uppercase tracking-widest transition-all shadow-[4px_6px_0_0_var(--tw-shadow-color)] hover:shadow-[4px_8px_0_0_var(--tw-shadow-color)] shadow-wood-border rotate-1 hover:rotate-0"
-            >
-              შესვლა
-              <span className="group-hover:translate-x-1 group-hover:scale-110 transition-all text-lg leading-none font-bold">
-                →
+            <div className="flex items-center gap-3">
+              {" "}
+              <span className="text-xs md:text-sm font-black text-wood-text-muted uppercase tracking-widest hidden lg:block">
+                ორგანიზატორი ხართ?
               </span>
-            </Link>
+              <Link
+                href="/auth/signin"
+                className="group flex items-center gap-2 px-8 py-3.5 bg-wood-surface-primary hover:opacity-90 text-wood-primary border-4 border-wood-border border-b-[8px] active:border-b-4 active:translate-y-[4px] rounded-2xl font-black text-sm md:text-base uppercase tracking-widest transition-all shadow-[4px_6px_0_0_var(--tw-shadow-color)] hover:shadow-[4px_8px_0_0_var(--tw-shadow-color)] shadow-wood-border rotate-1 hover:rotate-0"
+              >
+                შესვლა
+                <span className="group-hover:translate-x-1 group-hover:scale-110 transition-all text-lg leading-none font-bold">
+                  →
+                </span>
+              </Link>
+            </div>
           )}
         </div>
       </div>

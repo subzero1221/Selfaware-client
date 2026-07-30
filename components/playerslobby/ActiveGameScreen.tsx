@@ -6,6 +6,7 @@ import useGame from "@/hooks/game/useGame";
 import useGameTimer from "@/hooks/game/useGameTimer";
 import { GameDto } from "@/types/dtos/game";
 import { useCallback } from "react";
+import { Target, Timer, CheckCircle } from "lucide-react";
 
 interface ActiveGameScreenProps {
   game: GameDto;
@@ -13,11 +14,32 @@ interface ActiveGameScreenProps {
   playerId: string;
 }
 
+
 const OPTION_STYLES = [
-  { bg: "bg-opt-red hover:bg-opt-red-hover", shape: "▲" },
-  { bg: "bg-opt-blue hover:bg-opt-blue-hover", shape: "◆" },
-  { bg: "bg-opt-yellow hover:bg-opt-yellow-hover", shape: "●" },
-  { bg: "bg-opt-green hover:bg-opt-green-hover", shape: "■" },
+  {
+    bg: "bg-opt-red hover:bg-opt-red-hover",
+    text: "text-white",
+    shape: "▲",
+    rotate: "-rotate-1",
+  },
+  {
+    bg: "bg-opt-blue hover:bg-opt-blue-hover",
+    text: "text-white",
+    shape: "◆",
+    rotate: "rotate-1",
+  },
+  {
+    bg: "bg-opt-yellow hover:bg-opt-yellow-hover",
+    text: "text-amber-950",
+    shape: "●",
+    rotate: "-rotate-1",
+  },
+  {
+    bg: "bg-opt-green hover:bg-opt-green-hover",
+    text: "text-white",
+    shape: "■",
+    rotate: "rotate-2",
+  },
 ];
 
 export default function ActiveGameScreen({
@@ -45,8 +67,6 @@ export default function ActiveGameScreen({
     (player) => player.playerId == playerId,
   );
 
-  console.log("Timeleft", liveGame.timeLeft);
-
   const hasAnswered = Currentplayer?.state === 1;
   const { sendShowLeaderBoardSignal } = useShowLeaderBoard(joinCode, playerId);
 
@@ -66,104 +86,117 @@ export default function ActiveGameScreen({
   const timePercentage = (timeLeft / (timeLimitSeconds || 30)) * 100;
 
   return (
-    <div className="flex flex-col min-h-screen justify-between p-4 md:p-8 max-w-7xl mx-auto w-full select-none">
-      <header className="flex justify-between items-center bg-wood-surface/40 backdrop-blur border border-wood-border/40 p-4 rounded-2xl mb-6 shadow-md">
-        <div className="flex flex-col">
-          <p className="text-xs text-wood-text-muted uppercase tracking-wider font-semibold">
-            პროგრესი
-          </p>
-          <span className="text-xl font-bold text-wood-text-secondary font-mono">
-            {currentQuestionIndex + 1} / {totalQuestions}
-          </span>
-        </div>
+    <div className="dark select-none bg-wood-base relative min-h-screen w-full text-wood-text-primary flex flex-col font-sans overflow-hidden transition-colors duration-300">
+      <div className="flex flex-col min-h-screen justify-between p-4 md:p-8 max-w-6xl mx-auto w-full relative z-10">
+    
+        <header className="flex justify-between items-center mb-8">
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#EF476F] border-4 border-wood-border text-white font-black shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-2">
+            <Target size={20} strokeWidth={4} />
+            <span className="uppercase tracking-wider text-sm md:text-base drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]">
+              კითხვა {currentQuestionIndex + 1} / {totalQuestions}
+            </span>
+          </div>
 
-        <div className="relative flex items-center justify-center h-14 w-14 rounded-full bg-wood-base border-2 border-wood-accent shadow-[0_0_15px_rgba(245,158,11,0.2)]">
-          <span
-            className={`text-xl font-mono font-black ${
-              timeLeft <= 5 ? "text-red-500 animate-ping" : "text-wood-accent"
-            }`}
-          >
-            {timeLeft}
-          </span>
-        </div>
-      </header>
-
-      {!hasAnswered ? (
-        <>
-          <main className="flex-grow flex flex-col justify-center items-center my-4">
-            <div className="w-full bg-wood-surface/80 backdrop-blur-md border-2 border-wood-border/60 rounded-[2.5rem] p-8 md:p-12 text-center shadow-[0_12px_40px_rgba(0,0,0,0.15)] relative overflow-hidden">
-              <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-96 bg-wood-accent/5 rounded-full blur-3xl pointer-events-none"></div>
-              <h2 className="text-2xl md:text-4xl font-extrabold text-wood-text-primary leading-snug tracking-wide relative z-10">
-                {currentQuestion.text}
-              </h2>
-            </div>
-          </main>
-
-          <div className="w-full h-2 bg-wood-surface rounded-full mb-6 overflow-hidden border border-wood-border/20">
-            <div
-              className="h-full bg-gradient-to-r from-wood-accent to-amber-500 transition-all duration-1000 ease-linear"
-              style={{ width: `${timePercentage}%` }}
+          <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#FFD166] border-4 border-wood-border text-amber-950 font-black shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-2">
+            <Timer
+              size={24}
+              strokeWidth={3}
+              className={timeLeft <= 5 ? "animate-pulse text-red-600" : ""}
             />
+            <span
+              className={`text-xl tracking-widest font-mono ${timeLeft <= 5 ? "text-red-600" : ""}`}
+            >
+              {timeLeft}
+            </span>
           </div>
+        </header>
 
-          <footer className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full h-[320px] md:h-[260px]">
-            {currentQuestion.options.map((option, index) => {
-              const style = OPTION_STYLES[index % OPTION_STYLES.length];
-              return (
-                <button
-                  key={option.id}
-                  onClick={() => handleSubmitAnswer(option.id)}
-                  disabled={timeLeft === 0}
-                  className={`group flex items-center gap-4 px-6 h-full rounded-2xl text-white font-bold text-lg md:text-xl text-left shadow-lg transition-all active:scale-[0.98] cursor-pointer disabled:opacity-30 disabled:pointer-events-none ${style.bg}`}
-                >
-                  <span className="flex items-center justify-center bg-white/20 text-white text-2xl w-12 h-12 rounded-xl backdrop-blur-sm group-hover:scale-110 transition-transform font-mono shadow-inner">
-                    {style.shape}
-                  </span>
-                  <span className="flex-1 line-clamp-2 drop-shadow-sm font-medium tracking-wide">
-                    {option.text}
-                  </span>
-                </button>
-              );
-            })}
-          </footer>
-        </>
-      ) : (
-        <>
-          <main className="flex-grow flex flex-col justify-center items-center my-4 w-full">
-            <div className="w-full max-w-2xl bg-wood-surface/60 backdrop-blur border border-wood-border/40 rounded-[2.5rem] p-12 text-center shadow-lg flex flex-col items-center justify-center gap-6 animate-fade-in">
-              <div className="h-20 w-20 rounded-full bg-emerald-500/10 border-2 border-emerald-500 flex items-center justify-center text-emerald-400 text-4xl animate-bounce shadow-[0_0_20px_rgba(16,185,129,0.2)]">
-                ✓
+        {!hasAnswered ? (
+          <>
+            
+            <main className="flex-grow flex flex-col justify-center items-center my-4 w-full">
+              <div className="w-full bg-wood-surface border-4 border-wood-border rounded-[2.5rem] p-8 md:p-16 text-center shadow-[8px_12px_0_0_var(--color-wood-section-shadow)] transform transition-transform hover:-translate-y-2 mb-8">
+                <h2 className="text-3xl md:text-5xl font-black tracking-wide text-wood-text-primary drop-shadow-[0_4px_0_var(--color-wood-shadow)] md:drop-shadow-[0_6px_0_var(--color-wood-shadow)] leading-relaxed">
+                  {currentQuestion.text}
+                </h2>
               </div>
+            </main>
 
-              <h2 className="text-2xl md:text-3xl font-black text-wood-text-primary tracking-wide">
-                პასუხი მიღებულია!
-              </h2>
-
-              <p className="text-wood-text-muted text-md md:text-lg max-w-sm">
-                შენი არჩევანი წარმატებით ჩაიწერა. ველოდებით სხვა მოთამაშეების
-                პასუხებს...
-              </p>
-
-              <div className="flex gap-2 items-center justify-center mt-2">
-                <span className="h-3 w-3 rounded-full bg-wood-accent animate-bounce [animation-delay:-0.3s]"></span>
-                <span className="h-3 w-3 rounded-full bg-wood-accent animate-bounce [animation-delay:-0.15s]"></span>
-                <span className="h-3 w-3 rounded-full bg-wood-accent animate-bounce"></span>
-              </div>
+          
+            <div className="w-full h-8 bg-wood-surface rounded-full mb-8 overflow-hidden border-4 border-wood-border shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1">
+              <div
+                className="h-full bg-[#06D6A0] border-r-4 border-wood-border transition-all duration-1000 ease-linear"
+                style={{ width: `${timePercentage}%` }}
+              />
             </div>
-          </main>
 
-          <div className="w-full h-2 bg-wood-surface rounded-full mb-6 overflow-hidden border border-wood-border/20">
-            <div
-              className="h-full bg-gradient-to-r from-emerald-500 to-teal-500 transition-all duration-1000 ease-linear"
-              style={{ width: `${timePercentage}%` }}
-            />
-          </div>
+          
+            <footer className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full pb-6">
+              {currentQuestion.options.map((option, index) => {
+                const style = OPTION_STYLES[index % OPTION_STYLES.length];
+                return (
+                  <button
+                    key={option.id}
+                    onClick={() => handleSubmitAnswer(option.id)}
+                    disabled={timeLeft === 0}
+                    className={`
+                      group relative w-full cursor-pointer flex items-center gap-4 px-6 py-6 md:py-8 rounded-3xl font-black text-xl md:text-2xl text-left transition-all
+                      border-4 border-wood-border border-b-[8px] active:border-b-4 active:translate-y-[4px] 
+                      shadow-[4px_8px_0_0_var(--color-wood-section-shadow)] hover:shadow-[4px_6px_0_0_var(--color-wood-section-shadow)]
+                      disabled:opacity-50 disabled:pointer-events-none disabled:translate-y-[4px] disabled:border-b-4 disabled:shadow-[4px_4px_0_0_var(--color-wood-section-shadow)]
+                      ${style.bg} ${style.text} ${style.rotate} hover:rotate-0
+                    `}
+                  >
+                    <span className="flex items-center justify-center bg-white/20 border-2 border-wood-border/30 w-14 h-14 rounded-2xl group-hover:scale-110 group-hover:-rotate-12 transition-transform shadow-[0_4px_0_0_rgba(0,0,0,0.1)]">
+                      {style.shape}
+                    </span>
+                    <span className="flex-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)] leading-tight tracking-wide">
+                      {option.text}
+                    </span>
+                  </button>
+                );
+              })}
+            </footer>
+          </>
+        ) : (
+          <>
+        
+            <main className="flex-grow flex flex-col justify-center items-center my-4 w-full">
+              <div className="w-full max-w-2xl bg-[#06D6A0] border-4 border-wood-border rounded-[3rem] p-12 md:p-16 text-center shadow-[8px_12px_0_0_var(--color-wood-section-shadow)] flex flex-col items-center justify-center gap-8 -rotate-1 hover:rotate-1 transition-transform duration-500 animate-fade-in">
+                <div className="w-24 h-24 rounded-3xl bg-white border-4 border-wood-border flex items-center justify-center text-[#06D6A0] shadow-[0_6px_0_0_var(--color-wood-section-shadow)] animate-bounce">
+                  <CheckCircle size={48} strokeWidth={4} />
+                </div>
 
-          <div className="h-[120px] md:h-[80px] w-full text-center text-xs text-wood-text-muted/40 font-mono flex items-center justify-center">
-            სესიის კოდი: {joinCode}
-          </div>
-        </>
-      )}
+                <div className="space-y-4">
+                  <h2 className="text-4xl md:text-5xl font-black text-amber-950 uppercase tracking-wider drop-shadow-[0_2px_0_rgba(255,255,255,0.5)]">
+                    პასუხი მიღებულია!
+                  </h2>
+                  <p className="text-amber-900 font-bold text-lg md:text-xl max-w-md mx-auto leading-relaxed">
+                    შენი არჩევანი წარმატებით ჩაიწერა. ველოდებით სხვა
+                    მოთამაშეების პასუხებს...
+                  </p>
+                </div>
+
+                <div className="flex gap-3 items-center justify-center mt-4">
+                  <span className="h-4 w-4 border-2 border-wood-border rounded-full bg-white animate-bounce shadow-[0_2px_0_0_var(--color-wood-section-shadow)] [animation-delay:-0.3s]"></span>
+                  <span className="h-4 w-4 border-2 border-wood-border rounded-full bg-white animate-bounce shadow-[0_2px_0_0_var(--color-wood-section-shadow)] [animation-delay:-0.15s]"></span>
+                  <span className="h-4 w-4 border-2 border-wood-border rounded-full bg-white animate-bounce shadow-[0_2px_0_0_var(--color-wood-section-shadow)]"></span>
+                </div>
+              </div>
+            </main>
+
+
+            <footer className="w-full flex justify-center pb-8">
+              <div className="bg-wood-surface border-4 border-wood-border px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-1">
+                <p className="text-wood-text-primary font-bold tracking-widest uppercase">
+                  სესიის კოდი:{" "}
+                  <span className="text-[#FFD166]">{joinCode}</span>
+                </p>
+              </div>
+            </footer>
+          </>
+        )}
+      </div>
     </div>
   );
 }

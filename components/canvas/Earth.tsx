@@ -1,4 +1,4 @@
-import { useGLTF, Float, Resize } from "@react-three/drei";
+import { useGLTF, Resize } from "@react-three/drei";
 import Throwable from "./Throwable";
 
 export default function Earth() {

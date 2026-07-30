@@ -1,0 +1,79 @@
+export default function Logo() {
+  return (
+    <svg
+      width="80"
+      height="80"
+      viewBox="0 0 200 200"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <circle
+        cx="100"
+        cy="80"
+        r="52"
+        fill="#FFD166"
+        stroke="#431407"
+        strokeWidth="6"
+      />
+      <path
+        d="M78 128 L122 128 L122 148 Q122 156 114 156 L86 156 Q78 156 78 148 Z"
+        fill="#EFAA2E"
+        stroke="#431407"
+        strokeWidth="6"
+      />
+      <rect x="82" y="160" width="36" height="10" rx="3" fill="#431407" />
+      <rect x="86" y="172" width="28" height="8" rx="3" fill="#431407" />
+      <path
+        d="M85 62 Q92 52 100 62 Q108 72 100 82 Q92 92 100 102"
+        fill="none"
+        stroke="#431407"
+        strokeWidth="5"
+        strokeLinecap="round"
+      />
+      <line
+        x1="100"
+        y1="16"
+        x2="100"
+        y2="30"
+        stroke="#431407"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      <line
+        x1="152"
+        y1="28"
+        x2="142"
+        y2="38"
+        stroke="#431407"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      <line
+        x1="48"
+        y1="28"
+        x2="58"
+        y2="38"
+        stroke="#431407"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      <line
+        x1="168"
+        y1="80"
+        x2="154"
+        y2="80"
+        stroke="#431407"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+      <line
+        x1="32"
+        y1="80"
+        x2="46"
+        y2="80"
+        stroke="#431407"
+        strokeWidth="6"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
