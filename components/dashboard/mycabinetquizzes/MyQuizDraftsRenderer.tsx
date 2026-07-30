@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
-import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
+import useDeleteDraftQuiz from "@/hooks/Quizzes/useDeleteDraftQuiz";
 
 interface MyQuizDraftsRendererProps {
   quizzes: QuizDetailResponse[];
@@ -10,7 +10,7 @@ interface MyQuizDraftsRendererProps {
 export default function MyQuizDraftsRenderer({
   quizzes,
 }: MyQuizDraftsRendererProps) {
-  const { mutate: deleteQuiz, isPending } = useQuizDelete();
+  const { mutate: deleteQuiz, isPending } = useDeleteDraftQuiz();
 
   return (
     <div className="relative w-full bg-wood-surface border-[3px] border-wood-border rounded-sm shadow-[0_12px_24px_rgba(0,0,0,0.6)] overflow-hidden transition-colors duration-300 min-h-[500px] flex flex-col">

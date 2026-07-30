@@ -3,15 +3,15 @@ import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
 import { CiLink } from "react-icons/ci";
 import { MdDelete } from "react-icons/md";
-import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
 import Button from "@/components/ui/Button";
+import useDeleteDraftQuiz from "@/hooks/Quizzes/useDeleteDraftQuiz";
 
 interface MyQuizzesRendererProps {
   quizzes: QuizDetailResponse[];
 }
 
 export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
-  const { mutate: deleteQuiz, isPending } = useQuizDelete();
+  const { mutate: deleteQuiz, isPending } = useDeleteDraftQuiz();
 
   function handleDelete(quizId: string) {
     if (isPending) return;
