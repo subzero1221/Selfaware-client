@@ -23,33 +23,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="ka" suppressHydrationWarning>
-      <head>
-        <link
-          rel="preload"
-          href="/models/lightbulb.glb"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/models/dna.glb"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/models/trex.glb"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-        <link
-          rel="preload"
-          href="/models/earth.glb"
-          as="fetch"
-          crossOrigin="anonymous"
-        />
-      </head>
-
       <body className={`${notoGeorgian.variable} font-sans`}>
         <UseQueryProvider>
           <ThemeProvider>

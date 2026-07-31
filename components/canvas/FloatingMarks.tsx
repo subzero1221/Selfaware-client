@@ -1,4 +1,4 @@
-import { Text, Float } from "@react-three/drei";
+import { Html, Float } from "@react-three/drei";
 
 export default function FloatingMarks() {
   const marks = [
@@ -8,6 +8,7 @@ export default function FloatingMarks() {
     { char: "✕", pos: [0, 2.8, -4], color: "#f43f5e", size: 0.7 },
     { char: "✔", pos: [2.8, 0, -2], color: "#34d399", size: 0.8 },
     { char: "✕", pos: [2, 0.8, -4], color: "#f43f5e", size: 0.7 },
+    { char: "?", pos: [0.5, 1.2, -3], color: "#bbbb24", size: 0.9 },
   ];
 
   return (
@@ -15,18 +16,22 @@ export default function FloatingMarks() {
       {marks.map((m, i) => (
         <Float
           key={i}
-          speed={1.8}
+          speed={2.8}
           rotationIntensity={1.5}
           floatIntensity={2}
           position={m.pos as [number, number, number]}
         >
-          <Text
-            fontSize={m.size}
-            color={m.color}
-            fillOpacity={0.4}
-          >
-            {m.char}
-          </Text>
+          <Html key={i} center className="pointer-events-none select-none">
+            <span
+              className="font-serif font-bold"
+              style={{
+                color: m.color,
+                fontSize: `${m.size * 5.5}rem`,
+              }}
+            >
+              {m.char}
+            </span>
+          </Html>
         </Float>
       ))}
     </group>

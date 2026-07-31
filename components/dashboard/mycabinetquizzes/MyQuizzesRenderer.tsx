@@ -1,10 +1,9 @@
 "use client";
+
 import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
-import { CiLink } from "react-icons/ci";
-import { MdDelete } from "react-icons/md";
-import Button from "@/components/ui/Button";
 import useDeleteDraftQuiz from "@/hooks/Quizzes/useDeleteDraftQuiz";
+import { BookOpen, Link2, Trash2, PackageOpen, Eye } from "lucide-react";
 
 interface MyQuizzesRendererProps {
   quizzes: QuizDetailResponse[];
@@ -25,29 +24,29 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
   }
 
   return (
-    <div className="relative w-full flex flex-col h-full">
-      <div className="border-b-2 border-wood-border-focus/50 pb-5 mb-8 relative flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
-        <h3 className="font-serif text-2xl md:text-3xl font-bold tracking-widest text-wood-text-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] flex items-center gap-3">
-          <span className="text-3xl opacity-90 filter drop-shadow-lg">📚</span>
+    <div className="w-full flex flex-col font-sans">
+      <div className="border-b-4 border-brutal-dark pb-5 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h3 className="text-3xl font-black tracking-tight text-wood-text-primary flex items-center gap-3">
+          <BookOpen size={32} strokeWidth={3} className="text-brutal-green" />
           ჩემი ტესტები
         </h3>
-        <span className="font-mono text-xs text-wood-text-secondary uppercase tracking-[0.2em] bg-wood-surface border border-wood-border px-3 py-1.5 shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]">
-          Published // {quizzes?.length || 0}
+        <span className="bg-brutal-green border-2 border-brutal-dark text-brutal-dark font-black text-xs px-4 py-1.5 rounded-xl shadow-[3px_3px_0_0_rgba(67,20,7,1)] uppercase">
+          გამოქვეყნებული: {quizzes?.length || 0}
         </span>
-        <div className="absolute bottom-[-2px] left-0 w-full h-[2px] bg-gradient-to-r from-wood-accent/80 via-wood-border-focus/40 to-transparent"></div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 xl:gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {quizzes?.length === 0 ? (
-          <div className="col-span-full flex flex-col items-center justify-center min-h-[350px] border-2 border-dashed border-wood-border/40 bg-wood-base/40 shadow-[inset_0_4px_16px_rgba(0,0,0,0.3)] relative overflow-hidden">
-            <div className="absolute inset-2 border border-wood-border/20 pointer-events-none"></div>
-            <span className="text-5xl opacity-20 mb-5 grayscale drop-shadow-md">
-              📦
-            </span>
-            <p className="font-serif text-lg font-bold text-wood-text-muted drop-shadow-sm">
+          <div className="col-span-full flex flex-col items-center justify-center min-h-[350px] border-4 border-dashed border-wood-border rounded-3xl bg-wood-surface/50 p-8 text-center">
+            <PackageOpen
+              size={64}
+              strokeWidth={2}
+              className="text-wood-text-muted mb-4 opacity-50"
+            />
+            <p className="font-black text-xl text-wood-text-primary">
               ტესტები ჯერ არ გამოგიქვეყნებია
             </p>
-            <p className="font-mono text-[11px] text-wood-text-muted/50 mt-2 uppercase tracking-[0.2em]">
+            <p className="font-bold text-xs text-wood-text-muted mt-2 uppercase tracking-widest">
               No published quizzes yet
             </p>
           </div>
@@ -55,64 +54,64 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
           quizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="group relative bg-wood-surface border-[3px] border-wood-border p-1 shadow-[0_8px_16px_rgba(0,0,0,0.5),inset_0_1px_3px_rgba(255,255,255,0.05)] hover:border-wood-accent hover:shadow-[0_12px_24px_rgba(0,0,0,0.7)] hover:-translate-y-1.5 transition-all duration-300 flex flex-col"
+              className="group bg-wood-surface border-4 border-brutal-dark rounded-3xl p-6 shadow-[6px_6px_0_0_rgba(67,20,7,1)] hover:-translate-y-1 hover:shadow-[8px_8px_0_0_rgba(67,20,7,1)] transition-all duration-200 flex flex-col justify-between min-h-[260px]"
             >
-              <div className="relative border border-wood-border/40 p-5 flex flex-col flex-grow bg-wood-base/20">
-                <div className="mb-5 flex-grow">
-                  <div className="flex justify-between items-start mb-4 gap-3">
-                    <h4 className="font-serif text-lg md:text-xl font-bold text-wood-text-primary group-hover:text-wood-accent transition-colors drop-shadow-md line-clamp-2 leading-snug">
-                      {quiz.title || "უსათაურო ტესტი"}
-                    </h4>
+              <div>
+                <div className="flex justify-between items-start mb-4 gap-3">
+                  <h4 className="text-xl font-black text-wood-text-secondary line-clamp-2 leading-tight">
+                    {quiz.title || "უსათაურო ტესტი"}
+                  </h4>
 
-                    <span className="bg-wood-base px-2.5 py-1 text-[9px] font-mono font-bold text-wood-accent border border-wood-accent/30 shadow-[inset_0_2px_4px_rgba(0,0,0,0.6)] whitespace-nowrap uppercase tracking-widest rounded-sm">
-                      {quiz.quizType}
-                    </span>
-                  </div>
-
-                  <div className="relative">
-                    <div className="absolute -left-2 top-0 bottom-0 w-[2px] bg-wood-border-focus/30"></div>
-                    <p className="text-[13px] font-serif text-wood-text-secondary/90 line-clamp-3 leading-relaxed pl-3 italic">
-                      {quiz.description || "აღწერა არ არის მითითებული..."}
-                    </p>
-                  </div>
+                  <span className="shrink-0 bg-brutal-yellow text-wood-text-primary font-black text-[10px] uppercase border-2 border-brutal-dark px-2.5 py-1 rounded-lg shadow-[2px_2px_0_0_rgba(67,20,7,1)]">
+                    {quiz.quizType || "Quiz"}
+                  </span>
                 </div>
 
-                <div className="mt-auto pt-4 border-t-2 border-wood-border/50 border-dashed flex items-end justify-between gap-2">
-                  <div className="flex flex-col bg-wood-base/80 px-3 py-2 rounded-sm border border-wood-border/50 shadow-[inset_0_1px_3px_rgba(0,0,0,0.4)]">
-                    <span className="text-[8px] font-mono uppercase tracking-[0.2em] text-wood-text-muted mb-1">
-                      კითხვები
-                    </span>
-                    <span className="font-serif text-base text-wood-text-primary font-bold leading-none drop-shadow-sm">
-                      {quiz.questionCount}
-                    </span>
-                  </div>
+                <p className="text-sm font-bold text-wood-text-secondary line-clamp-3 leading-relaxed italic mb-6">
+                  {quiz.description || "აღწერა არ არის მითითებული..."}
+                </p>
+              </div>
 
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`/dashboard/edit/${quiz.id}`}
-                      className="flex items-center justify-center px-4 py-2 h-[34px] text-[10px] md:text-[11px] font-bold font-serif tracking-widest text-wood-text-primary uppercase bg-wood-surface border border-wood-border-focus shadow-[0_2px_4px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.05)] hover:bg-wood-base hover:border-wood-accent hover:text-wood-accent active:translate-y-px transition-all duration-200"
-                      title="ტესტის დეტალური ნახვა"
-                    >
-                      ნახვა ↵
-                    </Link>
+              <div className="pt-4 border-t-4 border-wood-border flex items-center justify-between gap-2">
+                <div className="bg-wood-base border-2 border-brutal-dark px-3 py-1.5 rounded-xl shadow-[2px_2px_0_0_rgba(67,20,7,1)] flex flex-col items-center">
+                  <span className="text-[9px] font-black uppercase text-wood-text-muted leading-none">
+                    კითხვა
+                  </span>
+                  <span className="text-base font-black text-wood-text-primary leading-tight">
+                    {quiz.questionCount}
+                  </span>
+                </div>
 
-                    <Button
-                      icon={<CiLink size={18} />}
-                      variant="outline"
-                      size="sm"
-                      title="ლინკის დაკავშირება"
-                      className="h-[34px] w-[34px] !p-0 flex items-center justify-center shadow-[0_2px_4px_rgba(0,0,0,0.4)] hover:border-wood-accent"
-                    />
+                <div className="flex items-center gap-2">
+                  <Link
+                    href={`/dashboard/edit/${quiz.id}`}
+                    className="flex items-center gap-1.5 px-3.5 py-2.5 bg-brutal-blue text-white font-black text-xs uppercase tracking-wider rounded-xl border-2 border-brutal-dark shadow-[2px_2px_0_0_rgba(67,20,7,1)] hover:bg-brutal-blue/90 active:translate-y-px active:shadow-none transition-all"
+                    title="ტესტის დეტალური ნახვა"
+                  >
+                    <Eye size={16} strokeWidth={3} />
+                    <span>ნახვა</span>
+                  </Link>
 
-                    <Button
-                      icon={<MdDelete size={18} />}
-                      variant="danger"
-                      size="sm"
-                      title="ტესტის წაშლა"
-                      onClick={() => handleDelete(quiz.id)}
-                      className="h-[34px] w-[34px] !p-0 flex items-center justify-center shadow-[0_2px_4px_rgba(0,0,0,0.4)]"
-                    />
-                  </div>
+                  <button
+                    onClick={() => {
+                      navigator.clipboard.writeText(
+                        `${window.location.origin}/quiz/${quiz.id}`,
+                      );
+                      alert("ლინკი დაკოპირებულია!");
+                    }}
+                    className="w-10 h-10 bg-brutal-yellow text-brutal-dark border-2 border-brutal-dark rounded-xl flex items-center justify-center shadow-[2px_2px_0_0_rgba(67,20,7,1)] hover:bg-yellow-400 active:translate-y-px active:shadow-none transition-all cursor-pointer"
+                    title="ლინკის დაკავშირება"
+                  >
+                    <Link2 size={18} strokeWidth={3} />
+                  </button>
+
+                  <button
+                    onClick={() => handleDelete(quiz.id)}
+                    className="w-10 h-10 bg-brutal-red text-white border-2 border-brutal-dark rounded-xl flex items-center justify-center shadow-[2px_2px_0_0_rgba(67,20,7,1)] hover:bg-red-600 active:translate-y-px active:shadow-none transition-all cursor-pointer"
+                    title="ტესტის წაშლა"
+                  >
+                    <Trash2 size={18} strokeWidth={3} />
+                  </button>
                 </div>
               </div>
             </div>

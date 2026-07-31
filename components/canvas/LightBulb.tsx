@@ -5,12 +5,11 @@ import Throwable from "./Throwable";
 
 export default function LightBulb() {
   const { scene } = useGLTF("/models/lightbulb.glb");
-  const cloned = useMemo(() => scene.clone(), [scene]);
 
   return (
-    <Throwable initialPosition={[-2, 1, 0]} padding={0.3}>
+    <Throwable initialPosition={[-2, 2, 0]} padding={0.3}>
       <Resize scale={0.3}>
-        <primitive object={cloned} />
+        <primitive object={scene} />
       </Resize>
     </Throwable>
   );

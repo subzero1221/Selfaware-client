@@ -5,6 +5,7 @@ import useLobby from "@/hooks/game/useLobby";
 
 import CreateLobbyView from "./CreateLobby";
 import ActiveLobby from "./ActiveLobby";
+import { Gamepad2, Loader2 } from "lucide-react";
 
 export default function Lobby() {
   const { data: lobbyData, isLoading } = useLobby();
@@ -14,25 +15,33 @@ export default function Lobby() {
     e.preventDefault();
     createLobby();
   };
-  console.log(lobbyData)
+
   const activePin = lobbyData?.joinCode;
 
   return (
-    <div className="relative max-w-xl w-full bg-wood-surface border-[6px] border-wood-border rounded-sm shadow-[0_2px_5px_rgba(0,0,0,0.8)] overflow-hidden transition-colors duration-300">
-      <div className="absolute inset-0 border border-wood-border-focus/50 shadow-[inset_0_0_5px_rgba(0,0,0,0.6)] pointer-events-none transition-colors duration-300"></div>
-
-      <div className="relative p-8 flex flex-col">
-        <div className="border-b-2 border-wood-border-focus/40 pb-4 mb-6 relative">
-          <h3 className="font-serif text-xl font-bold tracking-wide text-wood-text-primary drop-shadow-md flex items-center gap-3">
-            <span className="text-2xl drop-shadow-lg">🎮</span>
-            თამაშის მართვა (Lobby)
+    <div className="w-full max-w-xl mx-auto bg-wood-surface border-4 border-brutal-dark rounded-3xl shadow-[8px_8px_0_var(--color-wood-section-shadow)] overflow-hidden font-sans selection:bg-brutal-yellow selection:text-brutal-dark transition-colors duration-300">
+      <div className="p-6 md:p-8 flex flex-col">
+        <div className="pb-5 mb-8 flex items-center gap-4">
+          <div className="bg-brutal-yellow p-2 border-2 border-brutal-dark rounded-xl shadow-[3px_3px_0_var(--color-wood-section-shadow)] -rotate-3">
+            <Gamepad2
+              size={32}
+              strokeWidth={2.5}
+              className="text-brutal-dark"
+            />
+          </div>
+          <h3 className="text-2xl md:text-3xl font-black tracking-tight text-wood-text-secondary uppercase">
+            თამაშის მართვა
           </h3>
-          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-wood-border-focus to-transparent"></div>
         </div>
 
         {isLoading ? (
-          <div className="flex justify-center items-center py-10">
-            <span className="text-sm font-serif italic text-wood-text-muted/70 animate-pulse">
+          <div className="flex flex-col items-center justify-center py-16 gap-4">
+            <Loader2
+              size={48}
+              strokeWidth={3}
+              className="text-brutal-blue animate-spin"
+            />
+            <span className="text-lg font-black uppercase text-brutal-dark tracking-widest animate-pulse">
               მონაცემები იტვირთება...
             </span>
           </div>

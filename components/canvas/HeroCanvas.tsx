@@ -17,6 +17,11 @@ export default function HeroCanvas() {
         camera={{ position: [0, 0, 6], fov: 45 }}
         style={{ pointerEvents: "auto" }}
         className="pointer-events-auto absolute inset-0 z-0 h-full w-full"
+        gl={{
+          powerPreference: "high-performance",
+          antialias: true,
+          failIfMajorPerformanceCaveat: false,
+        }}
       >
         <ambientLight intensity={0.8} />
         <directionalLight position={[10, 10, 5]} intensity={1.5} />

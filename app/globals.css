@@ -6,19 +6,18 @@
   /* 1. ბექგროუნდი */
   --color-wood-base: #1a0d02;
 
-  /* 2. კონტეინერები/სექციები*/
+  /* 2. კონტები/სექციები*/
   --color-wood-surface: #422201;
   --color-wood-surface-hover: #5a2f01;
   --color-wood-background: #1a0d02;
 
-  /* წაშლის ღილაკის ფერები */
+  /* წაშლის  ფერები */
   --color-delete-surface: #a83232;
   --color-delete-hover: #ed0606;
 
   /* 3. სექციებ/ბორდერები */
   --color-wood-border: #874d0f;
   --color-wood-border-focus: #8c4b04;
-
   --color-delete-border: #c24141;
   --color-delete-border-focus: #c24141;
 
@@ -33,24 +32,27 @@
 
   /* 5.2. შედოვები */
   --color-wood-shadow: rgba(0, 0, 0, 0.75);
-  --color-wood-section-shadow: rgba(126, 59, 0, 0.7);
-
+  --color-wood-section-shadow: rgba(168, 79, 1, 0.7);
+ /*rgba(126, 59, 0, 0.7)
   /* 6. თამაშის ფერები */
   --color-opt-red: #a84343;
   --color-opt-red-hover: #bf4d4d;
-
   --color-opt-blue: #3a6b7b;
   --color-opt-blue-hover: #457e91;
-
   --color-opt-yellow: #d9822b;
   --color-opt-yellow-hover: #ed9138;
-
   --color-opt-green: #4d7c48;
   --color-opt-green-hover: #5a9154;
+
+  /* 7. NEO-BRUTALISM  */
+  --color-brutal-red: #EF476F;
+  --color-brutal-green: #06D6A0;
+  --color-brutal-yellow: #FFD166;
+  --color-brutal-blue: #118AB2;
+  --color-brutal-dark: #3E1E04;
 }
 
-/* სინათლის თემა (Light Mode)*/
-
+/* სინათლის თემა  */
 .light {
   --color-wood-base: #fdfbf7;
   --color-wood-surface: #f4eae1;
@@ -62,6 +64,7 @@
   --color-wood-text-muted: #7a624e;
   --color-wood-shadow: rgba(138, 107, 61, 0.75);
   --color-wood-section-shadow: rgba(67,20,7,1);
+  --color-brutal-dark: #1a0d02;
 }
 
 /* გლობალ სტილები*/

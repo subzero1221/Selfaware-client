@@ -1,11 +1,15 @@
+"use client";
 import React, { useState, useMemo } from "react";
-import { QuizDetailResponse } from "@/types/dtos/quiz";
+import { AiOption, QuizDetailResponse } from "@/types/dtos/quiz";
+import { Check, ArrowRight, ArrowLeft } from "lucide-react";
 
 interface QuizRunnerProps {
   quiz: QuizDetailResponse;
 }
 
-export default function QuizRunner({ quiz }: QuizRunnerProps) {
+export default function SingleQuizRendererForDashboard({
+  quiz,
+}: QuizRunnerProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
 
@@ -16,7 +20,7 @@ export default function QuizRunner({ quiz }: QuizRunnerProps) {
   const currentOptions = useMemo(() => {
     if (!currentQuestion) return [];
     try {
-      return JSON.parse(currentQuestion.optionsJson) as string[];
+      return currentQuestion.options as AiOption[];
     } catch (e) {
       console.error("Failed to parse options JSON", e);
       return [];
@@ -36,38 +40,37 @@ export default function QuizRunner({ quiz }: QuizRunnerProps) {
   if (!currentQuestion) return null;
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-wood-surface p-4">
-      <div className="relative max-w-3xl w-full bg-wood-surface border-[6px] border-wood-border rounded-sm shadow-[0_10px_30px_rgba(0,0,0,0.9)] overflow-hidden">
-        <div className="absolute inset-0 border border-wood-border-focus/40 shadow-[inset_0_0_50px_rgba(0,0,0,0.7)] pointer-events-none"></div>
-
-        <div className="relative p-8 md:p-10 flex flex-col min-h-[500px]">
-          <div className="border-b-2 border-wood-border-focus/50 pb-6 mb-8 flex flex-col md:flex-row justify-between items-start md:items-end gap-4 relative">
-            <div>
-              <h2 className="font-serif text-2xl font-bold tracking-wide text-wood-text-primary drop-shadow-md">
+    <div className="flex justify-center items-center min-h-screen bg-wood-base p-4 sm:p-8 selection:bg-brutal-yellow selection:text-brutal-dark font-sans">
+      <div className="relative max-w-3xl w-full bg-wood-surface border-4 border-brutal-dark rounded-3xl shadow-[8px_12px_0_0_rgba(67,20,7,1)] flex flex-col min-h-[600px] z-10">
+        <div className="p-6 md:p-10 flex flex-col flex-grow">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6 mb-10">
+            <div className="max-w-xl">
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-wood-text-primary drop-shadow-[0_2px_0_rgba(67,20,7,1)] leading-tight mb-2">
                 {quiz.title}
               </h2>
-              <p className="font-mono text-sm text-wood-text-muted mt-2">
+              <p className="font-bold text-lg text-wood-text-muted">
                 {quiz.description}
               </p>
             </div>
 
-            <div className="bg-wood-base border-2 border-wood-border px-4 py-2 rounded shadow-[inset_0_2px_8px_rgba(0,0,0,0.8)] flex items-center gap-2">
-              <span className="text-[10px] font-serif uppercase tracking-widest text-wood-text-secondary">
-                კითხვა (Q)
+            <div className="shrink-0 bg-brutal-yellow border-4 border-brutal-dark px-4 py-2 rounded-xl shadow-[4px_4px_0_0_rgba(67,20,7,1)] flex items-center gap-2 rotate-2 hover:rotate-0 transition-transform cursor-default">
+              <span className="text-sm font-black uppercase tracking-widest text-brutal-dark">
+                კითხვა
               </span>
-              <span className="font-mono text-lg font-bold text-wood-accent drop-shadow-[0_0_5px_rgba(255,165,0,0.5)]">
+              <div className="text-xl font-black text-brutal-dark bg-white px-2 py-0.5 rounded border-2 border-brutal-dark">
                 {String(currentIndex + 1).padStart(2, "0")}
-              </span>
-              <span className="font-mono text-wood-text-muted">/</span>
-              <span className="font-mono text-wood-text-primary">
+              </div>
+              <span className="text-brutal-dark font-black">/</span>
+              <span className="text-brutal-dark font-black">
                 {String(quiz.questionCount).padStart(2, "0")}
               </span>
             </div>
           </div>
 
           <div className="flex-grow flex flex-col gap-8">
-            <div className="bg-wood-base/50 border border-wood-border p-6 rounded shadow-inner">
-              <h3 className="font-serif text-xl text-wood-text-primary leading-relaxed drop-shadow-sm">
+            <div className="bg-white border-4 border-brutal-dark p-6 md:p-8 rounded-2xl shadow-[4px_4px_0_0_rgba(67,20,7,1)] -rotate-1 relative">
+              <div className="absolute -top-4 -left-4 w-8 h-8 bg-brutal-blue border-4 border-brutal-dark rounded-full shadow-[2px_2px_0_0_rgba(67,20,7,1)]"></div>
+              <h3 className="text-xl md:text-2xl font-black text-brutal-dark leading-relaxed">
                 {currentQuestion.text}
               </h3>
             </div>
@@ -80,12 +83,13 @@ export default function QuizRunner({ quiz }: QuizRunnerProps) {
                   <label
                     key={idx}
                     className={`
-                      relative flex items-center p-4 cursor-pointer transition-all duration-200
-                      border-2 rounded shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)]
+                      group relative flex items-center p-4 md:p-5 cursor-pointer transition-all duration-200
+                      border-4 rounded-2xl shadow-[4px_4px_0_0_rgba(67,20,7,1)]
+                      hover:-translate-y-1 hover:shadow-[4px_6px_0_0_rgba(67,20,7,1)] active:translate-y-[2px] active:shadow-[2px_2px_0_0_rgba(67,20,7,1)]
                       ${
                         isSelected
-                          ? "bg-wood-surface-hover border-wood-accent text-wood-accent shadow-[0_0_15px_rgba(217,119,6,0.15)]"
-                          : "bg-wood-base border-wood-border text-wood-text-primary hover:border-wood-border-focus hover:bg-wood-surface/50"
+                          ? "bg-brutal-green border-brutal-dark text-brutal-dark z-10 scale-[1.01]"
+                          : "bg-wood-base border-brutal-dark text-wood-text-primary hover:bg-wood-surface-hover"
                       }
                     `}
                   >
@@ -100,16 +104,22 @@ export default function QuizRunner({ quiz }: QuizRunnerProps) {
 
                     <div
                       className={`
-                      w-5 h-5 rounded-full border-2 mr-4 flex-shrink-0 flex items-center justify-center transition-colors
-                      ${isSelected ? "border-wood-accent" : "border-wood-text-muted/50"}
-                    `}
+                        w-8 h-8 rounded-lg border-4 mr-5 flex-shrink-0 flex items-center justify-center transition-colors bg-white
+                        ${isSelected ? "border-brutal-dark" : "border-brutal-dark opacity-50 group-hover:opacity-100"}
+                      `}
                     >
                       {isSelected && (
-                        <div className="w-2.5 h-2.5 rounded-full bg-wood-accent drop-shadow-[0_0_3px_rgba(217,119,6,0.8)]" />
+                        <Check
+                          size={20}
+                          strokeWidth={4}
+                          className="text-brutal-dark"
+                        />
                       )}
                     </div>
 
-                    <span className="font-mono text-sm leading-snug">
+                    <span
+                      className={`text-lg font-bold leading-snug ${isSelected ? "text-brutal-dark" : ""}`}
+                    >
                       {option}
                     </span>
                   </label>
@@ -118,26 +128,37 @@ export default function QuizRunner({ quiz }: QuizRunnerProps) {
             </div>
           </div>
 
-          <div className="mt-10 pt-6 border-t-2 border-wood-border-focus/30 flex justify-between items-center">
+          <div className="mt-12 flex justify-between items-center gap-4">
             <button
               onClick={handlePrev}
               disabled={isFirstQuestion}
               className={`
-                px-6 py-2.5 font-serif font-bold tracking-wider uppercase text-sm rounded transition-all duration-200
+                flex items-center gap-2 px-6 py-4 font-black tracking-wider uppercase text-base rounded-2xl transition-all duration-200 border-4 border-b-[8px]
                 ${
                   isFirstQuestion
-                    ? "opacity-30 cursor-not-allowed bg-wood-base text-wood-text-muted border-2 border-transparent"
-                    : "bg-wood-base border-2 border-wood-border text-wood-text-primary shadow-md hover:border-wood-border-focus hover:text-wood-accent active:translate-y-px"
+                    ? "opacity-50 cursor-not-allowed bg-wood-base text-wood-text-muted border-brutal-dark/50"
+                    : "bg-white text-brutal-dark border-brutal-dark hover:bg-gray-100 active:border-b-4 active:translate-y-[4px]"
                 }
               `}
             >
-              ← უკან (Prev)
+              <ArrowLeft size={20} strokeWidth={3} />
+              <span className="hidden sm:inline">უკან</span>
             </button>
+
             <button
               onClick={handleNext}
-              className="px-8 py-2.5 bg-wood-surface border-2 border-wood-border-focus text-wood-text-primary font-serif font-bold tracking-wider uppercase text-sm rounded shadow-lg hover:bg-wood-surface-hover hover:border-wood-accent hover:text-wood-accent active:translate-y-px transition-all duration-200"
+              disabled={isLastQuestion}
+              className={`
+                flex items-center gap-2 px-8 py-4 font-black tracking-wider uppercase text-base rounded-2xl transition-all duration-200 border-4 border-b-[8px]
+                ${
+                  isLastQuestion
+                    ? "opacity-50 cursor-not-allowed bg-wood-base text-wood-text-muted border-brutal-dark/50"
+                    : "bg-brutal-blue text-white border-brutal-dark shadow-[4px_0_0_0_rgba(67,20,7,1)] hover:bg-brutal-blue/90 active:border-b-4 active:translate-y-[4px]"
+                }
+              `}
             >
-              შემდეგი (Next) →
+              <span>შემდეგი</span>
+              <ArrowRight size={20} strokeWidth={3} />
             </button>
           </div>
         </div>
