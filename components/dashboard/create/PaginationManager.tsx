@@ -25,16 +25,15 @@ export default function PaginationManager({
   if (totalItems === 0) return null;
 
   return (
-    <div className="flex flex-col sm:flex-row justify-between items-center bg-wood-surface border-[4px] border-wood-border p-4 rounded shadow-[0_3px_6px_rgba(0,0,0,0.6)] gap-4 transition-colors">
-  
-      <div className="flex items-center gap-3">
-        <label className="text-xs font-serif font-bold text-wood-text-secondary uppercase tracking-wider drop-shadow-sm">
-          ჩვენება // Show:
+    <div className="flex flex-col sm:flex-row justify-between items-center bg-brutal-blue border-4 border-brutal-dark p-4 md:p-6 rounded-3xl shadow-[4px_8px_0_0_var(--color-brutal-dark)] gap-6 transition-all -rotate-1 hover:rotate-0">
+      <div className="flex items-center gap-4 bg-white px-4 py-2 rounded-2xl border-4 border-brutal-dark shadow-[4px_4px_0_0_var(--color-brutal-dark)]">
+        <label className="text-sm font-black text-brutal-dark uppercase tracking-wider">
+          ჩვენება:
         </label>
         <select
           value={pageSize}
           onChange={handlePageSizeChange}
-          className="bg-wood-base border-2 border-wood-border rounded px-2 py-1 text-sm font-mono text-wood-text-primary shadow-[inset_0_1px_3px_rgba(0,0,0,0.5)] focus:outline-none focus:border-wood-accent cursor-pointer"
+          className="bg-transparent text-base font-black text-brutal-dark focus:outline-none cursor-pointer"
         >
           <option value={5}>5</option>
           <option value={10}>10</option>
@@ -47,21 +46,21 @@ export default function PaginationManager({
         <button
           onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
           disabled={currentPage === 1}
-          className="px-4 py-2 bg-wood-base border-2 border-wood-border rounded text-xs font-serif font-bold uppercase tracking-wider text-wood-text-primary shadow-sm hover:border-wood-accent hover:text-wood-accent disabled:opacity-40 disabled:cursor-not-allowed transition-all active:translate-y-px"
+          className="px-5 py-3 cursor-pointer bg-brutal-yellow border-4 border-brutal-dark rounded-2xl text-sm font-black uppercase tracking-wider text-brutal-dark shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:scale-105 active:scale-95 active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] disabled:opacity-50 disabled:pointer-events-none transition-all rotate-2"
         >
-          ⬅️ უკან
+          უკან
         </button>
 
-        <span className="font-mono text-sm text-wood-text-primary bg-wood-base/50 px-3 py-1 rounded border border-wood-border/40 shadow-[inset_0_1px_2px_rgba(0,0,0,0.3)]">
+        <span className="font-black text-lg text-white bg-brutal-dark px-4 py-2 rounded-xl shadow-inner border-2 border-white/20">
           {currentPage} / {totalPages}
         </span>
 
         <button
           onClick={() => setCurrentPage((p) => Math.min(totalPages, p + 1))}
           disabled={currentPage >= totalPages}
-          className="px-4 py-2 bg-wood-base border-2 border-wood-border rounded text-xs font-serif font-bold uppercase tracking-wider text-wood-text-primary shadow-sm hover:border-wood-accent hover:text-wood-accent disabled:opacity-40 disabled:cursor-not-allowed transition-all active:translate-y-px"
+          className="px-5 py-3 cursor-pointer bg-brutal-green border-4 border-brutal-dark rounded-2xl text-sm font-black uppercase tracking-wider text-white shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:scale-105 active:scale-95 active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] disabled:opacity-50 disabled:pointer-events-none transition-all -rotate-2"
         >
-          შემდეგი ➡️
+          შემდეგი
         </button>
       </div>
     </div>

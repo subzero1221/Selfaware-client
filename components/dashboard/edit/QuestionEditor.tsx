@@ -2,9 +2,11 @@ import Button from "@/components/ui/Button";
 import { QuestionDto } from "@/types/dtos/quiz";
 import { useState } from "react";
 import OptionEditor from "./OptionEditor";
+import QuestionImagePreview from "./QuestionImagePreview";
 import useEditQuestion from "@/hooks/Quizzes/useEditQuestion";
 import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
 import ConfirmModal from "@/components/ui/ConfirmModal";
+import ImageUploader from "@/components/dashboard/create/ImageUploader";
 
 interface QuestionEditorProps {
   question: QuestionDto;
@@ -29,7 +31,7 @@ export default function QuestionEditor({
     question.id,
   );
 
-  const [currentQuestion, setCurrentQuestion] = useState<QuestionDto>(question);
+  const [currentQuestion, setCurrentQuestion] = useState(question);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
 
@@ -62,10 +64,20 @@ export default function QuestionEditor({
     }));
   };
 
-  const handleQuestionSave = () => {
-    editQuestion(currentQuestion);
-    console.log("updating question:", currentQuestion);
+  const handleImageChange = (data: {
+    imageUrl: string | null;
+    publicId: string | null;
+  }) => {
+    setCurrentQuestion((prev) => ({
+      ...prev,
+      imageUrl: data.imageUrl || undefined,
+      imagePublicId: data.publicId || undefined,
+    }));
+  };
 
+  const handleQuestionSave = () => {
+    console.log("Saving question:", currentQuestion);
+    editQuestion(currentQuestion);
     setQuestions((prev) =>
       prev.map((q) => (q.id == currentQuestion.id ? currentQuestion : q)),
     );
@@ -83,55 +95,57 @@ export default function QuestionEditor({
 
   return (
     <div
-      className={`relative bg-wood-surface border-[6px] rounded-sm shadow-[0_3px_6px_rgba(0,0,0,0.8)] p-6 md:p-8 overflow-hidden transition-all duration-300 space-y-6 ${
+      className={`relative bg-white border-4 border-brutal-dark rounded-3xl p-6 md:p-8 transition-all duration-300 space-y-6 ${
         isEditing
-          ? "border-wood-accent/70 shadow-[0_0_15px_rgba(214,142,57,0.2)]"
-          : "border-wood-border"
-      }`}
+          ? "shadow-[6px_12px_0_0_var(--color-brutal-dark)] -translate-y-2 ring-4 ring-brutal-blue/20"
+          : "shadow-[6px_8px_0_0_var(--color-brutal-dark)] hover:-translate-y-2 hover:shadow-[6px_12px_0_0_var(--color-brutal-dark)]"
+      } group`}
     >
-      <div className="absolute inset-0 border border-wood-border-focus/40 shadow-[inset_0_0_6px_rgba(0,0,0,0.5)] pointer-events-none"></div>
+      <button
+        onClick={() => setDeleteModal(true)}
+        className="absolute cursor-pointer -top-4 -right-2 md:-right-4 bg-brutal-red text-white border-4 border-brutal-dark px-4 py-2 rounded-xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-brutal-dark)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] hover:scale-105 transition-all z-10 rotate-3 hover:rotate-0"
+      >
+        ✕ წაშლა
+      </button>
 
-      <div className="absolute top-4 right-4 flex items-center gap-2 z-10">
-        <Button
-          variant={isEditing ? "secondary" : "primary"}
-          type="button"
-          size="sm"
-          onClick={toggleEditMode}
-          className="font-mono text-xs font-bold uppercase tracking-wider px-2 py-1 rounded-sm shadow-sm"
-        >
-          {isEditing ? "გაუქმება // Cancel" : "შეცვლა // Edit"}
-        </Button>
-
-        <Button
-          variant="danger"
-          type="button"
-          size="sm"
-          onClick={() => setDeleteModal(true)}
-          className="font-mono text-xs font-bold uppercase tracking-wider text-red-400 hover:text-red-300 border border-red-900/40 bg-red-950/20 px-2 py-1 rounded-sm shadow-sm"
-        >
-          წაშლა
-        </Button>
-      </div>
+      <button
+        onClick={toggleEditMode}
+        className={`absolute cursor-pointer -top-4 right-28 md:right-32 text-white border-4 border-brutal-dark px-4 py-2 rounded-xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-brutal-dark)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] hover:scale-105 transition-all z-10 -rotate-2 hover:rotate-0 ${
+          isEditing ? "bg-brutal-yellow text-brutal-dark" : "bg-brutal-blue"
+        }`}
+      >
+        {isEditing ? "✕ გაუქმება" : "✎ შეცვლა"}
+      </button>
 
       <div className="flex flex-col gap-2 relative">
-        <label className="text-sm font-serif font-semibold text-wood-text-secondary tracking-wide flex items-center gap-2">
-          <span
-            className={`w-1.5 h-1.5 rounded-full inline-block ${isEditing ? "bg-amber-500 animate-ping" : "bg-emerald-500"}`}
-          ></span>
-          კითხვა // Question {globalIndex + 1}
+        <label className="text-sm md:text-base font-black text-brutal-dark uppercase tracking-wide bg-brutal-blue text-white w-fit px-3 py-1 rounded-lg border-2 border-brutal-dark -rotate-1 mb-2">
+          კითხვა {globalIndex + 1}
         </label>
+
+        <QuestionImagePreview imageUrl={currentQuestion.imageUrl} />
+
+        {isEditing && (
+          <ImageUploader
+            onImageSelect={handleImageChange}
+            imageUrl={currentQuestion.imageUrl}
+          />
+        )}
+
         <input
           type="text"
           value={currentQuestion.text}
           disabled={!isEditing}
           onChange={(e) => handleQuestionTextChange(e.target.value)}
-          className="w-full bg-wood-base border-2 border-wood-border px-4 py-2.5 rounded shadow-[inset_0_2px_6px_rgba(0,0,0,0.6)] font-mono text-sm text-wood-text-primary focus:outline-none focus:border-wood-accent focus:ring-1 focus:ring-wood-accent transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          placeholder="ჩაწერეთ კითხვა აქ..."
+          className="w-full bg-gray-50 border-4 border-brutal-dark px-4 py-3 rounded-2xl font-black text-lg text-brutal-dark shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-brutal-dark)] transition-all placeholder:text-brutal-dark/30 disabled:opacity-80 disabled:cursor-not-allowed"
         />
       </div>
 
-      <div className="space-y-3 pt-4 border-t border-wood-border-focus/20 relative">
-        <p className="text-xs font-serif font-semibold text-wood-text-muted uppercase tracking-wider">
-          სავარაუდო პასუხები:
+      <div className="h-0.5 bg-brutal-dark/20 w-full my-4" />
+
+      <div className="space-y-4 pt-4 relative">
+        <p className="text-sm font-bold text-brutal-dark uppercase tracking-wider mb-4">
+          სავარაუდო პასუხები (მონიშნეთ სწორი):
         </p>
 
         {currentQuestion.options.map((opt, oIndex) => (
@@ -149,17 +163,15 @@ export default function QuestionEditor({
       </div>
 
       {isEditing && (
-        <div className="flex justify-end pt-4 border-t border-wood-border-focus/20 animate-in fade-in slide-in-from-bottom-2 duration-200">
+        <div className="flex justify-end pt-4">
           <Button
             type="button"
             size="md"
             onClick={handleQuestionSave}
             disabled={editingQuestion}
-            className="font-serif text-sm px-6 py-2 shadow-md transition-transform active:scale-95 border-2 border-wood-accent text-wood-accent-text"
+            className="bg-brutal-green text-white border-4 border-brutal-dark px-8 py-3 rounded-xl font-black text-base uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-brutal-dark)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] hover:scale-105 transition-all"
           >
-            {editingQuestion
-              ? "ინახება... // Saving..."
-              : "ცვლილებების შენახვა // Save Changes"}
+            {editingQuestion ? "ინახება..." : "✓ შენახვა"}
           </Button>
         </div>
       )}

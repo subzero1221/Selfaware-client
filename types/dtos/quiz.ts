@@ -17,6 +17,8 @@ export interface QuestionDto {
   id: string;
   text: string;
   questionType: string;
+  imageUrl?: string;
+  imagePublicId?: string;
   options: AiOption[];
 }
 
@@ -66,4 +68,14 @@ export interface QuizEditSettingsDto {
 export interface QuestionEditDto {
   text: string;
   options: AiOption[];
+}
+
+
+//cloudinary/media
+export interface UploadSignatureData {
+  signature: string;
+  timestamp: string;
+  apiKey: string;
+  cloudName: string;
+  folder: string;
 }
