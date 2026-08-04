@@ -1,6 +1,8 @@
 "use client";
+
 import useAiUpload from "@/hooks/Quizzes/useAiUpload";
 import React, { useRef, useState } from "react";
+import { Bot, Play, CircleEllipsis } from "lucide-react";
 
 export default function AiQuizUpload() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -20,7 +22,7 @@ export default function AiQuizUpload() {
       alert(
         `File is too large! Please upload a file smaller than ${MAX_FILE_SIZE_MB}MB.`,
       );
-      fileInputRef.current.value = "null";
+      fileInputRef.current.value = "";
       return;
     }
 
@@ -31,73 +33,77 @@ export default function AiQuizUpload() {
   };
 
   return (
-    <div className="relative max-w-xl w-full bg-wood-surface border-[6px] border-wood-border rounded-sm shadow-[0_2px_5px_rgba(0,0,0,0.8)] overflow-hidden transition-colors duration-300">
-      <div className="absolute inset-0 border border-wood-border-focus/50 shadow-[inset_0_0_5px_rgba(0,0,0,0.6)] pointer-events-none transition-colors duration-300"></div>
+    <div className="relative w-full max-w-xl bg-wood-surface border-4 border-brutal-dark rounded-3xl p-6 md:p-8 shadow-[6px_8px_0_0_var(--color-wood-section-shadow)] transition-all duration-300">
+      {error && (
+        <div className="bg-brutal-red text-white border-4 border-brutal-dark p-4 rounded-2xl font-black text-sm uppercase tracking-wide mb-6 shadow-[4px_4px_0_0_var(--color-brutal-dark)] flex items-center gap-3 rotate-1">
+          <span className="text-xl bg-wood-surface text-brutal-dark w-7 h-7 rounded-lg border-2 border-brutal-dark flex items-center justify-center font-black">
+            !
+          </span>
+          <span>ხარვეზი // {error.message}</span>
+        </div>
+      )}
 
-      <div className="relative p-8 flex flex-col">
-        {error && (
-          <div className="bg-red-950/80 border-2 border-red-900 shadow-[inset_0_2px_5px_rgba(0,0,0,0.5)] text-red-300 p-4 rounded-sm text-sm font-mono mb-6 uppercase tracking-wide flex items-start gap-2">
-            <span className="text-red-500 font-bold">⚠️</span>
-            <span>ხარვეზი // {error.message}</span>
+      <form onSubmit={handleAiSubmit} className="space-y-6">
+        <div className="border-b-4 border-wood-border pb-4">
+          <div className="inline-flex items-center gap-3 bg-brutal-blue text-wood-text-primary border-4 border-brutal-dark px-4 py-2 rounded-xl font-black text-lg md:text-xl uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1">
+            <span className="text-2xl">
+              <Bot />
+            </span>
+            <span>AI ტესტის გენერაცია</span>
           </div>
-        )}
-        <form onSubmit={handleAiSubmit} className="space-y-5">
-          <div className="border-b-2 border-wood-border-focus/40 pb-4 mb-6 relative">
-            <h3 className="font-serif text-xl font-bold tracking-wide text-wood-text-primary drop-shadow-md flex items-center gap-3">
-              <span className="text-2xl drop-shadow-lg">🤖</span>
-              AI ტესტის გენერაცია (PDF / Word)
-            </h3>
-            <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-wood-border-focus to-transparent"></div>
-          </div>
+          <p className="text-xs font-black text-wood-text-primary uppercase tracking-wide mt-3 ml-1">
+            (PDF / Word დოკუმენტები)
+          </p>
+        </div>
 
-          <div className="flex flex-col gap-2">
-            <label className="text-sm font-serif font-semibold text-wood-text-secondary tracking-wide drop-shadow-sm">
-              ინსტრუქცია AI-სთვის (სურვილისამებრ)
-            </label>
-            <textarea
-              value={instructions}
-              onChange={(e) => setInstructions(e.target.value)}
-              placeholder="მაგ: შექმენი 10 რთული კითხვა მხოლოდ მე-3 თავიდან..."
-              rows={2}
-              className="bg-wood-base border-2 border-wood-border px-4 py-2.5 rounded shadow-[inset_0_2px_6px_rgba(0,0,0,0.6)] font-mono text-sm text-wood-text-primary focus:outline-none focus:border-wood-accent focus:ring-1 focus:ring-wood-accent transition-all placeholder:text-wood-text-muted/50 resize-none"
+        <div className="flex flex-col gap-2">
+          <label className="text-xs md:text-sm font-black text-brutal-dark uppercase tracking-wide bg-brutal-yellow text-brutal-dark w-fit px-3 py-1 rounded-lg border-2 border-brutal-dark -rotate-1">
+            ინსტრუქცია AI-სთვის (სურვილისამებრ)
+          </label>
+          <textarea
+            value={instructions}
+            onChange={(e) => setInstructions(e.target.value)}
+            placeholder="მაგ: შექმენი 10 რთული კითხვა მხოლოდ მე-3 თავიდან..."
+            rows={3}
+            className="w-full bg-gray-50 border-4 border-brutal-dark px-4 py-3 rounded-2xl font-bold text-sm text-brutal-dark shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[2px] focus:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all placeholder:text-brutal-dark/30 resize-none"
+          />
+        </div>
+
+        <div className="flex flex-col gap-2">
+          <label className="text-xs md:text-sm font-black text-brutal-dark uppercase tracking-wide bg-brutal-blue text-wood-text-primary w-fit px-3 py-1 rounded-lg border-2 border-brutal-dark rotate-1">
+            აირჩიეთ სასწავლო მასალა
+          </label>
+          <div className="bg-gray-50 p-3 border-4 border-brutal-dark rounded-2xl shadow-[4px_4px_0_0_var(--color-brutal-dark)]">
+            <input
+              type="file"
+              ref={fileInputRef}
+              accept=".pdf,.doc,.docx"
+              required
+              className="w-full text-xs font-black text-brutal-dark cursor-pointer
+                file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-2 file:border-brutal-dark 
+                file:text-xs file:font-black file:uppercase file:tracking-wider 
+                file:bg-brutal-yellow file:text-brutal-dark file:cursor-pointer file:shadow-[2px_2px_0_0_var(--color-brutal-dark)]
+                hover:file:bg-brutal-green hover:file:translate-y-[-1px] 
+                file:transition-all"
             />
           </div>
+        </div>
 
-          <div className="flex flex-col gap-2 pt-2">
-            <label className="text-sm font-serif font-semibold text-wood-text-secondary tracking-wide drop-shadow-sm">
-              აირჩიეთ სასწავლო მასალა
-            </label>
-            <div className="bg-wood-base/50 p-2 border border-wood-border/50 rounded shadow-inner">
-              <input
-                type="file"
-                ref={fileInputRef}
-                accept=".pdf,.doc,.docx"
-                required
-                className="w-full font-mono text-xs text-wood-text-muted 
-              file:mr-4 file:py-2.5 file:px-5 file:rounded file:border-2 file:border-wood-border-focus 
-              file:text-xs file:font-serif file:font-bold file:tracking-wider file:uppercase 
-              file:bg-wood-surface file:text-wood-text-primary file:cursor-pointer file:shadow-md 
-              hover:file:bg-wood-surface-hover hover:file:border-wood-accent hover:file:text-wood-accent 
-              file:transition-all cursor-pointer"
-              />
+        <button
+          type="submit"
+          disabled={isPending}
+          className="w-full mt-4 py-4 px-6 bg-brutal-green text-brutal-dark border-4 border-brutal-dark rounded-2xl font-black text-base md:text-lg uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-green)] hover:-translate-y-0.5 hover:shadow-[6px_6px_0_0_var(--color-brutal-green)] transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        >
+          {isPending ? (
+            <CircleEllipsis />
+          ) : (
+            <div className="flex items-center justify-center gap-2">
+              <Play />
+              <span className="ml-2">გენერაცია</span>
             </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={isPending}
-            className={`
-          w-full mt-6 py-3.5 px-4 font-bold font-serif tracking-wider text-wood-text-primary uppercase
-          bg-wood-surface border-2 border-wood-border-focus rounded shadow-lg
-          hover:bg-wood-surface-hover hover:shadow-xl hover:border-wood-accent hover:text-wood-accent
-          active:translate-y-1
-          transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed
-        `}
-          >
-            {isPending ? "AI კითხულობს დოკუმენტს..." : "გენერაცია ↵"}
-          </button>
-        </form>
-      </div>
+          )}
+        </button>
+      </form>
     </div>
   );
 }

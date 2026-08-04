@@ -7,6 +7,7 @@ import useGameTimer from "@/hooks/game/useGameTimer";
 import { GameDto } from "@/types/dtos/game";
 import { useCallback } from "react";
 import { Target, Timer, CheckCircle } from "lucide-react";
+import GameQuestionImage from "./GameQuestionImage";
 
 interface ActiveGameScreenProps {
   game: GameDto;
@@ -14,29 +15,28 @@ interface ActiveGameScreenProps {
   playerId: string;
 }
 
-
 const OPTION_STYLES = [
   {
     bg: "bg-opt-red hover:bg-opt-red-hover",
-    text: "text-white",
+    text: "wood-text-primary",
     shape: "▲",
     rotate: "-rotate-1",
   },
   {
     bg: "bg-opt-blue hover:bg-opt-blue-hover",
-    text: "text-white",
+    text: "wood-text-primary",
     shape: "◆",
     rotate: "rotate-1",
   },
   {
     bg: "bg-opt-yellow hover:bg-opt-yellow-hover",
-    text: "text-amber-950",
+    text: "wood-text-primary",
     shape: "●",
     rotate: "-rotate-1",
   },
   {
     bg: "bg-opt-green hover:bg-opt-green-hover",
-    text: "text-white",
+    text: "wood-text-primary",
     shape: "■",
     rotate: "rotate-2",
   },
@@ -85,10 +85,11 @@ export default function ActiveGameScreen({
 
   const timePercentage = (timeLeft / (timeLimitSeconds || 30)) * 100;
 
+  console.log("Question Image URL:", currentQuestion);
+
   return (
     <div className="dark select-none bg-wood-base relative min-h-screen w-full text-wood-text-primary flex flex-col font-sans overflow-hidden transition-colors duration-300">
       <div className="flex flex-col min-h-screen justify-between p-4 md:p-8 max-w-6xl mx-auto w-full relative z-10">
-    
         <header className="flex justify-between items-center mb-8">
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#EF476F] border-4 border-wood-border text-white font-black shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-2">
             <Target size={20} strokeWidth={4} />
@@ -113,8 +114,8 @@ export default function ActiveGameScreen({
 
         {!hasAnswered ? (
           <>
-            
             <main className="flex-grow flex flex-col justify-center items-center my-4 w-full">
+              <GameQuestionImage imageUrl={currentQuestion.questionImageUrl} />
               <div className="w-full bg-wood-surface border-4 border-wood-border rounded-[2.5rem] p-8 md:p-16 text-center shadow-[8px_12px_0_0_var(--color-wood-section-shadow)] transform transition-transform hover:-translate-y-2 mb-8">
                 <h2 className="text-3xl md:text-5xl font-black tracking-wide text-wood-text-primary drop-shadow-[0_4px_0_var(--color-wood-shadow)] md:drop-shadow-[0_6px_0_var(--color-wood-shadow)] leading-relaxed">
                   {currentQuestion.text}
@@ -122,7 +123,6 @@ export default function ActiveGameScreen({
               </div>
             </main>
 
-          
             <div className="w-full h-8 bg-wood-surface rounded-full mb-8 overflow-hidden border-4 border-wood-border shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1">
               <div
                 className="h-full bg-[#06D6A0] border-r-4 border-wood-border transition-all duration-1000 ease-linear"
@@ -130,7 +130,6 @@ export default function ActiveGameScreen({
               />
             </div>
 
-          
             <footer className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full pb-6">
               {currentQuestion.options.map((option, index) => {
                 const style = OPTION_STYLES[index % OPTION_STYLES.length];
@@ -150,7 +149,7 @@ export default function ActiveGameScreen({
                     <span className="flex items-center justify-center bg-white/20 border-2 border-wood-border/30 w-14 h-14 rounded-2xl group-hover:scale-110 group-hover:-rotate-12 transition-transform shadow-[0_4px_0_0_rgba(0,0,0,0.1)]">
                       {style.shape}
                     </span>
-                    <span className="flex-1 drop-shadow-[0_2px_0_rgba(0,0,0,0.3)] leading-tight tracking-wide">
+                    <span className="flex-1 drop-shadow-[0_2px_0_var(--color-wood-text-shadow)] leading-tight tracking-wide">
                       {option.text}
                     </span>
                   </button>
@@ -160,7 +159,6 @@ export default function ActiveGameScreen({
           </>
         ) : (
           <>
-        
             <main className="flex-grow flex flex-col justify-center items-center my-4 w-full">
               <div className="w-full max-w-2xl bg-[#06D6A0] border-4 border-wood-border rounded-[3rem] p-12 md:p-16 text-center shadow-[8px_12px_0_0_var(--color-wood-section-shadow)] flex flex-col items-center justify-center gap-8 -rotate-1 hover:rotate-1 transition-transform duration-500 animate-fade-in">
                 <div className="w-24 h-24 rounded-3xl bg-white border-4 border-wood-border flex items-center justify-center text-[#06D6A0] shadow-[0_6px_0_0_var(--color-wood-section-shadow)] animate-bounce">
@@ -184,7 +182,6 @@ export default function ActiveGameScreen({
                 </div>
               </div>
             </main>
-
 
             <footer className="w-full flex justify-center pb-8">
               <div className="bg-wood-surface border-4 border-wood-border px-6 py-3 rounded-2xl shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-1">

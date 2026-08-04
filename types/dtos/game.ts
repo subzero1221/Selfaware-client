@@ -14,6 +14,7 @@ export interface ActiveQuestionDto {
   id: string;
   text: string;
   options: ActiveOptionDto[];
+  questionImageUrl?: string | null;
 }
 
 export interface ActiveOptionDto {
