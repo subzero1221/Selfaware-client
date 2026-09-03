@@ -15,7 +15,7 @@ export default function HostLobbyChooseQuiz({
   hostId,
   joinCode,
 }: HostLobbyChooseQuizProps) {
-  const { data, isLoading } = useQuizzes();
+  const { data, isLoading } = useQuizzes(0);
   const [selectedQuizId, setSelectedQuizId] = useState<string>("");
 
   const { sendStartGameSignal, isStarting } = useStartGame(

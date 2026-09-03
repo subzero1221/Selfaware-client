@@ -1,15 +1,28 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
 import useDeleteDraftQuiz from "@/hooks/Quizzes/useDeleteDraftQuiz";
-import { BookOpen, Link2, Trash2, PackageOpen, Eye } from "lucide-react";
+import {
+  BookOpen,
+  Link2,
+  Trash2,
+  PackageOpen,
+  Eye,
+  Filter,
+  Zap,
+  BarChart2,
+} from "lucide-react";
+
+type FilterMode = "ALL" | "Knowledge" | "Survey";
 
 interface MyQuizzesRendererProps {
   quizzes: QuizDetailResponse[];
 }
 
 export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
+  const [activeFilter, setActiveFilter] = useState<FilterMode>("ALL");
   const { mutate: deleteQuiz, isPending } = useDeleteDraftQuiz();
 
   function handleDelete(quizId: string) {
@@ -23,38 +36,91 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
     }
   }
 
+
+  const filteredQuizzes = quizzes?.filter((quiz) => {
+    if (activeFilter === "ALL") return true;
+
+    const quizTypeStr = String(quiz.quizType).toLowerCase();
+    if (activeFilter === "Knowledge") {
+      return quizTypeStr === "knowledge" || quizTypeStr === "0";
+    }
+    if (activeFilter === "Survey") {
+      return quizTypeStr === "survey" || quizTypeStr === "1";
+    }
+    return true;
+  });
+
   return (
     <div className="w-full flex flex-col font-sans">
       <div className="border-b-4 border-brutal-dark pb-5 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <h3 className="text-3xl font-black tracking-tight text-wood-text-primary flex items-center gap-3">
           <BookOpen size={32} strokeWidth={3} className="text-brutal-green" />
-          ჩემი ტესტები
+          ტესტები / გამოკითხვები
         </h3>
         <span className="bg-brutal-green border-2 border-brutal-dark text-brutal-dark font-black text-xs px-4 py-1.5 rounded-xl shadow-[3px_3px_0_0_rgba(67,20,7,1)] uppercase">
-          გამოქვეყნებული: {quizzes?.length || 0}
+          გამოქვეყნებული: {filteredQuizzes?.length || 0}
         </span>
       </div>
 
+
+      <div className="flex flex-wrap items-center gap-4 mb-8">
+        <button
+          onClick={() => setActiveFilter("ALL")}
+          className={`flex items-center gap-2 px-5 py-2.5 font-black text-xs md:text-sm uppercase tracking-wider rounded-xl border-4 border-brutal-dark transition-all cursor-pointer ${
+            activeFilter === "ALL"
+              ? "bg-brutal-yellow text-brutal-dark shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1 translate-y-[-2px]"
+              : "bg-gray-50 text-brutal-dark/50 shadow-[2px_2px_0_0_var(--color-brutal-dark)] hover:bg-gray-100 hover:translate-y-[-1px] hover:shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:text-brutal-dark"
+          }`}
+        >
+          <Filter size={18} strokeWidth={3} />
+          ყველა ({quizzes?.length || 0})
+        </button>
+
+        <button
+          onClick={() => setActiveFilter("Knowledge")}
+          className={`flex items-center gap-2 px-5 py-2.5 font-black text-xs md:text-sm uppercase tracking-wider rounded-xl border-4 border-brutal-dark transition-all cursor-pointer ${
+            activeFilter === "Knowledge"
+              ? "bg-brutal-blue text-wood-text-primary shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-1 translate-y-[-2px]"
+              : "bg-gray-50 text-brutal-dark/50 shadow-[2px_2px_0_0_var(--color-brutal-dark)] hover:bg-gray-100 hover:translate-y-[-1px] hover:shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:text-brutal-dark"
+          }`}
+        >
+          <Zap size={18} strokeWidth={3} />
+          ქვიზები
+        </button>
+
+        <button
+          onClick={() => setActiveFilter("Survey")}
+          className={`flex items-center gap-2 px-5 py-2.5 font-black text-xs md:text-sm uppercase tracking-wider rounded-xl border-4 border-brutal-dark transition-all cursor-pointer ${
+            activeFilter === "Survey"
+              ? "bg-brutal-green text-brutal-dark shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1 translate-y-[-2px]"
+              : "bg-gray-50 text-brutal-dark/50 shadow-[2px_2px_0_0_var(--color-brutal-dark)] hover:bg-gray-100 hover:translate-y-[-1px] hover:shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:text-brutal-dark"
+          }`}
+        >
+          <BarChart2 size={18} strokeWidth={3} />
+          გამოკითხვები
+        </button>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {quizzes?.length === 0 ? (
-          <div className="col-span-full flex flex-col items-center justify-center min-h-[350px] border-4 border-dashed border-wood-border rounded-3xl bg-wood-surface/50 p-8 text-center">
+        {filteredQuizzes?.length === 0 ? (
+          <div className="col-span-full flex flex-col items-center justify-center min-h-[350px] border-4 border-dashed border-brutal-dark rounded-3xl bg-wood-surface/50 p-8 text-center rotate-1 shadow-[4px_4px_0_0_var(--color-brutal-dark)] transition-all">
             <PackageOpen
               size={64}
               strokeWidth={2}
-              className="text-wood-text-muted mb-4 opacity-50"
+              className="text-brutal-dark mb-4 opacity-50"
             />
-            <p className="font-black text-xl text-wood-text-primary">
-              ტესტები ჯერ არ გამოგიქვეყნებია
+            <p className="font-black text-xl text-brutal-dark">
+              ჩანაწერები არ მოიძებნა
             </p>
-            <p className="font-bold text-xs text-wood-text-muted mt-2 uppercase tracking-widest">
-              No published quizzes yet
+            <p className="font-bold text-xs text-brutal-dark mt-2 uppercase tracking-widest bg-brutal-yellow px-3 py-1 rounded-lg border-2 border-brutal-dark -rotate-1">
+              No items match this filter
             </p>
           </div>
         ) : (
-          quizzes.map((quiz) => (
+          filteredQuizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="group bg-wood-surface border-4 border-brutal-dark rounded-3xl p-6 shadow-[6px_6px_0_0_rgba(67,20,7,1)]  hover:shadow-[8px_8px_0_0_rgba(67,20,7,1)] transition-all duration-200 flex flex-col justify-between min-h-[260px]"
+              className="group bg-wood-surface border-4 border-brutal-dark rounded-3xl p-6 shadow-[6px_6px_0_0_rgba(67,20,7,1)] hover:shadow-[8px_8px_0_0_var(--color-wood-section-shadow)] transition-all duration-200 flex flex-col justify-between min-h-[260px]"
             >
               <div>
                 <div className="flex justify-between items-start mb-4 gap-3">
@@ -62,7 +128,9 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
                     {quiz.title || "უსათაურო ტესტი"}
                   </h4>
 
-                  <span className="shrink-0 bg-brutal-yellow text-wood-text-primary font-black text-[10px] uppercase border-2 border-brutal-dark px-2.5 py-1 rounded-lg shadow-[2px_2px_0_0_rgba(67,20,7,1)]">
+                  <span
+                    className={`shrink-0 font-black text-[10px] uppercase border-2 border-brutal-dark px-2.5 py-1 rounded-lg shadow-[2px_2px_0_0_rgba(67,20,7,1)] rotate-1 ${String(quiz.quizType).toLowerCase() === "survey" || String(quiz.quizType) === "1" ? "bg-brutal-green text-brutal-dark" : "bg-brutal-yellow text-brutal-dark"}`}
+                  >
                     {quiz.quizType || "Quiz"}
                   </span>
                 </div>
@@ -72,7 +140,7 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
                 </p>
               </div>
 
-              <div className="pt-4 border-t-4 border-wood-border flex items-center justify-between gap-2">
+              <div className="pt-4 border-t-4 border-brutal-dark flex items-center justify-between gap-2">
                 <div className="bg-wood-base border-2 border-brutal-dark px-3 py-1.5 rounded-xl shadow-[2px_2px_0_0_rgba(67,20,7,1)] flex flex-col items-center">
                   <span className="text-[9px] font-black uppercase text-wood-text-muted leading-none">
                     კითხვა

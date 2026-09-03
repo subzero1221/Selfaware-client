@@ -171,7 +171,7 @@ export default function GameOverScreen({
           <button
             onClick={() => router.push("/")}
             className="
-              w-full sm:w-auto px-8 py-4 bg-[#FFD166] hover:bg-[#FFD166]/90 text-amber-950 font-black text-lg rounded-2xl transition-all
+              w-full cursor-pointer sm:w-auto px-8 py-4 bg-[#FFD166] hover:bg-[#FFD166]/90 text-amber-950 font-black text-lg rounded-2xl transition-all
               border-4 border-wood-border border-b-[6px] active:border-b-4 active:translate-y-[2px]
               shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] hover:shadow-[2px_2px_0_0_var(--color-wood-section-shadow)]
               flex items-center justify-center gap-3 uppercase tracking-wider rotate-1 hover:rotate-0
