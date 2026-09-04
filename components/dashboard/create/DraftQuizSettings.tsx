@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import { useEditQuiz } from "@/hooks/Quizzes/useEditQuiz";
 import { SettingsField } from "@/types/enums/quizEnums";
 
-export default function QuizEditSettings({
+export default function DraftQuizSettings({
   quiz,
 }: {
   quiz: QuizDetailResponse;
@@ -19,27 +19,27 @@ export default function QuizEditSettings({
   );
 
   return (
-    <div className="relative bg-wood-surface border-4 border-brutal-dark rounded-2xl p-6 md:p-8 space-y-6 shadow-[6px_6px_0_0_var(--color-brutal-dark)]">
-      <div className="inline-block bg-brutal-yellow border-2 border-brutal-dark px-3 py-1 shadow-[2px_2px_0_0_var(--color-brutal-dark)] mb-2 rotate-[-1deg]">
-        <h2 className="text-base font-black text-brutal-dark uppercase tracking-widest">
+    <div className="relative bg-wood-surface border-4 border-wood-border rounded-3xl p-6 md:p-8 space-y-6 shadow-[6px_8px_0_0_var(--color-wood-border)] transition-all duration-300 hover:-translate-y-2 group">
+      <div className="flex flex-col gap-2 relative">
+        <div className="text-sm md:text-base font-black text-white uppercase tracking-wide bg-wood-accent w-fit px-3 py-1 rounded-lg border-2 border-wood-border -rotate-1 mb-2">
           ქვიზის პარამეტრები // Settings
-        </h2>
+        </div>
       </div>
 
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-black text-wood-text-primary uppercase tracking-wider">
+        <label className="text-sm font-bold text-wood-text-primary uppercase tracking-wider ml-1">
           სათაური / Title
         </label>
-        <div className="flex gap-2">
+        <div className="flex flex-col md:flex-row gap-4">
           <input
             type="text"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            className="w-full flex-1 bg-wood-base border-4 border-brutal-dark px-4 py-3 text-sm text-wood-text-primary font-bold shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[2px] focus:translate-x-[2px] focus:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all"
+            className="w-full flex-1 bg-gray-50 border-4 border-wood-border px-4 py-3 rounded-2xl font-black text-lg text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all placeholder:text-wood-text-options/30"
           />
           <Button
             size="sm"
-            className="border-4 border-brutal-dark font-black shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all"
+            className="border-4 border-wood-border rounded-2xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[4px] hover:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all px-6 md:py-3.5"
             onClick={() =>
               editSettings({ field: SettingsField.Title, value: title })
             }
@@ -49,19 +49,21 @@ export default function QuizEditSettings({
         </div>
       </div>
 
+      <div className="h-0.5 bg-wood-border w-full my-4" />
+
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-black text-wood-text-primary uppercase tracking-wider">
+        <label className="text-sm font-bold text-wood-text-primary uppercase tracking-wider ml-1">
           აღწერა / Description
         </label>
         <div className="flex flex-col gap-4 items-end">
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full h-32 bg-wood-base border-4 border-brutal-dark px-4 py-3 text-sm text-wood-text-primary font-bold resize-none shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[2px] focus:translate-x-[2px] focus:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all"
+            className="w-full h-32 bg-gray-50 border-4 border-wood-border px-4 py-3 rounded-2xl font-black text-lg text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all placeholder:text-wood-text-options/30 resize-none"
           />
           <Button
             size="sm"
-            className="border-4 border-brutal-dark font-black shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all"
+            className="border-4 border-wood-border rounded-2xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[4px] hover:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all px-6"
             onClick={() =>
               editSettings({
                 field: SettingsField.Description,
@@ -71,38 +73,42 @@ export default function QuizEditSettings({
           >
             შენახვა
           </Button>
+        </div>
+      </div>
 
-          <div className="w-full md:max-w-xs flex flex-col items-end gap-2 mt-4">
-            <label className="text-sm font-black bg-brutal-blue text-white px-2 py-1 border-2 border-brutal-dark shadow-[2px_2px_0_0_var(--color-brutal-dark)] uppercase tracking-wide rotate-[1deg]">
-              დროის ლიმიტი // Time Limit
-            </label>
-            <div className="relative flex items-center w-full mt-2">
-              <input
-                type="number"
-                min={1}
-                max={300}
-                value={timeInMinutes || ""}
-                onChange={(e) => setTimeInMinutes(Number(e.target.value))}
-                placeholder="30"
-                className="w-full bg-wood-base border-4 border-brutal-dark pl-4 pr-16 py-3 font-mono font-black text-sm text-wood-text-primary shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[2px] focus:translate-x-[2px] focus:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all"
-              />
-              <span className="absolute right-4 font-black text-xs text-wood-text-muted uppercase tracking-wider pointer-events-none">
-                წუთი
-              </span>
-            </div>
-            <Button
-              size="sm"
-              className="mt-2 border-4 border-brutal-dark font-black shadow-[4px_4px_0_0_var(--color-brutal-dark)] hover:translate-y-[2px] hover:translate-x-[2px] hover:shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all"
-              onClick={() =>
-                editSettings({
-                  field: SettingsField.TimeLimit,
-                  value: String(timeInMinutes),
-                })
-              }
-            >
-              შენახვა
-            </Button>
+      <div className="h-0.5 bg-wood-border w-full my-4" />
+
+      <div className="w-full md:max-w-xs flex flex-col items-start gap-2">
+        <label className="text-sm font-black bg-wood-accent text-white px-3 py-1 rounded-lg border-2 border-wood-border uppercase tracking-wide rotate-[1deg]">
+          დროის ლიმიტი // Time Limit
+        </label>
+        <div className="relative flex items-center w-full mt-2 gap-4">
+          <div className="relative flex-1">
+            <input
+              type="number"
+              min={1}
+              max={300}
+              value={timeInMinutes || ""}
+              onChange={(e) => setTimeInMinutes(Number(e.target.value))}
+              placeholder="30"
+              className="w-full bg-gray-50 border-4 border-wood-border pl-4 pr-16 py-3 rounded-2xl font-black text-lg text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all placeholder:text-wood-text-options/30"
+            />
+            <span className="absolute right-4 top-1/2 -translate-y-1/2 font-black text-sm text-wood-text-options/50 uppercase tracking-wider pointer-events-none">
+              წუთი
+            </span>
           </div>
+          <Button
+            size="sm"
+            className="border-4 border-wood-border rounded-2xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[4px] hover:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all px-6 h-[56px]"
+            onClick={() =>
+              editSettings({
+                field: SettingsField.TimeLimit,
+                value: String(timeInMinutes),
+              })
+            }
+          >
+            შენახვა
+          </Button>
         </div>
       </div>
     </div>

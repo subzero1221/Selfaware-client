@@ -66,7 +66,7 @@ export default function ImageUploader({
 
   return (
     <div className="flex flex-col gap-3 mt-4 mb-2">
-      <label className="text-sm font-black text-brutal-dark uppercase tracking-wide">
+      <label className="text-sm font-black text-wood-text-primary uppercase tracking-wide">
         სურათის დამატება (არასავალდებულო)
       </label>
 

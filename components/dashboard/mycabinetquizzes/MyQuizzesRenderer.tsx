@@ -29,7 +29,7 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
     if (isPending) return;
     if (
       confirm(
-        "ნამდვილად გსურთ ტესტის წაშლა? ეს მოქმედება არ იქნება დაბრუნებადი.",
+        "ნამდვილად გსურთ ტესტის წაშლა?",
       )
     ) {
       deleteQuiz(quizId);
@@ -120,7 +120,7 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
           filteredQuizzes.map((quiz) => (
             <div
               key={quiz.id}
-              className="group bg-wood-surface border-4 border-brutal-dark rounded-3xl p-6 shadow-[6px_6px_0_0_rgba(67,20,7,1)] hover:shadow-[8px_8px_0_0_var(--color-wood-section-shadow)] transition-all duration-200 flex flex-col justify-between min-h-[260px]"
+              className="group bg-wood-surface border-4 border-brutal-dark rounded-3xl p-6 shadow-[8px_8px_0_0_var(--color-wood-section-shadow)] transition-all duration-200 flex flex-col justify-between min-h-[260px]"
             >
               <div>
                 <div className="flex justify-between items-start mb-4 gap-3">

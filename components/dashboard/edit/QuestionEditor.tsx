@@ -1,3 +1,4 @@
+"use client";
 import Button from "@/components/ui/Button";
 import { QuestionDto } from "@/types/dtos/quiz";
 import { useState } from "react";
@@ -95,10 +96,10 @@ export default function QuestionEditor({
 
   return (
     <div
-      className={`relative bg-white border-4 border-brutal-dark rounded-3xl p-6 md:p-8 transition-all duration-300 space-y-6 ${
+      className={`relative bg-wood-surface border-4 border-wood-border rounded-3xl p-6 md:p-8 transition-all duration-300 space-y-6 ${
         isEditing
-          ? "shadow-[6px_12px_0_0_var(--color-brutal-dark)] -translate-y-2 ring-4 ring-brutal-blue/20"
-          : "shadow-[6px_8px_0_0_var(--color-brutal-dark)] hover:-translate-y-2 hover:shadow-[6px_12px_0_0_var(--color-brutal-dark)]"
+          ? "shadow-[6px_12px_0_0_var(--color-wood-border)] -translate-y-2 ring-4 ring-wood-border/20"
+          : "shadow-[6px_8px_0_0_var(--color-wood-border)] hover:-translate-y-2 hover:shadow-[6px_12px_0_0_var(--color-wood-border)]"
       } group`}
     >
       <button
@@ -110,15 +111,17 @@ export default function QuestionEditor({
 
       <button
         onClick={toggleEditMode}
-        className={`absolute cursor-pointer -top-4 right-28 md:right-32 text-white border-4 border-brutal-dark px-4 py-2 rounded-xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-brutal-dark)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] hover:scale-105 transition-all z-10 -rotate-2 hover:rotate-0 ${
-          isEditing ? "bg-brutal-yellow text-brutal-dark" : "bg-brutal-blue"
+        className={`absolute cursor-pointer -top-4 right-28 md:right-32 border-4 border-wood-border px-4 py-2 rounded-xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-wood-border)] hover:scale-105 transition-all z-10 -rotate-2 hover:rotate-0 ${
+          isEditing
+            ? "bg-white text-wood-text-options"
+            : "bg-wood-accent text-white"
         }`}
       >
         {isEditing ? "✕ გაუქმება" : "✎ შეცვლა"}
       </button>
 
       <div className="flex flex-col gap-2 relative">
-        <label className="text-sm md:text-base font-black text-brutal-dark uppercase tracking-wide bg-brutal-blue text-white w-fit px-3 py-1 rounded-lg border-2 border-brutal-dark -rotate-1 mb-2">
+        <label className="text-sm md:text-base font-black text-wood-text-primary uppercase tracking-wide bg-brutal-blue text-white w-fit px-3 py-1 rounded-lg border-2 border-wood-border -rotate-1 mb-2">
           კითხვა {globalIndex + 1}
         </label>
 
@@ -137,14 +140,14 @@ export default function QuestionEditor({
           disabled={!isEditing}
           onChange={(e) => handleQuestionTextChange(e.target.value)}
           placeholder="ჩაწერეთ კითხვა აქ..."
-          className="w-full bg-gray-50 border-4 border-brutal-dark px-4 py-3 rounded-2xl font-black text-lg text-brutal-dark shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-brutal-dark)] transition-all placeholder:text-brutal-dark/30 disabled:opacity-80 disabled:cursor-not-allowed"
+          className="w-full bg-gray-50 border-4 border-wood-border px-4 py-3 rounded-2xl font-black text-lg text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all placeholder:text-wood-text-options/30 disabled:opacity-80 disabled:cursor-not-allowed"
         />
       </div>
 
-      <div className="h-0.5 bg-brutal-dark/20 w-full my-4" />
+      <div className="h-0.5 bg-wood-border w-full my-4" />
 
       <div className="space-y-4 pt-4 relative">
-        <p className="text-sm font-bold text-brutal-dark uppercase tracking-wider mb-4">
+        <p className="text-sm font-bold text-wood-text-primary uppercase tracking-wider mb-4">
           სავარაუდო პასუხები (მონიშნეთ სწორი):
         </p>
 
@@ -169,7 +172,7 @@ export default function QuestionEditor({
             size="md"
             onClick={handleQuestionSave}
             disabled={editingQuestion}
-            className="bg-brutal-green text-white border-4 border-brutal-dark px-8 py-3 rounded-xl font-black text-base uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-brutal-dark)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] hover:scale-105 transition-all"
+            className="bg-wood-accent text-white border-4 border-wood-border px-8 py-3 rounded-2xl font-black text-base uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[4px] hover:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all"
           >
             {editingQuestion ? "ინახება..." : "✓ შენახვა"}
           </Button>

@@ -55,7 +55,6 @@ export default function DraftQuestions({
     setQuestions(updatedQuestions);
   };
 
-
   const handleDeleteQuestion = (qIndex: number) => {
     const updatedQuestions = questions.filter(
       (_: any, idx: number) => idx !== qIndex,
@@ -80,7 +79,7 @@ export default function DraftQuestions({
         {visibleQuestions.map((q, qIndex) => (
           <div
             key={qIndex}
-            className="relative bg-white border-4 border-brutal-dark rounded-3xl p-6 md:p-8 transition-all duration-300 shadow-[6px_8px_0_0_var(--color-brutal-dark)] space-y-6 hover:-translate-y-2 hover:shadow-[6px_12px_0_0_var(--color-brutal-dark)] group"
+            className="relative bg-wood-surface border-4 border-wood-border rounded-3xl p-6 md:p-8 transition-all duration-300 shadow-[6px_8px_0_0_var(--color-wood-border)] space-y-6 hover:-translate-y-2 group"
           >
             <button
               onClick={() => handleDeleteQuestion(qIndex)}
@@ -90,7 +89,7 @@ export default function DraftQuestions({
             </button>
 
             <div className="flex flex-col gap-2 relative">
-              <label className="text-sm md:text-base font-black text-brutal-dark uppercase tracking-wide bg-brutal-blue text-white w-fit px-3 py-1 rounded-lg border-2 border-brutal-dark -rotate-1 mb-2">
+              <label className="text-sm md:text-base font-black text-wood-text-primary uppercase tracking-wide bg-brutal-blue text-white w-fit px-3 py-1 rounded-lg border-2 border-wood-border -rotate-1 mb-2">
                 კითხვა {qIndex + 1}
               </label>
 
@@ -99,20 +98,19 @@ export default function DraftQuestions({
                 value={q.text}
                 onChange={(e) => handleQuestionChange(qIndex, e.target.value)}
                 placeholder="ჩაწერეთ კითხვა აქ..."
-                className="w-full bg-gray-50 border-4 border-brutal-dark px-4 py-3 rounded-2xl font-black text-lg text-brutal-dark shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-brutal-dark)] transition-all placeholder:text-brutal-dark/30"
+                className="w-full bg-gray-50 border-4 border-wood-border px-4 py-3 rounded-2xl font-black text-lg text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] focus:outline-none focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all placeholder:text-wood-text-options/30"
               />
 
               <ImageUploader
                 imageUrl={q.imageUrl}
                 onImageSelect={(data) => handleImageChange(qIndex, data)}
-               
               />
             </div>
 
-            <div className="h-0.5 bg-brutal-dark/20 w-full my-4" />
+            <div className="h-0.5 bg-wood-border w-full my-4" />
 
-            <div className="space-y-4 pt-4 border-t-4 border-dashed border-brutal-dark/20 relative">
-              <p className="text-sm font-bold text-brutal-dark uppercase tracking-wider mb-4">
+            <div className="space-y-4 pt-4 border-t-4 border-dashed border-wood-border relative">
+              <p className="text-sm font-bold text-wood-text-primary uppercase tracking-wider mb-4">
                 სავარაუდო პასუხები (მონიშნეთ სწორი):
               </p>
 
@@ -126,7 +124,7 @@ export default function DraftQuestions({
                       onChange={() => handleMarkCorrect(qIndex, oIndex)}
                       className="peer w-8 h-8 opacity-0 absolute cursor-pointer z-10"
                     />
-                    <div className="w-8 h-8 bg-white border-4 border-brutal-dark rounded-full shadow-[2px_2px_0_0_var(--color-brutal-dark)] peer-checked:bg-brutal-green transition-all" />
+                    <div className="w-8 h-8 bg-white border-4 border-wood-border rounded-full shadow-[2px_2px_0_0_var(--color-wood-border)] peer-checked:bg-brutal-green transition-all" />
                     {opt.score === 1 && (
                       <div className="absolute w-3 h-3 bg-white rounded-full pointer-events-none" />
                     )}
@@ -139,10 +137,10 @@ export default function DraftQuestions({
                     onChange={(e) =>
                       handleOptionChange(qIndex, oIndex, e.target.value)
                     }
-                    className={`w-full px-4 py-3 rounded-2xl font-bold text-base focus:outline-none transition-all border-4 shadow-[4px_4px_0_0_var(--color-brutal-dark)] focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-brutal-dark)] ${
+                    className={`w-full px-4 text-base py-3 rounded-2xl font-bold text-base focus:outline-none transition-all border-4 shadow-[4px_4px_0_0_var(--color-wood-border)] focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)] ${
                       opt.score === 1
-                        ? "border-brutal-dark bg-brutal-green text-white placeholder:text-white/60"
-                        : "bg-white border-brutal-dark text-brutal-dark placeholder:text-brutal-dark/30"
+                        ? "border-wood-border bg-brutal-green text-white placeholder:text-white/60"
+                        : "bg-white border-wood-border text-wood-text-options placeholder:text-wood-text-options/30"
                     }`}
                   />
                 </div>

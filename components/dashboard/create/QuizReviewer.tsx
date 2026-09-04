@@ -16,23 +16,16 @@ export default function QuizReviewer({
     error: updateError,
   } = usePutQuiz(initialQuiz.id);
 
-  const [title, setTitle] = useState(initialQuiz.title || "");
-  const [description, setDescription] = useState(initialQuiz.description || "");
-  const [timeInMinutes, setTimeInMinutes] = useState(
-    initialQuiz.timeInMinutes || 30,
-  );
+  const [questions, setQuestions] = useState(initialQuiz?.questions || []);
 
-  const [questions, setQuestions] = useState(initialQuiz.questions || []);
-
-  console.log("Initial quiz data:", initialQuiz.slug);
   const handleFinalSave = async () => {
     try {
       const payload = {
         id: initialQuiz.id,
-        title,
-        description,
+        title: initialQuiz.title,
+        description: initialQuiz.description,
         slug: initialQuiz.slug,
-        timeInMinutes: timeInMinutes,
+        timeInMinutes: initialQuiz.timeInMinutes || 30,
         quizStatus: 1,
         quizType: initialQuiz.quizType,
         questionCount: questions.length,
@@ -47,14 +40,7 @@ export default function QuizReviewer({
 
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-8">
-      <DraftQuizSettings
-        title={title}
-        setTitle={setTitle}
-        description={description}
-        setDescription={setDescription}
-        timeInMinutes={timeInMinutes}
-        setTimeInMinutes={setTimeInMinutes}
-      />
+      <DraftQuizSettings quiz={initialQuiz} />
 
       <DraftQuestions questions={questions} setQuestions={setQuestions} />
 

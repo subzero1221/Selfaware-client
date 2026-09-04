@@ -15,7 +15,7 @@ export default function MyQuizDraftsRenderer({
   const { mutate: deleteQuiz, isPending } = useDeleteDraftQuiz();
 
   return (
-    <div className="w-full bg-wood-surface border-4 border-brutal-dark rounded-3xl shadow-[6px_6px_0_0_rgba(67,20,7,1)] p-6 min-h-[500px] flex flex-col font-sans">
+    <div className="w-full bg-wood-surface border-4 border-brutal-dark rounded-3xl shadow-[8px_8px_0_0_var(--color-wood-section-shadow)] p-6 min-h-[500px] flex flex-col font-sans">
       <div className="border-b-4 border-brutal-dark pb-4 mb-6 flex items-center justify-between">
         <h3 className="text-2xl font-black tracking-tight text-wood-text-primary flex items-center gap-3">
           <Archive size={26} strokeWidth={3} className="text-brutal-yellow" />

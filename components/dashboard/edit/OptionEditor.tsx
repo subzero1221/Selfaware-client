@@ -33,7 +33,7 @@ export default function OptionEditor({
           className="peer w-8 h-8 opacity-0 absolute cursor-pointer z-10 disabled:cursor-not-allowed"
         />
         <div
-          className={`w-8 h-8 border-4 border-brutal-dark rounded-full shadow-[2px_2px_0_0_var(--color-brutal-dark)] transition-all ${
+          className={`w-8 h-8 border-4 border-wood-border rounded-full shadow-[2px_2px_0_0_var(--color-wood-border)] transition-all ${
             isCorrect ? "bg-brutal-green" : "bg-white"
           } ${!isEditing && "opacity-70"}`}
         />
@@ -48,13 +48,13 @@ export default function OptionEditor({
         disabled={!isEditing}
         placeholder={`პასუხი ${oIndex + 1}`}
         onChange={(e) => handleOptionTextChange(oIndex, e.target.value)}
-        className={`w-full px-4 py-3 rounded-2xl font-bold text-base focus:outline-none transition-all border-4 shadow-[4px_4px_0_0_var(--color-brutal-dark)] disabled:shadow-[4px_4px_0_0_var(--color-brutal-dark)] disabled:opacity-80 disabled:cursor-not-allowed ${
+        className={`w-full px-4 py-3 rounded-2xl font-bold text-base focus:outline-none transition-all border-4 shadow-[4px_4px_0_0_var(--color-wood-border)] disabled:shadow-[4px_4px_0_0_var(--color-wood-border)] disabled:opacity-80 disabled:cursor-not-allowed ${
           isCorrect
-            ? "border-brutal-dark bg-brutal-green text-white placeholder:text-white/60"
-            : "bg-white border-brutal-dark text-brutal-dark placeholder:text-brutal-dark/30"
+            ? "border-wood-border bg-brutal-green text-white placeholder:text-white/60"
+            : "bg-white border-wood-border text-wood-text-options placeholder:text-wood-text-options/30"
         } ${
           isEditing
-            ? "focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-brutal-dark)]"
+            ? "focus:translate-y-[4px] focus:shadow-[0px_0px_0_0_var(--color-wood-border)]"
             : ""
         }`}
       />
