@@ -1,7 +1,7 @@
-import { SettingsField } from "../enums/quizEnums";
+import { QuizType, SettingsField } from "../enums/quizEnums";
 
 export interface QuizUploadedResponse {
-  id: string;
+  quizId: string;
   title: string;
   description: string;
   slug: string;
@@ -30,7 +30,7 @@ export interface QuizDetailResponse {
   timeInMinutes: number;
   questionCount: number;
   quizStatus: number;
-  quizType: string;
+  quizType: QuizType;
   questions: QuestionDto[];
 }
 
@@ -62,14 +62,14 @@ export interface AiQuizResponse {
 
 export interface QuizEditSettingsDto {
   field: SettingsField;
-  value: string;
+  value?: string;
+  quizType?: string;
 }
 
 export interface QuestionEditDto {
   text: string;
   options: AiOption[];
 }
-
 
 //cloudinary/media
 export interface UploadSignatureData {

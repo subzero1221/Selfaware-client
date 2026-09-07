@@ -48,11 +48,9 @@ export default function QuizReviewer({
         <button
           onClick={handleFinalSave}
           disabled={isUpdating}
-          className="bg-wood-accent border-2 border-wood-border px-6 py-2.5 font-serif font-bold text-sm text-wood-text-primary uppercase tracking-wider rounded shadow hover:brightness-110 active:scale-[0.98] transition-all disabled:opacity-50"
+          className="cursor-pointer bg-brutal-green text-white border-4 border-brutal-dark px-6 py-4 rounded-xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-brutal-dark)] active:translate-y-[4px] active:shadow-[0px_0px_0_0_var(--color-brutal-dark)] hover:scale-105 hover:shadow-[4px_4px_0_0_var(--color-brutal-green)] transition-all z-10 rotate-3 hover:rotate-0"
         >
-          {isUpdating
-            ? "სეივდება... // Saving..."
-            : "გამოქვეყნება // Publish Quiz"}
+          {isUpdating ? "სეივდება... // Saving..." : "გამოქვეყნება"}
         </button>
       </div>
     </div>

@@ -50,6 +50,10 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
     return true;
   });
 
+  
+
+console.log("Filtered Quizzes:", quizzes);
+
   return (
     <div className="w-full flex flex-col font-sans">
       <div className="border-b-4 border-brutal-dark pb-5 mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
@@ -131,7 +135,7 @@ export default function MyQuizzesRenderer({ quizzes }: MyQuizzesRendererProps) {
                   <span
                     className={`shrink-0 font-black text-[10px] uppercase border-2 border-brutal-dark px-2.5 py-1 rounded-lg shadow-[2px_2px_0_0_rgba(67,20,7,1)] rotate-1 ${String(quiz.quizType).toLowerCase() === "survey" || String(quiz.quizType) === "1" ? "bg-brutal-green text-brutal-dark" : "bg-brutal-yellow text-brutal-dark"}`}
                   >
-                    {quiz.quizType || "Quiz"}
+                    {quiz.quizType == 0 ? "Quiz" : "Survey"}
                   </span>
                 </div>
 

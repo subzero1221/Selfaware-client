@@ -3,7 +3,7 @@ import { useState } from "react";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
 import Button from "@/components/ui/Button";
 import { useEditQuiz } from "@/hooks/Quizzes/useEditQuiz";
-import { SettingsField } from "@/types/enums/quizEnums";
+import { SettingsField, QuizType } from "@/types/enums/quizEnums";
 
 export default function DraftQuizSettings({
   quiz,
@@ -13,6 +13,9 @@ export default function DraftQuizSettings({
   const [title, setTitle] = useState(quiz.title);
   const [description, setDescription] = useState(quiz.description);
   const [timeInMinutes, setTimeInMinutes] = useState(quiz.timeInMinutes || 30);
+
+  const [quizType, setQuizType] = useState(quiz.quizType);
+  console.log("QuizType state:", quizType);
 
   const { editSettings, isEditingSettings, editSettingsError } = useEditQuiz(
     quiz.id,
@@ -68,6 +71,52 @@ export default function DraftQuizSettings({
               editSettings({
                 field: SettingsField.Description,
                 value: description,
+              })
+            }
+          >
+            შენახვა
+          </Button>
+        </div>
+      </div>
+
+      <div className="h-0.5 bg-wood-border w-full my-4" />
+
+      <div className="flex flex-col gap-2">
+        <label className="text-sm font-bold text-wood-text-primary uppercase tracking-wider ml-1">
+          ტიპი / Quiz Type
+        </label>
+        <div className="flex flex-col md:flex-row gap-4">
+          <div className="flex flex-1 gap-3">
+            <button
+              type="button"
+              onClick={() => setQuizType(0)}
+              className={`flex-1 border-4 cursor-pointer border-wood-border rounded-2xl font-black text-sm md:text-base uppercase tracking-wider transition-all py-3 px-4 ${
+                quizType === QuizType.Knowledge
+                  ? "bg-brutal-green text-brutal-dark translate-y-[4px] shadow-[0px_0px_0_0_var(--color-wood-border)]"
+                  : "bg-gray-50 text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-wood-border)]"
+              }`}
+            >
+              Knowledge
+            </button>
+            <button
+              type="button"
+              onClick={() => setQuizType(1)}
+              className={`flex-1 border-4 cursor-pointer border-wood-border rounded-2xl font-black text-sm md:text-base uppercase tracking-wider transition-all py-3 px-4 ${
+                quizType === QuizType.Survey
+                  ? "bg-brutal-green text-brutal-dark translate-y-[4px] shadow-[0px_0px_0_0_var(--color-wood-border)]"
+                  : "bg-gray-50 text-wood-text-options shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[2px] hover:shadow-[2px_2px_0_0_var(--color-wood-border)]"
+              }`}
+            >
+              Survey
+            </button>
+          </div>
+          <Button
+            size="sm"
+            className="border-4 border-wood-border rounded-2xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[4px] hover:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all px-6 md:py-3.5"
+            onClick={() =>
+              editSettings({
+                field: SettingsField.QuizType,
+                quizType: String(quizType),
               })
             }
           >

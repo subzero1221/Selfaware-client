@@ -3,7 +3,15 @@
 import Link from "next/link";
 import { QuizDetailResponse } from "@/types/dtos/quiz";
 import useDeleteDraftQuiz from "@/hooks/Quizzes/useDeleteDraftQuiz";
-import { Archive, Trash2, ArrowRight, FileText, Inbox } from "lucide-react";
+import {
+  Archive,
+  Trash2,
+  ArrowRight,
+  FileText,
+  Plus,
+  Sparkles,
+} from "lucide-react";
+import useCreateEmptyQuiz from "@/hooks/Quizzes/useCreateEmptyQuiz";
 
 interface MyQuizDraftsRendererProps {
   quizzes: QuizDetailResponse[];
@@ -13,6 +21,8 @@ export default function MyQuizDraftsRenderer({
   quizzes,
 }: MyQuizDraftsRendererProps) {
   const { mutate: deleteQuiz, isPending } = useDeleteDraftQuiz();
+  const { mutate: createEmptyQuiz, isPending: isCreating } =
+    useCreateEmptyQuiz();
 
   return (
     <div className="w-full bg-wood-surface border-4 border-brutal-dark rounded-3xl shadow-[8px_8px_0_0_var(--color-wood-section-shadow)] p-6 min-h-[500px] flex flex-col font-sans">
@@ -28,18 +38,31 @@ export default function MyQuizDraftsRenderer({
 
       <div className="flex-grow overflow-y-auto space-y-4 pr-1">
         {quizzes.length === 0 ? (
-          <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-6 border-4 border-dashed border-wood-border rounded-2xl bg-wood-base/50">
-            <Inbox
-              size={48}
-              strokeWidth={2}
-              className="text-wood-text-muted mb-3 opacity-60"
-            />
-            <p className="font-black text-lg text-wood-text-primary">
+          <div className="h-full min-h-[300px] flex flex-col items-center justify-center text-center p-8 border-4 border-dashed border-brutal-dark/40 rounded-3xl bg-wood-base/30 relative overflow-hidden group">
+            <div className="absolute inset-0 bg-brutal-yellow/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            <div className="w-16 h-16 bg-brutal-yellow border-4 border-brutal-dark rounded-2xl flex items-center justify-center shadow-[4px_4px_0_0_rgba(67,20,7,1)] mb-4 -rotate-3 group-hover:rotate-0 transition-transform duration-300">
+              <Sparkles
+                size={32}
+                strokeWidth={2.5}
+                className="text-brutal-dark"
+              />
+            </div>
+
+            <p className="font-black text-xl text-brutal-dark mb-1 z-10">
               ჩანახატები ცარიელია
             </p>
-            <p className="font-bold text-xs text-wood-text-muted mt-1 uppercase tracking-wider">
+            <p className="font-bold text-sm text-brutal-dark/60 uppercase tracking-wider mb-6 z-10">
               No active drafts found
             </p>
+
+            <button
+              onClick={() => createEmptyQuiz()}
+              className="z-10 flex items-center cursor-pointer gap-2 bg-brutal-green border-4 border-brutal-dark text-brutal-dark font-black text-sm uppercase tracking-wider px-6 py-3.5 rounded-2xl shadow-[4px_4px_0_0_rgba(67,20,7,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0_0_rgba(67,20,7,1)] active:translate-y-1 active:shadow-none transition-all"
+            >
+              <Plus size={20} strokeWidth={3.5} />
+              <span>ახლის შექმნა</span>
+            </button>
           </div>
         ) : (
           quizzes.map((quiz) => (
