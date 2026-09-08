@@ -16,7 +16,7 @@ export interface QuizzesResponse {
 export interface QuestionDto {
   id: string;
   text: string;
-  questionType: string;
+  questionType: number;
   imageUrl?: string;
   imagePublicId?: string;
   options: AiOption[];
@@ -40,6 +40,19 @@ export interface CreateQuizDto {
   timeLimitInMinutes: number;
   questions: QuestionDto[];
   questionCount: number;
+}
+
+export interface CreateQuestionDto {
+  text: string;
+  questionType: number;
+  imageUrl?: string;
+  imagePublicId?: string;
+  options: CreateOptionDto[];
+}
+
+export interface CreateOptionDto {
+  text: string;
+  score: number;
 }
 
 export interface AiOption {

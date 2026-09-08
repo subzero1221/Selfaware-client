@@ -8,4 +8,10 @@ export enum SettingsField {
 export enum QuizType {
   Knowledge = 0,
   Survey = 1,
-}  
+}
+
+export enum QuestionType {
+  SingleChoice = 0,
+  MultipleChoice = 1,
+  PsychologicalScale = 2,
+}
