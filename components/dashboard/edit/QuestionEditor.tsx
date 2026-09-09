@@ -5,7 +5,7 @@ import { useState } from "react";
 import OptionEditor from "./OptionEditor";
 import QuestionImagePreview from "./QuestionImagePreview";
 import useEditQuestion from "@/hooks/Quizzes/useEditQuestion";
-import useQuizDelete from "@/hooks/Quizzes/useDeleteQuiz";
+import useDeleteQuestion from "@/hooks/Quizzes/useDeleteQuestion";
 import ConfirmModal from "@/components/ui/ConfirmModal";
 import ImageUploader from "@/components/dashboard/create/ImageUploader";
 
@@ -13,21 +13,21 @@ interface QuestionEditorProps {
   question: QuestionDto;
   quizId: string;
   globalIndex: number;
-  setQuestions: React.Dispatch<React.SetStateAction<QuestionDto[]>>;
 }
 
 export default function QuestionEditor({
   question,
   quizId,
   globalIndex,
-  setQuestions,
 }: QuestionEditorProps) {
+  console.log("QuestionEditor question:", question);
+
   const { mutate: editQuestion, isPending: editingQuestion } = useEditQuestion(
     quizId,
     question.id,
   );
 
-  const { mutate: deleteQuestion, isPending: deletingQuestion } = useQuizDelete(
+  const { mutate: deleteQuestion, isPending: deletingQuestion } = useDeleteQuestion(
     quizId,
     question.id,
   );
@@ -77,11 +77,8 @@ export default function QuestionEditor({
   };
 
   const handleQuestionSave = () => {
-    console.log("Saving question:", currentQuestion);
     editQuestion(currentQuestion);
-    setQuestions((prev) =>
-      prev.map((q) => (q.id == currentQuestion.id ? currentQuestion : q)),
-    );
+
     setEditingId(null);
   };
 
@@ -89,7 +86,6 @@ export default function QuestionEditor({
     deleteQuestion(undefined, {
       onSuccess: () => {
         setDeleteModal(false);
-        setQuestions((prev) => prev.filter((q) => q.id != currentQuestion.id));
       },
     });
   };
@@ -151,7 +147,7 @@ export default function QuestionEditor({
           სავარაუდო პასუხები (მონიშნეთ სწორი):
         </p>
 
-        {currentQuestion.options.map((opt, oIndex) => (
+        {currentQuestion?.options?.map((opt, oIndex) => (
           <OptionEditor
             key={opt.id}
             handleOptionTextChange={handleOptionTextChange}

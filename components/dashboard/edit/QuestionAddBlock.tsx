@@ -5,15 +5,12 @@ import Button from "@/components/ui/Button";
 import OptionEditor from "./OptionEditor";
 import ImageUploader from "@/components/dashboard/create/ImageUploader";
 import useCreateQuestion from "@/hooks/Quizzes/useCreateQuestion";
-import { QuestionDto } from "@/types/dtos/quiz";
 import { QuestionType } from "@/types/enums/quizEnums";
-import { useQueryClient } from "@tanstack/react-query";
 
 interface QuestionAddBlockProps {
   quizId: string;
   nextOrderIndex: number;
   onCancel: () => void;
-  onSuccess: (newQuestion: QuestionDto) => void;
 }
 
 const QUESTION_TYPE_OPTIONS = [
@@ -25,10 +22,8 @@ export default function QuestionAddBlock({
   quizId,
   nextOrderIndex,
   onCancel,
-  onSuccess,
 }: QuestionAddBlockProps) {
   const { mutate: createQuestion, isPending } = useCreateQuestion(quizId);
-  const queryClient = useQueryClient();
 
   const [currentQuestion, setCurrentQuestion] = useState({
     text: "",
@@ -43,7 +38,7 @@ export default function QuestionAddBlock({
     imageUrl: undefined as string | undefined,
     imagePublicId: undefined as string | undefined,
   });
-  console.log("currentQuestion", currentQuestion);
+
   const handleQuestionTextChange = (value: string) => {
     setCurrentQuestion((prev) => ({ ...prev, text: value }));
   };
@@ -102,9 +97,7 @@ export default function QuestionAddBlock({
 
   const handleSave = () => {
     createQuestion(currentQuestion, {
-      onSuccess: (savedQuestionFromDb) => {
-        onSuccess(savedQuestionFromDb);
-        queryClient.invalidateQueries({ queryKey: ["quiz", quizId] });
+      onSuccess: () => {
         onCancel();
       },
     });
