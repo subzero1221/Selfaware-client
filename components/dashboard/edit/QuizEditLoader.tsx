@@ -3,9 +3,12 @@
 import { useQuiz } from "@/hooks/Quizzes/useQuiz";
 import PageNotFound from "@/components/ui/PageNotFound";
 import QuizEditor from "./QuizEditor";
+import { usePathname } from "next/navigation";
+import Loading from "@/components/ui/Loading";
+
 
 export default function QuizEditLoader({ quizId }: { quizId: string }) {
-
+  const pathname = usePathname();
   const {
     data: quiz,
     isLoading: quizLoading,
@@ -14,9 +17,7 @@ export default function QuizEditLoader({ quizId }: { quizId: string }) {
 
   if (quizLoading) {
     return (
-      <p className="font-serif text-center py-12 text-wood-text-secondary tracking-wide">
-        კითხვები იტვირთება... // Loading questions...
-      </p>
+      <Loading />
     );
   }
 
@@ -29,7 +30,13 @@ export default function QuizEditLoader({ quizId }: { quizId: string }) {
     );
   }
 
-  if (quiz.quizStatus === 0) {
+  const isCreateRoute = pathname.includes("/create");
+  const isEditRoute = pathname.includes("/edit");
+
+  if (
+    (isCreateRoute && quiz.quizStatus === 1) ||
+    (isEditRoute && quiz.quizStatus === 0)
+  ) {
     return <PageNotFound />;
   }
 

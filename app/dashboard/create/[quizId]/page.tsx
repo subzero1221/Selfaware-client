@@ -1,5 +1,5 @@
-import QuizReviewLoader from "@/components/dashboard/create/QuizReviwLoader";
-
+//import QuizReviewLoader from "@/components/dashboard/create/QuizReviwLoader";
+import QuizEditLoader from "@/components/dashboard/edit/QuizEditLoader";
 
 interface PageProps {
   params: Promise<{
@@ -15,5 +15,5 @@ export default async function QuizDetailPage({
 
 
 
-  return <QuizReviewLoader quizId={quizId} />;
+  return <QuizEditLoader quizId={quizId} />;
 }

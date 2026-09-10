@@ -21,6 +21,8 @@ export default function useAiUpload(quizId?: string) {
       queryClient.invalidateQueries({
         queryKey: ["quiz-create", quizId],
       });
+      queryClient.invalidateQueries({ queryKey: ["quizess"] });
+
       const newQuizId = data.data;
       router.push(`/dashboard/create/${newQuizId as string}`);
     },

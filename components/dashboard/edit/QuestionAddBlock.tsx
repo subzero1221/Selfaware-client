@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Button from "@/components/ui/Button";
 import OptionEditor from "./OptionEditor";
-import ImageUploader from "@/components/dashboard/create/ImageUploader";
+import ImageUploader from "@/components/dashboard/edit/ImageUploader";
 import useCreateQuestion from "@/hooks/Quizzes/useCreateQuestion";
 import { QuestionType } from "@/types/enums/quizEnums";
 

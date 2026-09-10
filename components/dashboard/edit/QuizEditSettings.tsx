@@ -4,6 +4,7 @@ import { QuizDetailResponse } from "@/types/dtos/quiz";
 import Button from "@/components/ui/Button";
 import { useEditQuiz } from "@/hooks/Quizzes/useEditQuiz";
 import { SettingsField } from "@/types/enums/quizEnums";
+import QuizTypeChanger from "./QuizTypeChanger";
 
 export default function QuizEditSettings({
   quiz,
@@ -14,6 +15,7 @@ export default function QuizEditSettings({
   const [title, setTitle] = useState(quiz.title);
   const [description, setDescription] = useState(quiz.description);
   const [timeInMinutes, setTimeInMinutes] = useState(quiz.timeInMinutes || 30);
+  const [quizType, setQuizType] = useState(quiz.quizType);
 
   const { editSettings, isEditingSettings, editSettingsError } = useEditQuiz(
     quiz.id,
@@ -76,6 +78,10 @@ export default function QuizEditSettings({
           </Button>
         </div>
       </div>
+
+      {quiz.quizStatus == 0 && (
+        <QuizTypeChanger setQuizType={setQuizType} quizType={quizType} />
+      )}
 
       <div className="h-0.5 bg-wood-border w-full my-4" />
 

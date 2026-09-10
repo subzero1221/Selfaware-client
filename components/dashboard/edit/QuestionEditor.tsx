@@ -7,7 +7,7 @@ import QuestionImagePreview from "./QuestionImagePreview";
 import useEditQuestion from "@/hooks/Quizzes/useEditQuestion";
 import useDeleteQuestion from "@/hooks/Quizzes/useDeleteQuestion";
 import ConfirmModal from "@/components/ui/ConfirmModal";
-import ImageUploader from "@/components/dashboard/create/ImageUploader";
+import ImageUploader from "@/components/dashboard/edit/ImageUploader";
 
 interface QuestionEditorProps {
   question: QuestionDto;
@@ -20,17 +20,13 @@ export default function QuestionEditor({
   quizId,
   globalIndex,
 }: QuestionEditorProps) {
-  console.log("QuestionEditor question:", question);
-
   const { mutate: editQuestion, isPending: editingQuestion } = useEditQuestion(
     quizId,
     question.id,
   );
 
-  const { mutate: deleteQuestion, isPending: deletingQuestion } = useDeleteQuestion(
-    quizId,
-    question.id,
-  );
+  const { mutate: deleteQuestion, isPending: deletingQuestion } =
+    useDeleteQuestion(quizId, question.id);
 
   const [currentQuestion, setCurrentQuestion] = useState(question);
   const [editingId, setEditingId] = useState<string | null>(null);
