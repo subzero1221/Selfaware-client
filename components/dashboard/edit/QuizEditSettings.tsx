@@ -25,13 +25,13 @@ export default function QuizEditSettings({
     <div className="relative bg-wood-surface border-4 border-wood-border rounded-3xl p-6 md:p-8 space-y-6 shadow-[6px_8px_0_0_var(--color-wood-border)] transition-all duration-300 hover:-translate-y-2 group">
       <div className="flex flex-col gap-2 relative">
         <div className="text-sm md:text-base font-black text-white uppercase tracking-wide bg-brutal-blue w-fit px-3 py-1 rounded-lg border-2 border-wood-border -rotate-1 mb-2">
-          ქვიზის პარამეტრები // Settings
+          ქვიზის პარამეტრები
         </div>
       </div>
 
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold text-wood-text-primary uppercase tracking-wider ml-1">
-          სათაური / Title
+          სათაური
         </label>
         <div className="flex flex-col md:flex-row gap-4">
           <input
@@ -56,7 +56,7 @@ export default function QuizEditSettings({
 
       <div className="flex flex-col gap-2">
         <label className="text-sm font-bold text-wood-text-primary uppercase tracking-wider ml-1">
-          აღწერა / Description
+          აღწერა
         </label>
         <div className="flex flex-col gap-4 items-end">
           <textarea
@@ -83,11 +83,21 @@ export default function QuizEditSettings({
         <QuizTypeChanger setQuizType={setQuizType} quizType={quizType} />
       )}
 
+      <Button
+        size="sm"
+        className="border-4 bg-brutal-green border-wood-border rounded-2xl font-black text-sm uppercase tracking-wider shadow-[4px_4px_0_0_var(--color-wood-border)] hover:translate-y-[4px] hover:shadow-[0px_0px_0_0_var(--color-wood-border)] transition-all px-6 md:py-3.5"
+        onClick={() =>
+          editSettings({ field: SettingsField.QuizType, quizType: quizType })
+        }
+      >
+        შენახვა
+      </Button>
+
       <div className="h-0.5 bg-wood-border w-full my-4" />
 
       <div className="w-full md:max-w-xs flex flex-col items-start gap-2">
         <label className="text-sm font-black bg-wood-accent text-white px-3 py-1 rounded-lg border-2 border-wood-border uppercase tracking-wide rotate-[1deg]">
-          დროის ლიმიტი // Time Limit
+          დროის ლიმიტი
         </label>
         <div className="relative flex items-center w-full mt-2 gap-4">
           <div className="relative flex-1">

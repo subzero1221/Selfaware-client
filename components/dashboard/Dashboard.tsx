@@ -10,6 +10,7 @@ import Link from "next/link";
 import MyQuizzes from "./mycabinetquizzes/MyCabinetQuizzes";
 import AddQuiz from "./AddQuiz";
 import GameDashboard from "./game/GameDashboard";
+import SurveyManager from "./survey/SurveyManager";
 
 export default function DashboardWorkspace() {
   const { user, isUserLoading } = useAuth();
@@ -58,6 +59,7 @@ export default function DashboardWorkspace() {
       <main className="flex-1 p-6 sm:p-8 max-w-full overflow-y-auto">
         {activeTab === "overview" && <SystemPanel />}
         {activeTab === "myQuizzes" && <MyQuizzes />}
+        {activeTab === "activeSurveys" && <SurveyManager />}
         {activeTab === "addQuiz" && <AddQuiz />}
         {activeTab === "settings" && <ProfileSettings user={user} />}
         {activeTab == "game" && <GameDashboard />}

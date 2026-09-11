@@ -24,7 +24,7 @@ export default function QuizEditLoader({ quizId }: { quizId: string }) {
   if (quizError || !quiz) {
     return (
       <p className="font-serif text-center py-12 text-red-400 tracking-wide">
-        კითხვების ჩატვირთვა ვერ მოხერხდა. სცადეთ თავიდან. // Failed to load
+        კითხვების ჩატვირთვა ვერ მოხერხდა. სცადეთ თავიდან.
         quiz.
       </p>
     );
@@ -36,7 +36,7 @@ export default function QuizEditLoader({ quizId }: { quizId: string }) {
   if (
     (isCreateRoute && quiz.quizStatus === 1) ||
     (isEditRoute && quiz.quizStatus === 0)
-  ) {
+  ) { 
     return <PageNotFound />;
   }
 

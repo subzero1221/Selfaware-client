@@ -16,8 +16,9 @@ export default function usePutQuiz(quizId: string) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["quiz-createtion-draft"] });
+      //queryClient.invalidateQueries({ queryKey: ["quiz-createtion-draft"] });
       queryClient.invalidateQueries({ queryKey: [`quizzes`] });
+      queryClient.invalidateQueries({ queryKey: [`quiz-${quizId}`] });
       router.push("/dashboard");
     },
     onError: (error) => {

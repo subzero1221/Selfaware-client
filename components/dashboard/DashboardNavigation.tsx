@@ -2,7 +2,14 @@
 
 import { UserProfile } from "@/types/dtos/auth";
 import { activeTab } from "@/types/dtos/dashboard";
-import { BarChart2, Brain, FilePlus, Gamepad2, UserCog } from "lucide-react";
+import {
+  BarChart2,
+  Brain,
+  FilePlus,
+  Gamepad2,
+  UserCog,
+  NotebookPen,
+} from "lucide-react";
 
 export default function DashboardNavigation({
   user,
@@ -45,6 +52,12 @@ export default function DashboardNavigation({
               label: "ჩემი კითხვარები",
               icon: Brain,
               color: "bg-brutal-yellow",
+            },
+            {
+              id: "activeSurveys",
+              label: "აქტიური კითხვარები",
+              icon: NotebookPen,
+              color: "bg-wood-accent",
             },
             {
               id: "addQuiz",

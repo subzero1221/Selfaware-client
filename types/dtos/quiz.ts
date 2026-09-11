@@ -76,7 +76,7 @@ export interface AiQuizResponse {
 export interface QuizEditSettingsDto {
   field: SettingsField;
   value?: string;
-  quizType?: string;
+  quizType?: number;
 }
 
 export interface QuestionEditDto {
