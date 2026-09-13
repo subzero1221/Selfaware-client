@@ -17,7 +17,7 @@ export default function useActivateSurvey() {
     },
     onSuccess: (data: ApiResponse<ActiveSurveyDto>) => {
       queryClient.invalidateQueries({
-        queryKey: [`quiz-${data.data.quiz.quizId}`],
+        queryKey: [`mySurveys`],
       });
     },
     onError: (error: any) => {

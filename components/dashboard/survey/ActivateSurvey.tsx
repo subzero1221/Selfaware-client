@@ -5,25 +5,22 @@ import { Play, Loader2, Info, UserX, Clock, ClipboardList } from "lucide-react";
 import { ActivateSurveyDto, QuizForSurveyDto } from "@/types/dtos/survey";
 import { QuizzesResponse } from "@/types/dtos/quiz";
 import useQuizzes from "@/hooks/Quizzes/useQuizzes";
+import useActivateSurvey from "@/hooks/survey/useActivateSurvey";
 
-interface ActivateSurveyFormProps {
-  onActivate: (data: ActivateSurveyDto) => void;
-  isPending: boolean;
-}
 
-export default function ActivateSurvey({
-  onActivate,
-  isPending,
-}: ActivateSurveyFormProps) {
+
+export default function ActivateSurvey() {
   const [selectedQuizId, setSelectedQuizId] = useState<string>("");
   const [duration, setDuration] = useState<number>(7);
   const [allowAnonymous, setAllowAnonymous] = useState<boolean>(true);
   const { data, isLoading: quizzesLoading } = useQuizzes(1);
+  const { mutate: activateSurvey, isPending } = useActivateSurvey();
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedQuizId) return;
 
-    onActivate({
+    activateSurvey({
       quizId: selectedQuizId,
       DurationInDays: duration,
       AllowAnonymous: allowAnonymous,
@@ -40,7 +37,7 @@ export default function ActivateSurvey({
           <Info size={20} strokeWidth={3} className="text-white" />
         </div>
         <p className="text-sm sm:text-base font-bold text-wood-text-primary text-center leading-relaxed mt-2">
-          აირჩიეთ და გააქტიურეთ კითხვარი, რათა გაუზიაროთ{" "}
+          აირჩიეთ და გააქტიურეთ კითხვარი, რათა გაუზიაროთ
           <span className="inline-block bg-brutal-red text-white font-black px-2 py-0.5 rounded-lg border-2 border-brutal-dark shadow-[2px_2px_0_var(--color-wood-section-shadow)] mx-1 rotate-2">
             ბმული
           </span>{" "}
@@ -81,6 +78,7 @@ export default function ActivateSurvey({
           />
           <select
             value={duration}
+            title="კითხვარის მოქმედების ვადა"
             onChange={(e) => setDuration(Number(e.target.value))}
             className="w-full bg-transparent font-black text-lg text-brutal-dark uppercase tracking-wider outline-none cursor-pointer appearance-none"
           >
@@ -108,7 +106,7 @@ export default function ActivateSurvey({
             </span>
           </div>
           <div
-            className={`w-6 h-6 rounded-md border-2 border-brutal-dark flex items-center justify-center transition-colors ${
+            className={`w-6 h-6 rounded-md border-2 cursor-pointer border-brutal-dark flex items-center justify-center transition-colors ${
               allowAnonymous ? "bg-brutal-yellow" : "bg-white"
             }`}
           >

@@ -1,21 +1,24 @@
 "use client";
 
+import useMySurveys from "@/hooks/survey/useMySruverys";
 import ActivateSurvey from "./ActivateSurvey";
 import ActiveSurveysList from "./ActiveSurveysList";
-import { ActiveSurveyDto, ActivateSurveyDto } from "@/types/dtos/survey";
 import { Sparkles, Activity } from "lucide-react";
 
-
 export default function SurveyManager() {
- 
+  const { data: surveys, isLoading, isError } = useMySurveys();
 
-  const isPending = false;
-  const isLoading = false;
-  const surveys: ActiveSurveyDto[] = [];
+  
 
-  const handleActivate = (data: ActivateSurveyDto) => {
-    console.log("Activating with:", data);
-  };
+  if (!surveys || isError) {
+    return (
+      <div className="flex justify-center items-center h-full min-h-[300px]">
+        <p className="font-black text-wood-text-secondary uppercase tracking-widest">
+          აქტიური კითხვარები ვერ მოიძებნა ან მოხდა შეცდომა
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4 md:p-8">
@@ -41,10 +44,7 @@ export default function SurveyManager() {
           </div>
 
           <div className="bg-wood-surface border-4 border-wood-border rounded-3xl p-6 md:p-8 shadow-[8px_8px_0_var(--color-wood-border)]">
-            <ActivateSurvey
-              onActivate={handleActivate}
-              isPending={isPending}
-            />
+            <ActivateSurvey />
           </div>
         </div>
 
@@ -52,7 +52,7 @@ export default function SurveyManager() {
 
         <div className="w-full lg:flex-1 relative">
           <div className="absolute -top-4 -left-4 md:-left-8 bg-brutal-green border-4 border-brutal-dark px-3 py-1 rounded-lg font-black text-sm uppercase tracking-wider shadow-[2px_2px_0_var(--color-brutal-dark)] rotate-[3deg] z-10">
-            მიმდინარე ({surveys.length})
+            მიმდინარე ({surveys?.length})
           </div>
 
           <div className="bg-wood-surface border-4 border-wood-border rounded-3xl p-6 md:p-8 shadow-[8px_8px_0_var(--color-wood-border)] min-h-[400px]">

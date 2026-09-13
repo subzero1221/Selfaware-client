@@ -5,6 +5,7 @@ export interface ActiveSurveyDto {
   quiz: QuizForSurveyDto;
   shareCode: string;
   completedBy: number;
+  expiresAt: string;
   isActive: boolean;
   createdAt: string;
   lastActivatedAt: string;
@@ -24,3 +25,5 @@ export interface QuizForSurveyDto {
   Description?: string;
   title?: string;
 }
+
+export type SurveysResponse = ActiveSurveyDto[];
