@@ -8,7 +8,7 @@ export default function useMySurveys() {
     queryKey: ["mySurveys"],
     queryFn: () => {
       const endpoint = `/survey`;
-      console.log("useMySurveys endpoint:", endpoint);
+     
       return apiClient<ApiResponse<SurveysResponse>>(endpoint).then(
         (res) => res.data,
       );

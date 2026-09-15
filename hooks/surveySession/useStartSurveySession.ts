@@ -12,10 +12,10 @@ export default function useStartSurveySession() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (startSurveySessionDto: StartSurveySessionDto) => {
-      return apiClient<ApiResponse<SurveySessionDto>>("/surveySession", {
+    mutationFn: (StartSurveySessionDto: StartSurveySessionDto) => {
+      return apiClient<ApiResponse<SurveySessionDto>>("/surveysession", {
         method: "POST",
-        body: JSON.stringify(startSurveySessionDto),
+        body: JSON.stringify(StartSurveySessionDto),
       });
     },
     onSuccess: (data: ApiResponse<SurveySessionDto>) => {

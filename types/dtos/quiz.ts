@@ -17,6 +17,7 @@ export interface QuestionDto {
   id: string;
   text: string;
   questionType: number;
+  order?: number;
   imageUrl?: string;
   imagePublicId?: string;
   options: AiOption[];
@@ -59,6 +60,7 @@ export interface AiOption {
   id: string;
   text: string;
   score: number;
+  voteCount?: number;
 }
 
 export interface AiQuestion {

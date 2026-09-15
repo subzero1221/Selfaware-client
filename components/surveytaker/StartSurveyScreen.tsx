@@ -2,16 +2,21 @@
 
 import { useState } from "react";
 import { Play, User } from "lucide-react";
+import useStartSurveySession from "@/hooks/surveySession/useStartSurveySession";
 
 interface SurveyStartScreenProps {
   surveyTitle: string;
-  onStartSession: (nickname: string | null) => Promise<void>;
+  surveyId: string;
+  setSessionState: React.Dispatch<React.SetStateAction<"idle" | "active">>;
 }
 
 export default function StartSurveyScreen({
   surveyTitle,
-  onStartSession,
+  surveyId,
+  setSessionState,
 }: SurveyStartScreenProps) {
+  const { mutate: startSurveySession, isPending: isStartingSession } =
+    useStartSurveySession();
   const [nickname, setNickname] = useState("");
   const [isStarting, setIsStarting] = useState(false);
 
@@ -20,7 +25,11 @@ export default function StartSurveyScreen({
     setIsStarting(true);
 
     const finalNickname = nickname.trim() === "" ? null : nickname.trim();
-    await onStartSession(finalNickname);
+    await startSurveySession({
+      shareCode: surveyId,
+      nickName: finalNickname || undefined,
+    });
+    setSessionState("active");
   };
 
   return (
@@ -52,7 +61,7 @@ export default function StartSurveyScreen({
               onChange={(e) => setNickname(e.target.value)}
               placeholder="შეიყვანეთ სახელი (სურვილისამებრ)"
               maxLength={20}
-              className="w-full pl-12 pr-4 py-4 bg-white/50 border-4 border-wood-border rounded-2xl text-xl font-bold placeholder:text-wood-text-primary/40 focus:outline-none focus:bg-white focus:border-[#118AB2] focus:ring-0 shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] transition-all"
+              className="w-full pl-12 pr-4 py-4 bg-white/50 border-4 border-wood-border rounded-2xl text-xl font-bold placeholder:text-wood-text-primary/40 focus:outline-none focus:bg-slate-400 focus:border-[#118AB2] focus:ring-0 shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] transition-all"
             />
           </div>
 

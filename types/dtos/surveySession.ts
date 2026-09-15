@@ -10,6 +10,6 @@ export interface SurveySessionDto {
 }
 
 export interface StartSurveySessionDto {
-  surveyId: string;
+  shareCode: string;
   nickName?: string;
 }

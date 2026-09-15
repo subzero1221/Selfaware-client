@@ -3,7 +3,9 @@
 import { useState } from "react";
 import { Target, CheckCircle, ArrowRight, Check } from "lucide-react";
 import GameQuestionImage from "@/components/playerslobby/GameQuestionImage";
-
+import useSurvey from "@/hooks/survey/useSurvey";
+import useFirstQuestion from "@/hooks/surveySession/useFirstQuestion";
+import Loading from "../ui/Loading";
 
 interface SurveyOption {
   id: string;
@@ -13,17 +15,7 @@ interface SurveyOption {
 }
 
 interface ActiveSurveyScreenProps {
-  question: {
-    id: string;
-    text: string;
-    imageUrl?: string;
-    options: SurveyOption[];
-  };
-  currentQuestionIndex: number;
-  totalQuestions: number;
-  joinCode: string;
-  onSubmitAnswer: (optionId: string) => Promise<void>;
-  onNextQuestion: () => void;
+  surveyId: string;
 }
 
 const OPTION_STYLES = [
@@ -58,54 +50,59 @@ const OPTION_STYLES = [
 ];
 
 export default function ActiveSurveyScreen({
-  question,
-  currentQuestionIndex,
-  totalQuestions,
-  joinCode,
-  onSubmitAnswer,
-  onNextQuestion,
+  surveyId,
 }: ActiveSurveyScreenProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { data: survey, isLoading, error } = useSurvey(surveyId);
+  const {
+    data: question,
+    isLoading: questionLoading,
+    error: questionError,
+  } = useFirstQuestion(surveyId);
 
-  const handleApprove = async () => {
-    if (!selectedOption) return;
+  const handleApprove = async () => {};
 
-    setIsSubmitting(true);
-    await onSubmitAnswer(selectedOption);
-    setIsSubmitted(true);
-    setIsSubmitting(false);
-  };
+  const handleNext = () => {};
 
-  const handleNext = () => {
-    setSelectedOption(null);
-    setIsSubmitted(false);
-    onNextQuestion();
-  };
+  if (isLoading || questionLoading) {
+    return <Loading />;
+  }
+
+  if (error || questionError || !survey || !question) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <p className="text-wood-text-primary text-lg font-bold">
+          მოხდა შეცდომა მონაცემების ჩატვირთვისას. გთხოვთ სცადოთ თავიდან.
+        </p>
+      </div>
+    );
+  }
+
+  console.log("Survey Data:", survey);
+  console.log("Question Data:", question);
 
   return (
     <div className="dark select-none bg-wood-base relative min-h-screen w-full text-wood-text-primary flex flex-col font-sans overflow-hidden transition-colors duration-300">
       <div className="flex flex-col min-h-screen justify-between p-4 md:p-8 max-w-6xl mx-auto w-full relative z-10">
-
         <header className="flex justify-between items-center mb-6">
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#EF476F] border-4 border-wood-border text-white font-black shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-2">
             <Target size={20} strokeWidth={4} />
             <span className="uppercase tracking-wider text-sm md:text-base drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]">
-              კითხვა {currentQuestionIndex + 1} / {totalQuestions}
+              {/* კითხვა {question?.order + 1|| 0} / {survey?.quiz?.questionCount} */}
             </span>
           </div>
 
           <div className="bg-wood-surface border-4 border-wood-border px-4 py-2 rounded-xl shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1">
             <p className="text-wood-text-primary font-bold tracking-widest uppercase text-sm">
-              PIN: <span className="text-[#FFD166]">{joinCode}</span>
+              PIN: <span className="text-[#FFD166]">{survey?.shareCode}</span>
             </p>
           </div>
         </header>
 
-       
         <main className="flex-grow flex flex-col justify-center items-center mb-6 w-full">
-          {question.imageUrl && (
+          {question?.imageUrl && (
             <GameQuestionImage imageUrl={question.imageUrl} />
           )}
 
@@ -116,13 +113,11 @@ export default function ActiveSurveyScreen({
           </div>
         </main>
 
-      
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-8">
           {question.options.map((option, index) => {
             const style = OPTION_STYLES[index % OPTION_STYLES.length];
             const isSelected = selectedOption === option.id;
 
-          
             const opacityClass =
               selectedOption && !isSelected && !isSubmitted
                 ? "opacity-60 scale-95"
@@ -145,12 +140,11 @@ export default function ActiveSurveyScreen({
                   overflow-hidden
                 `}
               >
-                
                 {isSubmitted && (
                   <div
                     className="absolute inset-0 bg-black/20 origin-left transition-transform duration-1000 ease-out"
                     style={{
-                      transform: `scaleX(${(option.percentage || 0) / 100})`,
+                      transform: `scaleX(${(option.voteCount || 0) / 100})`,
                     }}
                   />
                 )}
@@ -173,14 +167,13 @@ export default function ActiveSurveyScreen({
                     {option.text}
                   </span>
 
-              
                   {isSubmitted && (
                     <div className="flex flex-col items-end drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
                       <span className="text-3xl font-black">
-                        {option.percentage || 0}%
+                        {option.voteCount || 0}%
                       </span>
                       <span className="text-sm opacity-90">
-                        {option.submissionCount || 0} ხმა
+                        {option.voteCount || 0} ხმა
                       </span>
                     </div>
                   )}
@@ -190,7 +183,6 @@ export default function ActiveSurveyScreen({
           })}
         </div>
 
-    
         <footer className="w-full flex justify-center pb-6 h-20">
           {!isSubmitted ? (
             <button

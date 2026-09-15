@@ -1,6 +1,6 @@
 "use client";
 
-import useMySurveys from "@/hooks/survey/useMySruverys";
+import useMySurveys from "@/hooks/survey/useMySurveys";
 import ActivateSurvey from "./ActivateSurvey";
 import ActiveSurveysList from "./ActiveSurveysList";
 import { Sparkles, Activity } from "lucide-react";
