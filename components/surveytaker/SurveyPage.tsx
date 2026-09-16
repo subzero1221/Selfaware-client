@@ -1,15 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SurveyStartScreen from "./StartSurveyScreen";
 import ActiveSurveyScreen from "./ActiveSurveyScreen";
 
 export default function SurveyPage({ surveyId }: { surveyId: string }) {
-  const [sessionState, setSessionState] = useState<"idle" | "active">("idle");
+  const [userToken, setUserToken] = useState<string | null>(null);
+  const [isCheckingStorage, setIsCheckingStorage] = useState(true);
 
-  if (sessionState === "idle") {
-    return <SurveyStartScreen surveyTitle="მომხმარებელთა გამოკითხვა" surveyId={surveyId} setSessionState={setSessionState} />;
+
+  useEffect(() => {
+    const token = localStorage.getItem("userToken");
+    if (token) {
+      setUserToken(token);
+    }
+    setIsCheckingStorage(false);
+  }, []);
+
+  if (isCheckingStorage) {
+    return null; 
   }
 
-  return <ActiveSurveyScreen surveyId={surveyId} />;
+  if (!userToken) {
+    return (
+      <SurveyStartScreen
+        surveyTitle="მომხმარებელთა გამოკითხვა"
+        surveyId={surveyId}
+        onSessionCreated={(token) => setUserToken(token)}
+      />
+    );
+  }
+
+  return <ActiveSurveyScreen surveyId={surveyId}  />;
 }

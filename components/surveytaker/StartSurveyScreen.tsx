@@ -7,15 +7,15 @@ import useStartSurveySession from "@/hooks/surveySession/useStartSurveySession";
 interface SurveyStartScreenProps {
   surveyTitle: string;
   surveyId: string;
-  setSessionState: React.Dispatch<React.SetStateAction<"idle" | "active">>;
+  onSessionCreated: React.Dispatch<React.SetStateAction<string | null>>;
 }
 
 export default function StartSurveyScreen({
   surveyTitle,
   surveyId,
-  setSessionState,
+  onSessionCreated,
 }: SurveyStartScreenProps) {
-  const { mutate: startSurveySession, isPending: isStartingSession } =
+  const { mutateAsync: startSurveySession, isPending: isStartingSession } =
     useStartSurveySession();
   const [nickname, setNickname] = useState("");
   const [isStarting, setIsStarting] = useState(false);
@@ -25,11 +25,11 @@ export default function StartSurveyScreen({
     setIsStarting(true);
 
     const finalNickname = nickname.trim() === "" ? null : nickname.trim();
-    await startSurveySession({
+    const res = await startSurveySession({
       shareCode: surveyId,
       nickName: finalNickname || undefined,
     });
-    setSessionState("active");
+    onSessionCreated(res.data.anonymousToken);
   };
 
   return (
