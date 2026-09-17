@@ -4,10 +4,9 @@ import { useState, useEffect } from "react";
 import SurveyStartScreen from "./StartSurveyScreen";
 import ActiveSurveyScreen from "./ActiveSurveyScreen";
 
-export default function SurveyPage({ surveyId }: { surveyId: string }) {
+export default function SurveyPage({ shareCode }: { shareCode: string }) {
   const [userToken, setUserToken] = useState<string | null>(null);
   const [isCheckingStorage, setIsCheckingStorage] = useState(true);
-
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
@@ -18,18 +17,18 @@ export default function SurveyPage({ surveyId }: { surveyId: string }) {
   }, []);
 
   if (isCheckingStorage) {
-    return null; 
+    return null;
   }
 
   if (!userToken) {
     return (
       <SurveyStartScreen
         surveyTitle="მომხმარებელთა გამოკითხვა"
-        surveyId={surveyId}
+        shareCode={shareCode}
         onSessionCreated={(token) => setUserToken(token)}
       />
     );
   }
 
-  return <ActiveSurveyScreen surveyId={surveyId}  />;
+  return <ActiveSurveyScreen surveyId={surveyId} />;
 }

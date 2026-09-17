@@ -2,13 +2,13 @@ import SurveyPage from "@/components/surveytaker/SurveyPage";
 
 interface PageProps {
   params: Promise<{
-    surveyId: string;
+    shareCode: string;
   }>;
 }
 
 export default async function Page({ params: paramsPromise }: PageProps) {
   const params = await paramsPromise;
-  const { surveyId } = params;
+  const { shareCode } = params;
 
-  return <SurveyPage surveyId={surveyId} />;
+  return <SurveyPage shareCode={shareCode} />;
 }

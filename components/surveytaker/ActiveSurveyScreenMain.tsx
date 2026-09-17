@@ -52,11 +52,11 @@ export default function ActiveSurveyScreenMain({
 
   const handleApprove = async () => {
     const questionId = question?.id;
-    submitAnswer({ questionId, optionId : selectedOption });
+    submitAnswer({ questionId, optionId: selectedOption });
     setIsSubmitted(true);
   };
 
-    const handleNext = () => {};
+  const handleNext = () => {};
 
   return (
     <>
@@ -163,7 +163,7 @@ export default function ActiveSurveyScreenMain({
         ) : (
           <button
             onClick={handleNext}
-            className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-[#FFD166] text-amber-950 border-4 border-wood-border font-black text-xl uppercase tracking-wider shadow-[4px_6px_0_0_var(--color-wood-section-shadow)] hover:-translate-y-1 hover:shadow-[4px_8px_0_0_var(--color-wood-section-shadow)] active:translate-y-[2px] active:shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1 animate-fade-in transition-all"
+            className="flex cursor-pointer items-center gap-3 px-8 py-4 rounded-2xl bg-[#FFD166] text-amber-950 border-4 border-wood-border font-black text-xl uppercase tracking-wider shadow-[4px_6px_0_0_var(--color-wood-section-shadow)] hover:-translate-y-1 hover:shadow-[4px_8px_0_0_var(--color-wood-section-shadow)] active:translate-y-[2px] active:shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1 animate-fade-in transition-all"
           >
             შემდეგი კითხვა
             <ArrowRight size={28} strokeWidth={4} />

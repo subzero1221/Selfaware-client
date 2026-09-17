@@ -20,7 +20,8 @@ export async function tryRefresh(): Promise<boolean> {
       credentials: "include",
     });
 
-    if (!res.ok) {
+    const isDashboard = window.location.pathname.startsWith("/dashboard");
+    if (!res.ok && isDashboard) {
       sessionStorage.setItem("refreshFailed", "true");
       window.location.href = "/auth/signin";
       return false;
@@ -67,7 +68,9 @@ export async function apiClient<T>(
   if (response.status === 401 && !isAuthRoute) {
     const refreshed = await tryRefresh();
 
-    if (!refreshed) {
+    const isDashboard = window.location.pathname.startsWith("/dashboard");
+
+    if (!refreshed && isDashboard) {
       window.location.href = "/auth/signin";
       throw new Error("Session expired");
     }
