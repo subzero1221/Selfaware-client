@@ -3,20 +3,22 @@
 import { useState } from "react";
 import { Play, User } from "lucide-react";
 import useStartSurveySession from "@/hooks/surveySession/useStartSurveySession";
+import { useRouter } from "next/navigation";
 
 interface SurveyStartScreenProps {
   surveyTitle: string;
   surveyId: string;
-  onSessionCreated: React.Dispatch<React.SetStateAction<string | null>>;
+  shareCode: string;
 }
 
 export default function StartSurveyScreen({
   surveyTitle,
   surveyId,
-  onSessionCreated,
+  shareCode,
 }: SurveyStartScreenProps) {
   const { mutateAsync: startSurveySession, isPending: isStartingSession } =
     useStartSurveySession();
+  const router = useRouter();
   const [nickname, setNickname] = useState("");
   const [isStarting, setIsStarting] = useState(false);
 
@@ -26,10 +28,10 @@ export default function StartSurveyScreen({
 
     const finalNickname = nickname.trim() === "" ? null : nickname.trim();
     const res = await startSurveySession({
-      shareCode: surveyId,
+      surveyId: surveyId,
       nickName: finalNickname || undefined,
     });
-    onSessionCreated(res.data.anonymousToken);
+    router.push(`/survey/${shareCode}/session/${res.data.id}`);
   };
 
   return (

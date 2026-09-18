@@ -1,4 +1,4 @@
-import SurveyPage from "@/components/surveytaker/SurveyPage";
+import ActivateSurveyPage from "@/components/surveytaker/ActivateSurveyPage";
 
 interface PageProps {
   params: Promise<{
@@ -9,6 +9,7 @@ interface PageProps {
 export default async function Page({ params: paramsPromise }: PageProps) {
   const params = await paramsPromise;
   const { shareCode } = params;
+  console.log("shareCode from page", shareCode);
 
-  return <SurveyPage shareCode={shareCode} />;
+  return <ActivateSurveyPage shareCode={shareCode} />;
 }

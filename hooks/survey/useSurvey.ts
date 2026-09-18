@@ -8,6 +8,7 @@ export default function useSurvey(shareCode: string) {
     queryKey: ["Survey", shareCode],
     queryFn: () => {
       const endpoint = `/survey/${shareCode}`;
+      console.log("survey share code:", shareCode);
       return apiClient<ApiResponse<ActiveSurveyDto>>(endpoint).then(
         (res) => res.data,
       );

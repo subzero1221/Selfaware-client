@@ -1,8 +1,10 @@
 import { AiOption } from "./quiz";
+import { ActiveSurveyDto } from "./survey";
 
 export interface SurveySessionDto {
-  Id: string;
+  id: string;
   surveyId: string;
+  survey: ActiveSurveyDto;
   anonymousToken: string;
   startedAt: string;
   isCompleted: boolean;
@@ -12,7 +14,7 @@ export interface SurveySessionDto {
 }
 
 export interface StartSurveySessionDto {
-  shareCode: string;
+  surveyId: string;
   nickName?: string;
 }
 
@@ -29,23 +31,20 @@ export interface UserAnswerDto {
   userId?: string;
 }
 
-export function calculatePercentsPerOption(
-  options: AiOption[],
-  optionId: string,
-) {
-  const totalVotes = options.reduce(
-    (sum, option) => sum + (option.voteCount || 0),
-    0,
-  );
-  if (totalVotes === 0) {
-    return 0;
-  }
+export interface OptionResultDto {
+  id: string;
+  text: string;
+  voteCount: number;
+  imageUrl?: string;
+  imagePublicId?: string;
+}
 
-  const selectedOption = options.find((option) => option.id === optionId);
-  if (!selectedOption) {
-    return 0;
-  }
-
-  const percentage = ((selectedOption.voteCount || 0) / totalVotes) * 100;
-  return Math.round(percentage);
+export interface QuestionResultDto {
+  id: string;
+  text: string;
+  order: number;
+  totalVotes: number;
+  options: OptionResultDto;
+  imageUrl?: string;
+  imagePublicId?: string;
 }

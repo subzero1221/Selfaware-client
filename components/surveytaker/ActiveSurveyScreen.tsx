@@ -1,35 +1,31 @@
 "use client";
 
 import { Target } from "lucide-react";
-import useSurvey from "@/hooks/survey/useSurvey";
-import useFirstQuestion from "@/hooks/surveySession/useFirstQuestion";
 import Loading from "../ui/Loading";
 import ActiveSurveyScreenMain from "./ActiveSurveyScreenMain";
+import NeoError from "../ui/NeoError";
+import useSurveySession from "@/hooks/surveySession/useSurveySession";
 
-export default function ActiveSurveyScreen({ surveyId }: { surveyId: string }) {
-  const { data: survey, isLoading, error } = useSurvey(surveyId);
+export default function ActiveSurveyScreen({
+  sessionId,
+}: {
+  sessionId: string;
+}) {
   const {
-    data: question,
-    isLoading: questionLoading,
-    error: questionError,
-  } = useFirstQuestion(surveyId);
+    data: session,
+    isLoading: sessionLoading,
+    error: sessionError,
+  } = useSurveySession(sessionId);
 
-  if (isLoading || questionLoading) {
+  if (sessionLoading) {
     return <Loading />;
   }
 
-  if (error || questionError || !survey || !question) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <p className="text-wood-text-primary text-lg font-bold">
-          მოხდა შეცდომა მონაცემების ჩატვირთვისას. გთხოვთ სცადოთ თავიდან.
-        </p>
-      </div>
-    );
+  if (sessionError || !session) {
+    return <NeoError />;
   }
 
-  console.log("Survey Data:", survey);
-  console.log("Question Data:", question);
+  console.log("Session:", session);
 
   return (
     <div className="dark select-none bg-wood-base relative min-h-screen w-full text-wood-text-primary flex flex-col font-sans overflow-hidden transition-colors duration-300">
@@ -38,18 +34,19 @@ export default function ActiveSurveyScreen({ surveyId }: { surveyId: string }) {
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-2xl bg-[#EF476F] border-4 border-wood-border text-white font-black shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] rotate-2">
             <Target size={20} strokeWidth={4} />
             <span className="uppercase tracking-wider text-sm md:text-base drop-shadow-[0_2px_0_rgba(0,0,0,0.2)]">
-              {question?.order || 0} / {survey?.quiz?.questionCount}
+              {0} / {session.survey.quiz?.questionCount}
             </span>
           </div>
 
           <div className="bg-wood-surface border-4 border-wood-border px-4 py-2 rounded-xl shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1">
             <p className="text-wood-text-primary font-bold tracking-widest uppercase text-sm">
-              PIN: <span className="text-[#FFD166]">{survey?.shareCode}</span>
+              PIN:{" "}
+              <span className="text-[#FFD166]">{session.survey.shareCode}</span>
             </p>
           </div>
         </header>
 
-        <ActiveSurveyScreenMain question={question} surveyId={surveyId} />
+        <ActiveSurveyScreenMain surveyId={session.survey.id} />
       </div>
     </div>
   );

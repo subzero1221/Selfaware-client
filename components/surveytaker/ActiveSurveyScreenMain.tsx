@@ -1,9 +1,11 @@
-import { QuestionDto } from "@/types/dtos/quiz";
+"use client";
 import GameQuestionImage from "../playerslobby/GameQuestionImage";
 import useSubmitAnswer from "@/hooks/surveySession/useSubmitAnswer";
 import { CheckCircle, ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
-import { calculatePercentsPerOption } from "@/types/dtos/surveySession";
+import useFirstQuestion from "@/hooks/surveySession/useFirstQuestion";
+import Loading from "../ui/Loading";
+import NeoError from "../ui/NeoError";
 
 const OPTION_STYLES = [
   {
@@ -37,18 +39,30 @@ const OPTION_STYLES = [
 ];
 
 export default function ActiveSurveyScreenMain({
-  question,
   surveyId,
 }: {
-  question: QuestionDto;
   surveyId: string;
 }) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  console.log("SurveyID:", surveyId);
 
+  const {
+    data: question,
+    isLoading,
+    error: questionError,
+  } = useFirstQuestion(surveyId);
   const { mutate: submitAnswer, isPending: isSubmiting } =
     useSubmitAnswer(surveyId);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (questionError || !question) {
+    return <NeoError />;
+  }
 
   const handleApprove = async () => {
     const questionId = question?.id;
@@ -129,7 +143,7 @@ export default function ActiveSurveyScreenMain({
                 {isSubmitted && (
                   <div className="flex flex-col items-end drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
                     <span className="text-3xl font-black">
-                      {calculatePercentsPerOption(question.options, option.id)}%
+                      {(question.totalVotes / option.voteCount) * 100}
                     </span>
                     <span className="text-sm opacity-90">
                       {option.voteCount || 0} ხმა

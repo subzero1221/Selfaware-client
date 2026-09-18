@@ -1,7 +1,7 @@
 import { QuizType } from "@/types/enums/quizEnums";
 
 export interface ActiveSurveyDto {
-  surveyId: string;
+  id: string;
   quiz: QuizForSurveyDto;
   shareCode: string;
   completedBy: number;
@@ -27,4 +27,3 @@ export interface QuizForSurveyDto {
 }
 
 export type SurveysResponse = ActiveSurveyDto[];
-

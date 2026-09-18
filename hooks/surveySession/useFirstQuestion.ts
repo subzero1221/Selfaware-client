@@ -1,14 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "@/lib/apiClient";
 import { ApiResponse } from "../useAuth";
-import { QuestionDto } from "@/types/dtos/quiz";
+import { QuestionResultDto } from "@/types/dtos/surveySession";
 
-export default function useFirstQuestion(shareCode: string) {
-  return useQuery<QuestionDto>({
-    queryKey: ["surveyQuestion", shareCode],
+export default function useFirstQuestion(surveyId: string) {
+  return useQuery<QuestionResultDto>({
+    queryKey: ["surveyQuestion", surveyId],
     queryFn: () => {
-      const endpoint = `/surveysession/question/${shareCode}`;
-      return apiClient<ApiResponse<QuestionDto>>(endpoint).then(
+      const endpoint = `/surveysession/question/${surveyId}`;
+      return apiClient<ApiResponse<QuestionResultDto>>(endpoint).then(
         (res) => res.data,
       );
     },
