@@ -27,6 +27,7 @@ export default function StartSurveyScreen({
     setIsStarting(true);
 
     const finalNickname = nickname.trim() === "" ? null : nickname.trim();
+    console.log("surfvvey id form start", surveyId);
     const res = await startSurveySession({
       surveyId: surveyId,
       nickName: finalNickname || undefined,

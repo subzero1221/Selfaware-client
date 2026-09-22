@@ -3,9 +3,11 @@ import GameQuestionImage from "../playerslobby/GameQuestionImage";
 import useSubmitAnswer from "@/hooks/surveySession/useSubmitAnswer";
 import { CheckCircle, ArrowRight, Check } from "lucide-react";
 import { useState } from "react";
-import useFirstQuestion from "@/hooks/surveySession/useFirstQuestion";
+import useQuestion from "@/hooks/surveySession/useQuestion";
 import Loading from "../ui/Loading";
 import NeoError from "../ui/NeoError";
+import { calculatePercent, OptionResultDto } from "@/types/dtos/surveySession";
+import SurveyCompleted from "./SurveyCompleted";
 
 const OPTION_STYLES = [
   {
@@ -38,39 +40,62 @@ const OPTION_STYLES = [
   },
 ];
 
-export default function ActiveSurveyScreenMain({
-  surveyId,
-}: {
+interface SurveyQuestionProps {
   surveyId: string;
-}) {
+  surveySessionId: string;
+}
+
+export default function SurveyQuestion({
+  surveyId,
+  surveySessionId,
+}: SurveyQuestionProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  console.log("SurveyID:", surveyId);
-
+  const [currentOrder, setCurrentOrder] = useState<number>(0);
   const {
-    data: question,
+    data,
     isLoading,
     error: questionError,
-  } = useFirstQuestion(surveyId);
-  const { mutate: submitAnswer, isPending: isSubmiting } =
-    useSubmitAnswer(surveyId);
+  } = useQuestion(surveyId, currentOrder);
+  const { mutate: submitAnswer, isPending: isSubmiting } = useSubmitAnswer(
+    surveyId,
+    currentOrder,
+  );
+
+  const question = data?.question;
+  const isCompleted = data?.isCompleted;
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (isCompleted) {
+    return <SurveyCompleted surveySessionId={surveySessionId} />;
   }
 
   if (questionError || !question) {
     return <NeoError />;
   }
 
+  console.log("q:", data);
   const handleApprove = async () => {
     const questionId = question?.id;
-    submitAnswer({ questionId, optionId: selectedOption });
+    submitAnswer({
+      surveySessionId,
+      questionId,
+      optionId: selectedOption,
+    });
     setIsSubmitted(true);
   };
 
-  const handleNext = () => {};
+  const handleNext = () => {
+    if (question) {
+      setCurrentOrder(question.order);
+      setIsSubmitted(false);
+      setSelectedOption(null);
+    }
+  };
 
   return (
     <>
@@ -87,7 +112,7 @@ export default function ActiveSurveyScreenMain({
       </main>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-8">
-        {question.options.map((option, index) => {
+        {question.options.map((option: OptionResultDto, index: number) => {
           const style = OPTION_STYLES[index % OPTION_STYLES.length];
           const isSelected = selectedOption === option.id;
 
@@ -143,7 +168,7 @@ export default function ActiveSurveyScreenMain({
                 {isSubmitted && (
                   <div className="flex flex-col items-end drop-shadow-[0_2px_0_rgba(0,0,0,0.3)]">
                     <span className="text-3xl font-black">
-                      {(question.totalVotes / option.voteCount) * 100}
+                      {calculatePercent(question.totalVotes, option.voteCount)}%
                     </span>
                     <span className="text-sm opacity-90">
                       {option.voteCount || 0} ხმა

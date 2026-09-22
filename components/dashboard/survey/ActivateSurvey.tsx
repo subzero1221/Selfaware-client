@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { Play, Loader2, Info, UserX, Clock, ClipboardList } from "lucide-react";
-import { ActivateSurveyDto, QuizForSurveyDto } from "@/types/dtos/survey";
-import { QuizzesResponse } from "@/types/dtos/quiz";
 import useQuizzes from "@/hooks/Quizzes/useQuizzes";
 import useActivateSurvey from "@/hooks/survey/useActivateSurvey";
 

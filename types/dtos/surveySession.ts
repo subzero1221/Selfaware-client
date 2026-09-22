@@ -1,5 +1,4 @@
-import { AiOption } from "./quiz";
-import { ActiveSurveyDto } from "./survey";
+import { ActiveSurveyDto, QuizForSurveyDto } from "./survey";
 
 export interface SurveySessionDto {
   id: string;
@@ -19,6 +18,7 @@ export interface StartSurveySessionDto {
 }
 
 export interface SubmitSurveyAnswerDto {
+  surveySessionId: string;
   questionId: string;
   optionId?: string | null;
   userId?: string;
@@ -47,4 +47,14 @@ export interface QuestionResultDto {
   options: OptionResultDto;
   imageUrl?: string;
   imagePublicId?: string;
+}
+
+export interface NextQuestionResponseDto {
+  question?: QuestionResultDto;
+  isCompleted: boolean;
+}
+
+export function calculatePercent(total: number, current: number) {
+  if (current === 0) return 0;
+  return Math.round((current / total) * 100 * 10) / 10;
 }

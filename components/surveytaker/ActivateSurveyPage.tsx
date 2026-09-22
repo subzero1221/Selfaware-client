@@ -1,9 +1,9 @@
 "use client";
 
-import SurveyStartScreen from "./StartSurveyScreen";
 import useSurvey from "@/hooks/survey/useSurvey";
 import Loading from "../ui/Loading";
 import NeoError from "../ui/NeoError";
+import StartSurveyScreen from "./StartSurveyScreen";
 
 export default function ActivateSurveyPage({
   shareCode,
@@ -20,8 +20,9 @@ export default function ActivateSurveyPage({
     return <NeoError />;
   }
 
+  console.log(survey);
   return (
-    <SurveyStartScreen
+    <StartSurveyScreen
       surveyTitle="მომხმარებელთა გამოკითხვა"
       surveyId={survey.id}
       shareCode={shareCode}

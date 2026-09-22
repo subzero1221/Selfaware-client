@@ -8,7 +8,7 @@ import {
   UserAnswerDto,
 } from "@/types/dtos/surveySession";
 
-export default function useSubmitAnswer(surveyId: string) {
+export default function useSubmitAnswer(surveyId: string, order: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -20,7 +20,7 @@ export default function useSubmitAnswer(surveyId: string) {
     },
     onSuccess: (data: ApiResponse<UserAnswerDto>) => {
       queryClient.invalidateQueries({
-        queryKey: ["surveyQuestion", surveyId],
+        queryKey: ["surveyQuestion", surveyId, order],
       });
     },
     onError: (error: any) => {

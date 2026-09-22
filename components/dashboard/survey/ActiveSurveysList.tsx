@@ -10,14 +10,9 @@ interface ActiveSurveysListProps {
   surveys: ActiveSurveyDto[];
 }
 
-
-
-
-export default function ActiveSurveysList({
-  surveys,
-}: ActiveSurveysListProps) {
+export default function ActiveSurveysList({ surveys }: ActiveSurveysListProps) {
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const {mutate: deactivateSurvey, isPending} = useDeactivateSurvey();
+  const { mutate: deactivateSurvey, isPending } = useDeactivateSurvey();
 
   const handleCopyLink = (shareCode: string, id: string) => {
     const url = `${window.location.origin}/survey/${shareCode}`;
@@ -47,10 +42,9 @@ export default function ActiveSurveysList({
 
         return (
           <div
-            key={survey.surveyId}
+            key={survey.id}
             className={`relative flex flex-col md:flex-row gap-4 justify-between items-start md:items-center bg-wood-surface border-4 border-brutal-dark rounded-2xl p-5 shadow-[6px_6px_0_var(--color-wood-section-shadow)] hover:-translate-y-1 hover:shadow-[8px_8px_0_var(--color-wood-section-shadow)] transition-all ${rotationClass}`}
           >
-          
             <div className="flex flex-col gap-2">
               <div className="flex flex-wrap items-center gap-2">
                 <span className="bg-brutal-green text-brutal-dark font-black text-xs px-2 py-1 rounded-md border-2 border-brutal-dark uppercase tracking-wider shadow-[2px_2px_0_var(--color-brutal-dark)]">
@@ -80,7 +74,6 @@ export default function ActiveSurveysList({
               </div>
             </div>
 
-   
             <div className="flex flex-col text-wood-text-secondary items-end gap-3 w-full md:w-auto mt-4 md:mt-0">
               <div className="bg-white border-4 border-brutal-dark rounded-xl px-4 py-2 shadow-[4px_4px_0_var(--color-brutal-dark)] font-black text-lg tracking-widest uppercase">
                 {survey.shareCode}
@@ -88,19 +81,17 @@ export default function ActiveSurveysList({
 
               <div className="flex items-center gap-2 w-full md:w-auto">
                 <button
-                  onClick={() =>
-                    handleCopyLink(survey.shareCode, survey.surveyId)
-                  }
+                  onClick={() => handleCopyLink(survey.shareCode, survey.id)}
                   className={`
                     flex-1 md:flex-none flex items-center justify-center cursor-pointer gap-2 px-4 py-2 border-4 border-brutal-dark rounded-xl font-black uppercase text-sm tracking-wider shadow-[4px_4px_0_var(--color-wood-section-shadow)] active:translate-y-[4px] active:shadow-[0px_0px_0_var(--color-wood-section-shadow)] transition-all
                     ${
-                      copiedId === survey.surveyId
+                      copiedId === survey.id
                         ? "bg-brutal-yellow text-brutal-dark"
                         : "bg-brutal-blue text-white hover:bg-brutal-red"
                     }
                   `}
                 >
-                  {copiedId === survey.surveyId ? (
+                  {copiedId === survey.id ? (
                     <>
                       <Check size={18} strokeWidth={3} /> კოპირებულია
                     </>
@@ -111,9 +102,8 @@ export default function ActiveSurveysList({
                   )}
                 </button>
 
-             
                 <button
-                  onClick={() => deactivateSurvey(survey.surveyId)}
+                  onClick={() => deactivateSurvey(survey.id)}
                   title="სესიის დეაქტივაცია"
                   className="flex items-center justify-center cursor-pointer p-2 bg-brutal-red text-white border-4 border-brutal-dark rounded-xl font-black shadow-[4px_4px_0_var(--color-wood-section-shadow)] hover:brightness-110 active:translate-y-[4px] active:shadow-[0px_0px_0_var(--color-wood-section-shadow)] transition-all"
                 >

@@ -2,9 +2,9 @@
 
 import { Target } from "lucide-react";
 import Loading from "../ui/Loading";
-import ActiveSurveyScreenMain from "./ActiveSurveyScreenMain";
 import NeoError from "../ui/NeoError";
 import useSurveySession from "@/hooks/surveySession/useSurveySession";
+import SurveyQuestion from "./SurveyQuestion";
 
 export default function ActiveSurveyScreen({
   sessionId,
@@ -46,7 +46,10 @@ export default function ActiveSurveyScreen({
           </div>
         </header>
 
-        <ActiveSurveyScreenMain surveyId={session.survey.id} />
+        <SurveyQuestion
+          surveyId={session.survey.id}
+          surveySessionId={session.id}
+        />
       </div>
     </div>
   );
