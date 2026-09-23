@@ -49,6 +49,7 @@ export default function ActiveSurveyScreen({
         <SurveyQuestion
           surveyId={session.survey.id}
           surveySessionId={session.id}
+          userNickName = {session.nickname}
         />
       </div>
     </div>

@@ -43,11 +43,13 @@ const OPTION_STYLES = [
 interface SurveyQuestionProps {
   surveyId: string;
   surveySessionId: string;
+  userNickName?: string | undefined;
 }
 
 export default function SurveyQuestion({
   surveyId,
   surveySessionId,
+  userNickName,
 }: SurveyQuestionProps) {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -71,7 +73,12 @@ export default function SurveyQuestion({
   }
 
   if (isCompleted) {
-    return <SurveyCompleted surveySessionId={surveySessionId} />;
+    return (
+      <SurveyCompleted
+        surveySessionId={surveySessionId}
+        nickName={userNickName}
+      />
+    );
   }
 
   if (questionError || !question) {

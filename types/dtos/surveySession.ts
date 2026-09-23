@@ -1,4 +1,4 @@
-import { ActiveSurveyDto, QuizForSurveyDto } from "./survey";
+import { ActiveSurveyDto } from "./survey";
 
 export interface SurveySessionDto {
   id: string;
@@ -7,7 +7,7 @@ export interface SurveySessionDto {
   anonymousToken: string;
   startedAt: string;
   isCompleted: boolean;
-  nickName?: string;
+  nickname?: string;
   userId?: string;
   completedAt?: string;
 }
@@ -52,6 +52,19 @@ export interface QuestionResultDto {
 export interface NextQuestionResponseDto {
   question?: QuestionResultDto;
   isCompleted: boolean;
+}
+
+export interface UserAnswerDto {
+  Id: string;
+  surveySessionId: string;
+  questionId: string;
+  optionId: string;
+  submittedAt: string;
+}
+
+export interface SurveySessionResultDto {
+  questions: QuestionResultDto[];
+  userAnswers: UserAnswerDto[];
 }
 
 export function calculatePercent(total: number, current: number) {
