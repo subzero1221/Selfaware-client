@@ -2,7 +2,7 @@
 import GameQuestionImage from "../playerslobby/GameQuestionImage";
 import useSubmitAnswer from "@/hooks/surveySession/useSubmitAnswer";
 import { CheckCircle, ArrowRight, Check } from "lucide-react";
-import { useState } from "react";
+import { SetStateAction, useState } from "react";
 import useQuestion from "@/hooks/surveySession/useQuestion";
 import Loading from "../ui/Loading";
 import NeoError from "../ui/NeoError";
@@ -44,17 +44,22 @@ interface SurveyQuestionProps {
   surveyId: string;
   surveySessionId: string;
   userNickName?: string | undefined;
+  onCountChange: () => void;
+  onOrderChange: (nextOrder: number) => void;
 }
 
 export default function SurveyQuestion({
   surveyId,
   surveySessionId,
   userNickName,
+  onCountChange,
+  onOrderChange,
 }: SurveyQuestionProps) {
+  const curOrder = Number(localStorage.getItem("questionOrder"));
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [currentOrder, setCurrentOrder] = useState<number>(0);
+  const [currentOrder, setCurrentOrder] = useState<number>(curOrder);
   const {
     data,
     isLoading,
@@ -101,6 +106,8 @@ export default function SurveyQuestion({
       setCurrentOrder(question.order);
       setIsSubmitted(false);
       setSelectedOption(null);
+      onCountChange()
+      onOrderChange(question.order);
     }
   };
 

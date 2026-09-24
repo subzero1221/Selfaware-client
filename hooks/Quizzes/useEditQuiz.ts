@@ -17,6 +17,7 @@ export function useEditQuiz(quizId: string) {
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [`quiz-${quizId}`] });
+      queryClient.invalidateQueries({ queryKey: ["quizzes"] });
     },
   });
 

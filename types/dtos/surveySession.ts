@@ -15,6 +15,7 @@ export interface SurveySessionDto {
 export interface StartSurveySessionDto {
   surveyId: string;
   nickName?: string;
+  email?:string;
 }
 
 export interface SubmitSurveyAnswerDto {

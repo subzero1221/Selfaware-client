@@ -26,6 +26,7 @@ export default function ActivateSurveyPage({
       surveyTitle="მომხმარებელთა გამოკითხვა"
       surveyId={survey.id}
       shareCode={shareCode}
+      anonymous = {survey.allowAnonymous}
     />
   );
 }

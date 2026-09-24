@@ -5,7 +5,7 @@ import { ApiResponse } from "./useQuiz";
 
 export default function useQuizzes(quizType: number | undefined = undefined) {
   return useQuery<QuizzesResponse>({
-    queryKey: ["quizzes", quizType],
+    queryKey: ["quizzes"],
     queryFn: () => {
       const endpoint =
         quizType !== undefined ? `/quiz?quizType=${quizType}` : "/quiz";

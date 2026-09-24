@@ -20,7 +20,7 @@ export default function useStartSurveySession() {
     },
     onSuccess: (data: ApiResponse<SurveySessionDto>) => {
       queryClient.invalidateQueries({
-        queryKey: ["surveySession", data.data.Id],
+        queryKey: ["surveySession", data.data.id],
       });
       localStorage.setItem("userToken", data.data.anonymousToken);
     },

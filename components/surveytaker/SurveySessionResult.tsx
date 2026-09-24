@@ -40,12 +40,12 @@ const OPTION_STYLES = [
 
 interface SurveySessionResultProps {
   surveySessionId: string;
-  onBack?: () => void;
+  onDone?: () => void;
 }
 
 export default function SurveySessionResult({
   surveySessionId,
-  onBack,
+  onDone,
 }: SurveySessionResultProps) {
   const {
     data: sessionResult,
@@ -173,14 +173,13 @@ export default function SurveySessionResult({
         })}
       </div>
 
-      {onBack && (
+      {onDone && (
         <div className="mt-12 w-full max-w-4xl flex justify-center">
           <button
-            onClick={onBack}
+            onClick={onDone}
             className="flex cursor-pointer items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[#EF476F] text-white border-4 border-wood-border font-black text-xl md:text-2xl uppercase tracking-wider shadow-[4px_6px_0_0_var(--color-wood-section-shadow)] hover:-translate-y-1 hover:shadow-[4px_8px_0_0_var(--color-wood-section-shadow)] active:translate-y-[2px] active:shadow-[4px_4px_0_0_var(--color-wood-section-shadow)] -rotate-1 transition-all"
           >
-            <ArrowLeft size={28} strokeWidth={4} />
-            უკან დაბრუნება
+            დასრულება
           </button>
         </div>
       )}

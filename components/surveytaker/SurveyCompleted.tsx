@@ -31,7 +31,7 @@ export default function SurveyCompleted({
   console.log("nickname:", nickName);
 
   if (showResult) {
-    return <SurveySessionResult surveySessionId={surveySessionId} />;
+    return <SurveySessionResult surveySessionId={surveySessionId} onDone={handleDone} />;
   }
 
   return (

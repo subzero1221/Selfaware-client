@@ -7,6 +7,7 @@ export interface ActiveSurveyDto {
   completedBy: number;
   expiresAt: string;
   isActive: boolean;
+  allowAnonymous:boolean;
   createdAt: string;
   lastActivatedAt: string;
 }
